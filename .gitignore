@@ -1,0 +1,58 @@
+import pandas as pd
+import numpy as np
+
+def process_matt_data(matt_df: pd.DataFrame, hub_df: pd.DataFrame, plan_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Processes raw MATT report data by cleaning, joining, and transforming columns
+    to prepare for DOW reporting and visualization.
+    """
+
+    # Step 1: Extract and convert 'COMMUNITY' to first 5 digits for join
+    matt_df['Comm_#'] = matt_df['COMMUNITY'].astype(str).str[:5].astype(int)
+
+    # Step 2: Left join with Hub.csv on Community Number
+    merged_df = pd.merge(matt_df, hub_df, how='left', left_on='Comm_#', right_on='Community Number')
+
+    # Step 3: Left join with Plan.csv on PLAN_CODE
+    merged_df = pd.merge(merged_df, plan_df, how='left', left_on='PLAN_CODE', right_on='Plan Code')
+
+    # Step 4: Rename columns for consistency
+    merged_df.rename(columns={
+        'Community Name': 'Community Name',
+        'Hub': 'Hub',
+        'Plan Name': 'Plan Name',
+        'Collection': 'Collection',
+        'Core': 'Core',
+        'Textbox4': 'HS_TYPE'
+    }, inplace=True)
+
+    # Step 5: Convert SALE_DATE to datetime and calculate day of week
+    merged_df['SALE_DATE'] = pd.to_datetime(merged_df['SALE_DATE'], errors='coerce')
+    merged_df['DOW_Sale'] = merged_df['SALE_DATE'].dt.day_name()
+
+    # Step 6: Categorize sales as weekday or weekend
+    merged_df['Weekday_Group'] = np.where(
+        merged_df['DOW_Sale'].isin(['Saturday', 'Sunday']), 'Sat-Sun', 'M-F'
+    )
+
+    # Step 7: Tag investor sales based on NHC_NAME
+    investor_names = {
+        "Chanin, Kristian                   (DFW)",
+        "PEREZ, LARRY",
+        "Perez, Larry                       (DFW)",
+        "Stierwalt, Tanner                  (DFW)",
+        "Krueger, Cole                      (HOU)",
+        "Shackelford, Leah                  (HOU)",
+        "Batchelor, Christina               (HOU)"
+    }
+    merged_df['Investor Sale'] = merged_df['NHC_NAME'].apply(
+        lambda x: "Investor" if x in investor_names else "Retail"
+    )
+
+    # Step 8: Clean and parse SALES_CANCELLATION_DATE
+    merged_df['SALES_CANCELLATION_DATE'] = merged_df['SALES_CANCELLATION_DATE'].astype(str).str.strip()
+    merged_df['SALES_CANCELLATION_DATE_PARSED'] = pd.to_datetime(
+        merged_df['SALES_CANCELLATION_DATE'], errors='coerce'
+    )
+
+    return merged_df
