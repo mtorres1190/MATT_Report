@@ -5,8 +5,7 @@ echo Adding all changes...
 git add .
 
 echo Committing changes...
-set /p msg="Enter Commit Date: "
-git commit -m "%msg%"
+git commit -m "Auto-push update"
 
 echo Pulling latest changes from GitHub...
 git pull origin main --no-edit

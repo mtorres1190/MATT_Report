@@ -109,7 +109,7 @@ def compute_plan_pricing(df: pd.DataFrame, start_date: pd.Timestamp, end_date: p
     # Clean and convert monetary fields
     cols_to_clean = ['BASE_PRICE', 'HOMESITE_PREMIUM', 'PRICE_REDUCTION_INCENTIVES', 'OPTION_REVENUE', 'NET SALES PRICE']
     for col in cols_to_clean:
-        df[col] = df[col].astype(str).str.replace(',', '').astype(float)
+        df[col] = pd.to_numeric(df[col], errors='coerce')
 
     df['List Price'] = (
         df['BASE_PRICE'] +
@@ -204,20 +204,3 @@ __all__ = [
     "compute_plan_pricing",
     "color_map"
 ]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
