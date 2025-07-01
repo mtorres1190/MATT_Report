@@ -8,6 +8,9 @@ echo Committing changes...
 set /p msg="Enter Commit Date: "
 git commit -m "%msg%"
 
+echo Pulling latest changes from GitHub...
+git pull origin main --no-edit
+
 echo Pushing to GitHub...
 git push origin main
 
