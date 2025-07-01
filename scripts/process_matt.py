@@ -115,10 +115,10 @@ def compute_plan_pricing(df: pd.DataFrame, start_date: pd.Timestamp, end_date: p
         )
 
     df['List Price'] = (
-        df['BASE_PRICE'] +
-        df['HOMESITE_PREMIUM'] +
-        df['PRICE_REDUCTION_INCENTIVES'] +
-        df['OPTION_REVENUE']
+        df['BASE_PRICE'].fillna(0) +
+        df['HOMESITE_PREMIUM'].fillna(0) +
+        df['PRICE_REDUCTION_INCENTIVES'].fillna(0) +
+        df['OPTION_REVENUE'].fillna(0)
     )
 
     group_keys = group_col if isinstance(group_col, list) else [group_col]
@@ -207,3 +207,4 @@ __all__ = [
     "compute_plan_pricing",
     "color_map"
 ]
+
