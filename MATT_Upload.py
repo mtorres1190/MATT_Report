@@ -34,7 +34,7 @@ if DEVELOPER_MODE:
         df = pd.read_csv(sample_path)
         st.session_state['matt_raw'] = df
         st.session_state['matt_processed'] = process_matt_data(df)
-        st.success("Developer mode: sample MATT report loaded.")
+        st.success("Latest MATT Report Loaded.")
     except Exception as e:
         st.error("Failed to load sample file. Please ensure 'sample_matt.csv' exists in the data folder.")
 else:
