@@ -1,8 +1,8 @@
 # config.py
 
 # Toggle the firewall (4-digit access code)
-ENABLE_FIREWALL = False
+ENABLE_FIREWALL = True
 FIREWALL_PASSCODE = "2025"
 
 # Toggle developer mode (automatically loads sample file)
-DEVELOPER_MODE = True
+DEVELOPER_MODE = False
