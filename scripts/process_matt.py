@@ -110,7 +110,7 @@ def compute_plan_pricing(df: pd.DataFrame, start_date: pd.Timestamp, end_date: p
     cols_to_clean = ['BASE_PRICE', 'HOMESITE_PREMIUM', 'PRICE_REDUCTION_INCENTIVES', 'OPTION_REVENUE', 'NET SALES PRICE']
     for col in cols_to_clean:
         df[col] = pd.to_numeric(
-            df[col].astype(str).str.replace(',', '').str.replace('$', '').str.strip(),
+            df[col].astype(str).str.replace(r'[$,]', '', regex=True).str.strip(),
             errors='coerce'
         )
 
@@ -207,4 +207,5 @@ __all__ = [
     "compute_plan_pricing",
     "color_map"
 ]
+
 
