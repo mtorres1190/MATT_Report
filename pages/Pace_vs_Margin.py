@@ -23,24 +23,43 @@ if not uploaded:
 
 matt_df = st.session_state['matt_processed']
 
-# Sidebar Input
-st.sidebar.header("Target Settings")
+# Sidebar Filters
+with st.sidebar:
+    st.header("Filters")
 
-# Target Sell-by Date
-target_date_input = st.sidebar.date_input("Target Sell-by Date", value=datetime.date(2025, 8, 15))
-st.session_state["target_date"] = target_date_input
-target_date = target_date_input
+    # Target Sell-by Date
+    target_date_input = st.date_input("Target Sell-by Date", value=datetime.date(2025, 8, 15))
+    st.session_state["target_date"] = target_date_input
+    target_date = target_date_input
 
-# COE Date Range
-coe_range_input = st.sidebar.date_input("COE Date Range", value=(datetime.date(2025, 6, 1), datetime.date(2025, 8, 31)))
-st.session_state["pace_margin_est_coe_range"] = coe_range_input
-est_coe_range = coe_range_input
+    # COE Date Range
+    coe_range_input = st.date_input("COE Date Range", value=(datetime.date(2025, 6, 1), datetime.date(2025, 8, 31)))
+    st.session_state["pace_margin_est_coe_range"] = coe_range_input
+    if isinstance(coe_range_input, tuple) and len(coe_range_input) == 2:
+        est_coe_start, est_coe_end = pd.to_datetime(coe_range_input[0]), pd.to_datetime(coe_range_input[1])
+    else:
+        st.error("Please select a date range for COE Date.")
+        st.stop()
 
-if isinstance(est_coe_range, tuple) and len(est_coe_range) == 2:
-    est_coe_start, est_coe_end = pd.to_datetime(est_coe_range[0]), pd.to_datetime(est_coe_range[1])
-else:
-    st.error("Please select a date range for COE Date.")
-    st.stop()
+    # Hub Filter
+    all_hubs = sorted(matt_df['Hub'].dropna().unique())
+    selected_hubs = st.multiselect("Hub", options=all_hubs, key="pace_margin_hubs")
+    if not selected_hubs:
+        selected_hubs = all_hubs
+
+    # Community Filter
+    all_communities = sorted(matt_df['Community Name'].dropna().unique())
+    selected_communities = st.multiselect("Community Name", options=all_communities, key="pace_margin_communities")
+    if not selected_communities:
+        selected_communities = all_communities
+
+# Apply filters
+matt_df = matt_df[
+    (matt_df['EST_COE_DATE'] >= est_coe_start) &
+    (matt_df['EST_COE_DATE'] <= est_coe_end) &
+    (matt_df['Hub'].isin(selected_hubs)) &
+    (matt_df['Community Name'].isin(selected_communities))
+]
 
 summary, slope = compute_pace_vs_margin(matt_df, target_date, est_coe_start, est_coe_end)
 
@@ -179,6 +198,11 @@ with col2:
 # Styled DataFrame Output
 st.markdown("---")
 summary_display = summary.copy()
+summary_display = summary_display.merge(
+    matt_df[['Community Name', 'Hub']].drop_duplicates(),
+    on='Community Name',
+    how='left'
+)
 summary_display['Unsold'] = summary_display['Unsold'].round(0).astype(int)
 
 for col in ['3Wk Avg Sales Pace', 'Needed Pace', 'Delta']:
@@ -196,7 +220,7 @@ for category in category_order:
     if not group.empty:
         st.markdown(f"### {category} Communities")
 
-        columns_order = ['Community Name', 'Unsold', '3Wk Avg Sales Pace', 'Needed Pace', 'Delta']
+        columns_order = ['Hub', 'Community Name', 'Unsold', '3Wk Avg Sales Pace', 'Needed Pace', 'Delta']
         group.columns = [col.strip() for col in group.columns]
         group = group[[col for col in columns_order if col in group.columns]]
 
@@ -212,8 +236,7 @@ for category in category_order:
             {'selector': 'tr:hover', 'props': [('background-color', '#eef6ff')]}
         ]).apply(highlight_row, axis=1).hide(axis='index')
 
-        st.dataframe(styled, use_container_width=True)
-
+        st.dataframe(styled, use_container_width=True, hide_index=True)
 
 
 
