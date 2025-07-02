@@ -25,6 +25,9 @@ if not uploaded:
 df = st.session_state['matt_processed']
 df = df.copy()
 
+# --- Debug block to inspect key pricing columns ---
+st.write(df[['PRICE_REDUCTION_INCENTIVES', 'BASE_PRICE']].head(10))
+
 # --- Filters ---
 st.sidebar.header("Filters")
 
@@ -143,7 +146,8 @@ st.dataframe(
     formatted_df[["Hub", "Community Name", "Plan Name", "Avg SqFt", "Sold Homes", "Avg Base Price", "Avg List Price", "Avg Net Revenue"]],
     use_container_width=True,
     hide_index=True
-)
+)  
+
 
 
 
