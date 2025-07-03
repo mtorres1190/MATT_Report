@@ -45,20 +45,23 @@ with st.sidebar:
         st.error("Invalid date range selection.")
         st.stop()
 
-    # Aggregation level (Hub or Community Name)
-    agg_level = st.selectbox("Aggregation Level", ["Hub", "Community Name"], index=0, key="inv_agg_level")
+    # Aggregation level (Hub, Community Name, Plan Name)
+    agg_level = st.selectbox("Aggregation Level", ["Hub", "Community Name", "Plan Name"], index=0, key="inv_agg_level")
 
     # Hub filter
     all_hubs = sorted(df['Hub'].dropna().unique())
     selected_hubs = st.multiselect("Hub", options=all_hubs, key="inv_hubs")
-    if not selected_hubs:
-        selected_hubs = all_hubs
+    hubs = all_hubs if not selected_hubs else selected_hubs
 
     # Community filter
-    all_communities = sorted(df['Community Name'].dropna().unique())
-    selected_communities = st.multiselect("Community Name", options=all_communities, key="inv_communities")
-    if not selected_communities:
-        selected_communities = all_communities
+    community_options = sorted(df[df['Hub'].isin(hubs)]['Community Name'].dropna().unique())
+    selected_communities = st.multiselect("Community Name", options=community_options, key="inv_communities")
+    communities = community_options if not selected_communities else selected_communities
+
+    # Plan filter (only used if Plan Name is selected)
+    plan_options = sorted(df[df['Hub'].isin(hubs) & df['Community Name'].isin(communities)]['Plan Name'].dropna().unique())
+    selected_plans = st.multiselect("Plan Name", options=plan_options, key="inv_plans")
+    plans = plan_options if not selected_plans else selected_plans
 
     # Homesite status filter
     all_statuses = sorted(df['HS_TYPE_LABEL'].dropna().unique())
@@ -71,9 +74,12 @@ filtered_df = df[
     (df['EST_COE_DATE'] >= est_coe_start) &
     (df['EST_COE_DATE'] <= est_coe_end) &
     (df['HS_TYPE_LABEL'].isin(selected_statuses)) &
-    (df['Hub'].isin(selected_hubs)) &
-    (df['Community Name'].isin(selected_communities))
+    (df['Hub'].isin(hubs)) &
+    (df['Community Name'].isin(communities))
 ]
+
+if agg_level == "Plan Name":
+    filtered_df = filtered_df[filtered_df['Plan Name'].isin(plans)]
 
 # --- Create monthly summary pivot table ---
 summary_df = filtered_df.copy()
@@ -109,17 +115,29 @@ styled = pivot.style.format('{:,}').apply(color_rows, axis=1)
 st.dataframe(styled, use_container_width=True)
 
 # --- Generate inventory bar chart ---
-group_col = 'Hub' if agg_level == 'Hub' else 'Community Name'
-chart_data = filtered_df.groupby([group_col, 'HS_TYPE_LABEL']).size().reset_index(name='Count')
+if agg_level == "Hub":
+    group_col = "Hub"
+elif agg_level == "Community Name":
+    group_col = "Community Name"
+else:
+    group_col = ["Community Name", "Plan Name"]
+
+if isinstance(group_col, list):
+    chart_data = filtered_df.groupby(group_col + ['HS_TYPE_LABEL']).size().reset_index(name='Count')
+    chart_data['Label'] = chart_data['Plan Name'] + " (" + chart_data['Community Name'] + ")"
+    x_col = 'Label'
+else:
+    chart_data = filtered_df.groupby([group_col, 'HS_TYPE_LABEL']).size().reset_index(name='Count')
+    x_col = group_col
 
 fig = go.Figure()
 for label in chart_data['HS_TYPE_LABEL'].unique():
     subset = chart_data[chart_data['HS_TYPE_LABEL'] == label]
     fig.add_trace(go.Bar(
-        x=subset[group_col],
+        x=subset[x_col],
         y=subset['Count'],
         name=label,
-        customdata=subset[[group_col, 'Count']].values,
+        customdata=subset[[x_col, 'Count']].values,
         hovertemplate=f"<b>%{{customdata[0]}}</b><br>Homesite Status: {label}<br>Count: %{{customdata[1]:,}}<extra></extra>",
         marker_color=color_map.get(label, None)
     ))
@@ -136,8 +154,6 @@ fig.update_layout(
 )
 
 st.plotly_chart(fig, use_container_width=True)
-
-
 
 
 
