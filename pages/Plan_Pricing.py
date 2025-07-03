@@ -49,16 +49,27 @@ else:
     st.stop()
 
 # Dynamic filter options
+
+# Date filtered base
 date_mask = df['SALE_DATE'].between(start_date, end_date)
+
+# Hub filter
 hub_options = sorted(df[date_mask]['Hub'].dropna().unique())
 selected_hubs = st.sidebar.multiselect("Hub", options=hub_options, key="plan_hubs")
 hubs = hub_options if not selected_hubs else selected_hubs
 
+# Community filter
 community_options = sorted(df[date_mask & df['Hub'].isin(hubs)]['Community Name'].dropna().unique())
 selected_communities = st.sidebar.multiselect("Community Name", options=community_options, key="plan_communities")
 communities = community_options if not selected_communities else selected_communities
 
-plan_options = sorted(df[date_mask & df['Hub'].isin(hubs) & df['Community Name'].isin(communities)]['Plan Name'].dropna().unique())
+# Collection filter
+collection_options = sorted(df[date_mask & df['Hub'].isin(hubs) & df['Community Name'].isin(communities)]['Collection'].dropna().unique())
+selected_collections = st.sidebar.multiselect("Collection", options=collection_options, key="plan_collections")
+collections = collection_options if not selected_collections else selected_collections
+
+# Plan filter
+plan_options = sorted(df[date_mask & df['Hub'].isin(hubs) & df['Community Name'].isin(communities) & df['Collection'].isin(collections)]['Plan Name'].dropna().unique())
 selected_plans = st.sidebar.multiselect("Plan Name", options=plan_options, key="plan_plans")
 plans = plan_options if not selected_plans else selected_plans
 
@@ -70,6 +81,7 @@ sold_df = df[
     df['SALE_DATE'].between(start_date, end_date) &
     df['Hub'].isin(hubs) &
     df['Community Name'].isin(communities) &
+    df['Collection'].isin(collections) &
     df['Plan Name'].isin(plans) &
     df['DIV_CODE_DESC'].isin(div_selection)
 ]
@@ -125,8 +137,9 @@ if group_col == "Hub":
     plan_counts = sold_df.groupby("Hub").size().reset_index(name="Sold Homes")
     formatted_df = pricing_df.merge(plan_counts, on="Hub", how="left")
     formatted_df["Community Name"] = ""
+    formatted_df["Collection"] = ""
     formatted_df["Plan Name"] = ""
-    formatted_df = formatted_df[["Hub", "Community Name", "Plan Name"] + [col for col in pricing_df.columns if col not in ["Hub"]] + ["Sold Homes"]]
+    formatted_df = formatted_df[["Hub", "Community Name", "Collection", "Plan Name"] + [col for col in pricing_df.columns if col not in ["Hub"]] + ["Sold Homes"]]
 
 elif group_col == "Community Name":
     plan_counts = sold_df.groupby("Community Name").size().reset_index(name="Sold Homes")
@@ -136,13 +149,14 @@ elif group_col == "Community Name":
         .merge(pricing_df, on="Community Name", how="right")
         .merge(plan_counts, on="Community Name", how="left")
     )
+    formatted_df["Collection"] = ""
     formatted_df["Plan Name"] = ""
-    formatted_df = formatted_df[["Hub", "Community Name", "Plan Name"] + [col for col in pricing_df.columns if col not in ["Community Name"]] + ["Sold Homes"]]
+    formatted_df = formatted_df[["Hub", "Community Name", "Collection", "Plan Name"] + [col for col in pricing_df.columns if col not in ["Community Name"]] + ["Sold Homes"]]
 
 else:
     plan_counts = sold_df.groupby(["Community Name", "Plan Name"]).size().reset_index(name="Sold Homes")
     formatted_df = (
-        sold_df[["Hub", "Community Name", "Plan Name"]]
+        sold_df[["Hub", "Community Name", "Collection", "Plan Name"]]
         .drop_duplicates()
         .merge(pricing_df, on=["Community Name", "Plan Name"], how="right")
         .merge(plan_counts, on=["Community Name", "Plan Name"], how="left")
@@ -155,7 +169,7 @@ formatted_df["Avg List Price"] = formatted_df["Avg List Price"].map("${:,.0f}".f
 formatted_df["Avg Net Revenue"] = formatted_df["Avg Net Revenue"].map("${:,.0f}".format)
 
 st.dataframe(
-    formatted_df[["Hub", "Community Name", "Plan Name", "Avg SqFt", "Sold Homes", "Avg Base Price", "Avg List Price", "Avg Net Revenue"]],
+    formatted_df[["Hub", "Community Name", "Collection", "Plan Name", "Avg SqFt", "Sold Homes", "Avg Base Price", "Avg List Price", "Avg Net Revenue"]],
     use_container_width=True,
     hide_index=True
 )
