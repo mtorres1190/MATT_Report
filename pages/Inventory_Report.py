@@ -58,8 +58,13 @@ with st.sidebar:
     selected_communities = st.multiselect("Community Name", options=community_options, key="inv_communities")
     communities = community_options if not selected_communities else selected_communities
 
+    # Collection filter
+    collection_options = sorted(df[df['Hub'].isin(hubs) & df['Community Name'].isin(communities)]['Collection'].dropna().unique())
+    selected_collections = st.multiselect("Collection", options=collection_options, key="inv_collections")
+    collections = collection_options if not selected_collections else selected_collections
+
     # Plan filter (only used if Plan Name is selected)
-    plan_options = sorted(df[df['Hub'].isin(hubs) & df['Community Name'].isin(communities)]['Plan Name'].dropna().unique())
+    plan_options = sorted(df[df['Hub'].isin(hubs) & df['Community Name'].isin(communities) & df['Collection'].isin(collections)]['Plan Name'].dropna().unique())
     selected_plans = st.multiselect("Plan Name", options=plan_options, key="inv_plans")
     plans = plan_options if not selected_plans else selected_plans
 
@@ -75,7 +80,8 @@ filtered_df = df[
     (df['EST_COE_DATE'] <= est_coe_end) &
     (df['HS_TYPE_LABEL'].isin(selected_statuses)) &
     (df['Hub'].isin(hubs)) &
-    (df['Community Name'].isin(communities))
+    (df['Community Name'].isin(communities)) &
+    (df['Collection'].isin(collections))
 ]
 
 if agg_level == "Plan Name":
