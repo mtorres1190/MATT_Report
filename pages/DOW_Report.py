@@ -37,9 +37,10 @@ div_selection = st.sidebar.multiselect(
 )
 
 # Sale date range filter
+most_recent_sunday = datetime.date.today() - datetime.timedelta(days=datetime.date.today().weekday() + 1)
 sale_date_range = st.sidebar.date_input(
     "Sale Date Range",
-    value=(datetime.date(2024, 9, 1), datetime.date.today() - datetime.timedelta(days=1)),
+    value=(datetime.date(2024, 9, 1), most_recent_sunday),
     key="sale_date_range"
 )
 if isinstance(sale_date_range, tuple) and len(sale_date_range) == 2:
@@ -189,10 +190,6 @@ if not sales_week_df.empty:
     st.plotly_chart(fig_week, use_container_width=True)
 else:
     st.info("No data available for the selected week.")
-
-
-
-
 
 
 
