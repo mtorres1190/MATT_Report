@@ -4,9 +4,11 @@ import plotly.express as px
 import plotly.graph_objects as go
 import datetime
 
+# --- Page setup ---
 st.set_page_config(page_title="DOW Report", layout="wide")
 st.title("Day of Week (DOW) Sales Report")
 
+# --- Custom CSS for multi-select filter tags ---
 st.markdown("""
     <style>
         .stMultiSelect [data-baseweb=\"tag\"] {
@@ -15,6 +17,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# --- Check if processed MATT data is available in session ---
 uploaded = 'matt_processed' in st.session_state
 if not uploaded:
     st.warning("Please upload a valid MATT report on the MATT Upload page.")
@@ -22,9 +25,10 @@ if not uploaded:
 
 df = st.session_state['matt_processed']
 
-# --- Inline Filters ---
+# --- Sidebar filters ---
 st.sidebar.header("Filters")
 
+# Division filter
 div_selection = st.sidebar.multiselect(
     "Division",
     options=df['DIV_CODE_DESC'].dropna().unique(),
@@ -32,6 +36,7 @@ div_selection = st.sidebar.multiselect(
     key="div_selection"
 )
 
+# Sale date range filter
 sale_date_range = st.sidebar.date_input(
     "Sale Date Range",
     value=(datetime.date(2024, 9, 1), datetime.date.today() - datetime.timedelta(days=1)),
@@ -44,6 +49,7 @@ else:
     st.error("Invalid date range selection.")
     st.stop()
 
+# Investor sale filter
 investor_filter = st.sidebar.selectbox(
     "Investor Sale",
     options=["All", "Retail", "Investor"],
@@ -51,6 +57,7 @@ investor_filter = st.sidebar.selectbox(
     key="investor_filter"
 )
 
+# Realtor/Direct filter
 cobroke_filter = st.sidebar.selectbox(
     "Realtor/Direct",
     options=["All", "Realtor", "Direct"],
@@ -58,20 +65,21 @@ cobroke_filter = st.sidebar.selectbox(
     key="cobroke_filter"
 )
 
-# Filter data
+# --- Apply filters to the dataset ---
 mask = df['DIV_CODE_DESC'].isin(div_selection)
 mask &= df['SALE_DATE'].between(pd.to_datetime(start_date), pd.to_datetime(end_date))
 if investor_filter != "All":
     mask &= df['Investor Sale'] == investor_filter
 if cobroke_filter != "All":
     mask &= df['Realtor/Direct'] == cobroke_filter
-filtered_df = df[mask]
+filtered_df = df[mask].copy()
 
+# --- Stop if no data available ---
 if filtered_df.empty or 'Weekday_Group' not in filtered_df.columns:
     st.warning("No data available for the selected filters.")
     st.stop()
 
-# DOW Summary
+# --- Waterfall chart: DOW Summary ---
 dow_summary = (
     filtered_df.groupby('DOW_Sale')
     .agg(Sales=('DOW_Sale', 'count'))
@@ -107,7 +115,7 @@ fig_waterfall = go.Figure(go.Waterfall(
 ))
 fig_waterfall.update_layout(title='DOW Sales Distribution', title_font=dict(size=20), yaxis_title='% of Weekly Sales')
 
-# Monthly trend chart
+# --- Monthly bar + line trend chart ---
 filtered_df['Sales_Month'] = filtered_df['SALE_DATE'].dt.to_period('M')
 dow_group = filtered_df.groupby(['Sales_Month', 'Weekday_Group']).size().unstack().fillna(0)
 dow_group['M-F'] = dow_group.get('M-F', 0)
@@ -132,6 +140,7 @@ fig_trend.update_layout(
     legend=dict(orientation="h", yanchor="top", y=-0.3, xanchor="center", x=0.5)
 )
 
+# --- Show charts side-by-side ---
 col1, col2 = st.columns([1, 2])
 with col1:
     st.plotly_chart(fig_waterfall, use_container_width=True)
@@ -140,7 +149,7 @@ with col2:
 
 st.markdown("---")
 
-# Weekly snapshot chart
+# --- Weekly snapshot bar chart ---
 most_recent_monday = datetime.date.today() - datetime.timedelta(days=datetime.date.today().weekday())
 week_start = st.date_input("Select Week Start Date", most_recent_monday)
 sales_week_df = df[df['SALE_DATE'].between(pd.to_datetime(week_start), pd.to_datetime(week_start) + pd.Timedelta(days=6))]
@@ -180,9 +189,6 @@ if not sales_week_df.empty:
     st.plotly_chart(fig_week, use_container_width=True)
 else:
     st.info("No data available for the selected week.")
-
-
-
 
 
 

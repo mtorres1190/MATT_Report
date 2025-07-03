@@ -7,9 +7,11 @@ import os
 
 from scripts.process_matt import color_map
 
+# --- Set up the Streamlit page ---
 st.set_page_config(page_title="Inventory Report", layout="wide")
 st.title("Inventory Report")
 
+# --- Apply custom styles for filter tags ---
 st.markdown("""
     <style>
         .stMultiSelect [data-baseweb=\"tag\"] {
@@ -18,6 +20,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# --- Check for uploaded MATT data ---
 uploaded = 'matt_processed' in st.session_state
 if not uploaded:
     st.warning("Please upload a valid MATT report on the MATT Upload page.")
@@ -25,12 +28,11 @@ if not uploaded:
 
 df = st.session_state['matt_processed']
 
-
-# Sidebar filters
+# --- Sidebar filters ---
 with st.sidebar:
     st.header("Filters")
 
-    # COE Date Range
+    # COE Date Range filter
     coe_range = st.date_input(
         "COE Date Range",
         value=(datetime.date(2025, 6, 1), datetime.date(2025, 8, 31)),
@@ -43,28 +45,28 @@ with st.sidebar:
         st.error("Invalid date range selection.")
         st.stop()
 
-    # Aggregation Level
+    # Aggregation level (Hub or Community Name)
     agg_level = st.selectbox("Aggregation Level", ["Hub", "Community Name"], index=0, key="inv_agg_level")
 
-    # Hub Filter
+    # Hub filter
     all_hubs = sorted(df['Hub'].dropna().unique())
     selected_hubs = st.multiselect("Hub", options=all_hubs, key="inv_hubs")
     if not selected_hubs:
         selected_hubs = all_hubs
 
-    # Community Filter
+    # Community filter
     all_communities = sorted(df['Community Name'].dropna().unique())
     selected_communities = st.multiselect("Community Name", options=all_communities, key="inv_communities")
     if not selected_communities:
         selected_communities = all_communities
 
-    # Homesite Status Filter
+    # Homesite status filter
     all_statuses = sorted(df['HS_TYPE_LABEL'].dropna().unique())
     selected_statuses = st.multiselect("Homesite Status", options=all_statuses, key="inv_statuses")
     if not selected_statuses:
         selected_statuses = all_statuses
 
-# Apply filters
+# --- Apply all filters ---
 filtered_df = df[
     (df['EST_COE_DATE'] >= est_coe_start) &
     (df['EST_COE_DATE'] <= est_coe_end) &
@@ -73,7 +75,7 @@ filtered_df = df[
     (df['Community Name'].isin(selected_communities))
 ]
 
-# Generate summary table grouped by month-year and homesite status
+# --- Create monthly summary pivot table ---
 summary_df = filtered_df.copy()
 summary_df['MonthYear'] = summary_df['EST_COE_DATE'].dt.to_period('M').astype(str)
 summary_df['MonthYearOrder'] = pd.to_datetime(summary_df['MonthYear'], format='%Y-%m')
@@ -90,6 +92,7 @@ pivot = pd.pivot_table(
     margins_name='Grand Total'
 ).rename_axis("Status")
 
+# --- Order and format month columns ---
 ordered_months = summary_df[['MonthYear', 'MonthYearOrder']].drop_duplicates().sort_values('MonthYearOrder')['MonthYear'].tolist()
 if 'Grand Total' in pivot.columns:
     ordered_months += ['Grand Total']
@@ -97,6 +100,7 @@ renamed_columns = {col: pd.to_datetime(col).strftime('%b-%Y') for col in pivot.c
 pivot.rename(columns=renamed_columns, inplace=True)
 pivot = pivot[[renamed_columns.get(col, col) for col in ordered_months]]
 
+# --- Apply color styling to pivot rows ---
 def color_rows(row):
     color = color_map.get(row.name, '')
     return [f'background-color: {color}80'] * len(row)
@@ -104,7 +108,7 @@ def color_rows(row):
 styled = pivot.style.format('{:,}').apply(color_rows, axis=1)
 st.dataframe(styled, use_container_width=True)
 
-# Bar chart
+# --- Generate inventory bar chart ---
 group_col = 'Hub' if agg_level == 'Hub' else 'Community Name'
 chart_data = filtered_df.groupby([group_col, 'HS_TYPE_LABEL']).size().reset_index(name='Count')
 
@@ -132,10 +136,6 @@ fig.update_layout(
 )
 
 st.plotly_chart(fig, use_container_width=True)
-
-
-
-
 
 
 

@@ -15,24 +15,25 @@ color_map = {
 
 # --- Main Data Processing Function ---
 def process_matt_data(matt_df: pd.DataFrame) -> pd.DataFrame:
-    print("Raw columns:", matt_df.columns.tolist())
+    # Set up paths to Hub and Plan files
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     hub_path = os.path.join(base_dir, 'data', 'Hub.csv')
     plan_path = os.path.join(base_dir, 'data', 'Plan.csv')
 
+    # Load Hub and Plan data
     hub_df = pd.read_csv(hub_path)
     plan_df = pd.read_csv(plan_path)
 
-    # Merge Hub and Plan details
+    # Extract community number and normalize plan codes
     matt_df['Comm_#'] = matt_df['COMMUNITY'].astype(str).str[:5].astype(int)
-
-    # Normalize PLAN_CODE types for matching
     matt_df['PLAN_CODE'] = matt_df['PLAN_CODE'].astype(str).str.strip().str.replace('.0', '', regex=False)
     plan_df['Plan Code'] = plan_df['Plan Code'].astype(str).str.strip()
 
+    # Merge Hub and Plan details
     merged_df = pd.merge(matt_df, hub_df, how='left', left_on='Comm_#', right_on='Community Number')
     merged_df = pd.merge(merged_df, plan_df, how='left', left_on='PLAN_CODE', right_on='Plan Code')
 
+    # Rename and clean up key columns
     merged_df.rename(columns={
         'Community Name': 'Community Name',
         'Hub': 'Hub',
@@ -48,14 +49,17 @@ def process_matt_data(matt_df: pd.DataFrame) -> pd.DataFrame:
     merged_df['Community Name'] = merged_df['Community Name'].astype(str).str.strip()
     merged_df['Plan Name'] = merged_df['Plan Name'].astype(str).str.strip()
 
+    # Parse date columns
     merged_df['SALE_DATE'] = pd.to_datetime(merged_df['SALE_DATE'], errors='coerce')
     merged_df['EST_COE_DATE'] = pd.to_datetime(merged_df['EST_COE_DATE'], errors='coerce')
 
+    # Add DOW and weekday group
     merged_df['DOW_Sale'] = merged_df['SALE_DATE'].dt.day_name()
     merged_df['Weekday_Group'] = np.where(
         merged_df['DOW_Sale'].isin(['Saturday', 'Sunday']), 'Sat-Sun', 'M-F'
     )
 
+    # Label investor sales based on known NHC names
     investor_names = {
         "Chanin, Kristian                   (DFW)",
         "PEREZ, LARRY",
@@ -69,13 +73,16 @@ def process_matt_data(matt_df: pd.DataFrame) -> pd.DataFrame:
         lambda x: "Investor" if x in investor_names else "Retail"
     )
 
+    # Parse and clean sales cancellation dates
     merged_df['SALES_CANCELLATION_DATE'] = merged_df['SALES_CANCELLATION_DATE'].astype(str).str.strip()
     merged_df['SALES_CANCELLATION_DATE_PARSED'] = pd.to_datetime(
         merged_df['SALES_CANCELLATION_DATE'], errors='coerce'
     )
 
+    # Create Realtor/Direct flag
     merged_df['Realtor/Direct'] = merged_df['COBROKE_Y_N'].fillna('').apply(map_realtor_direct)
 
+    # Label homesite type (Backlog, Unsold, etc.)
     status_map = {
         'B': 'Backlog',
         'S': 'Unsold',
@@ -96,10 +103,10 @@ from typing import Union
 
 def compute_plan_pricing(df: pd.DataFrame, start_date: pd.Timestamp, end_date: pd.Timestamp, group_col: Union[str, list[str]] = "Plan Name") -> pd.DataFrame:
     df = df.copy()
-    print("Raw PRICE_REDUCTION_INCENTIVES values:\n", df['PRICE_REDUCTION_INCENTIVES'].head(10))
     df['SALE_DATE'] = pd.to_datetime(df['SALE_DATE'], errors='coerce')
     df = df[(df['SALE_DATE'] >= start_date) & (df['SALE_DATE'] <= end_date)]
 
+    # Clean pricing columns
     cols_to_clean = ['BASE_PRICE', 'HOMESITE_PREMIUM', 'PRICE_REDUCTION_INCENTIVES', 'OPTION_REVENUE', 'NET SALES PRICE']
     for col in cols_to_clean:
         df[col] = pd.to_numeric(
@@ -109,6 +116,7 @@ def compute_plan_pricing(df: pd.DataFrame, start_date: pd.Timestamp, end_date: p
             errors='coerce'
         )
 
+    # Calculate list price
     df['List Price'] = (
         df['BASE_PRICE'].fillna(0) +
         df['HOMESITE_PREMIUM'].fillna(0) +
@@ -116,6 +124,7 @@ def compute_plan_pricing(df: pd.DataFrame, start_date: pd.Timestamp, end_date: p
         df['OPTION_REVENUE'].fillna(0)
     )
 
+    # Group and aggregate
     group_keys = group_col if isinstance(group_col, list) else [group_col]
     summary = df.groupby(group_keys, as_index=False).agg({
         'BASE_PRICE': 'mean',
@@ -124,6 +133,7 @@ def compute_plan_pricing(df: pd.DataFrame, start_date: pd.Timestamp, end_date: p
         'TOTAL_SQFT': 'mean'
     })
 
+    # Rename for display
     summary.rename(columns={
         'BASE_PRICE': 'Avg Base Price',
         'List Price': 'Avg List Price',
@@ -139,11 +149,15 @@ def compute_snapshot_unsold_inventory(df, group_col, snapshot_date, coe_start, c
     snapshot_date = pd.to_datetime(snapshot_date)
     coe_start = pd.to_datetime(coe_start)
     coe_end = pd.to_datetime(coe_end)
+
+    # Filter homes not sold by snapshot date with COE within range
     snapshot_df = df[
         ((df['SALE_DATE'].isna()) | (df['SALE_DATE'] > snapshot_date)) &
         (df['EST_COE_DATE'] >= coe_start) &
         (df['EST_COE_DATE'] <= coe_end)
     ].copy()
+
+    # Calculate age and aggregate
     snapshot_df['Age'] = (snapshot_df['EST_COE_DATE'] - snapshot_date).dt.days
     result = snapshot_df.groupby(group_col).agg(
         Unsold=('EST_COE_DATE', 'count'),
@@ -155,31 +169,39 @@ def compute_snapshot_unsold_inventory(df, group_col, snapshot_date, coe_start, c
 # --- Pace vs. Margin Calculator ---
 def compute_pace_vs_margin(df: pd.DataFrame, target_date: datetime.date, coe_start: datetime.date, coe_end: datetime.date) -> tuple[pd.DataFrame, float]:
     today = datetime.date.today()
+
+    # Ensure date parsing
     df['EST_COE_DATE'] = pd.to_datetime(df['EST_COE_DATE'], errors='coerce')
     df['SALE_DATE'] = pd.to_datetime(df['SALE_DATE'], errors='coerce')
 
+    # Filter unsold homes in COE window
     unsold_df = df[
         (df['HS_TYPE'] == 'S') &
         (df['EST_COE_DATE'] >= pd.Timestamp(coe_start)) &
         (df['EST_COE_DATE'] <= pd.Timestamp(coe_end))
     ]
 
+    # Compute 3-week pace for backlog + closed
     three_weeks_ago = pd.Timestamp(today - datetime.timedelta(days=21))
     sold_df = df[(df['HS_TYPE'].isin(['B', 'Z'])) & (df['SALE_DATE'] >= three_weeks_ago)]
     pace = sold_df.groupby('Community Name').size() / 3
 
+    # Compute slope (homes per week needed)
     weeks_left = (target_date - today).days / 7
     slope = 1 / weeks_left if weeks_left > 0 else 0
-    unsold_counts = unsold_df.groupby('Community Name').size()
 
+    # Combine unsold and pace
+    unsold_counts = unsold_df.groupby('Community Name').size()
     summary = pd.DataFrame({
         'Unsold': unsold_counts,
         '3Wk Avg Sales Pace': pace
     }).fillna(0)
 
+    # Calculate needed pace and delta
     summary['Needed Pace'] = summary['Unsold'] / weeks_left
     summary['Delta'] = summary['3Wk Avg Sales Pace'] - summary['Needed Pace']
 
+    # Classify community status based on delta
     def classify(delta):
         if delta > 1:
             return 'Margin'
@@ -202,6 +224,7 @@ __all__ = [
     "compute_plan_pricing",
     "color_map"
 ]
+
 
 
 

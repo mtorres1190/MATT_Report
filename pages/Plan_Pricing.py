@@ -6,9 +6,11 @@ import streamlit as st
 import plotly.graph_objects as go
 from scripts.process_matt import compute_plan_pricing
 
+# --- Page setup ---
 st.set_page_config(page_title="Plan Pricing", layout="wide")
 st.title("Plan Pricing Chart")
 
+# --- Styling for multi-select tags ---
 st.markdown("""
     <style>
         .stMultiSelect [data-baseweb=\"tag\"] {
@@ -17,22 +19,28 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# --- Ensure MATT data is loaded ---
 uploaded = 'matt_processed' in st.session_state
 if not uploaded:
     st.warning("Please upload a valid MATT report on the MATT Upload page.")
     st.stop()
 
-df = st.session_state['matt_processed']
-df = df.copy()
+df = st.session_state['matt_processed'].copy()
 
-# --- Filters ---
+# --- Sidebar Filters ---
 st.sidebar.header("Filters")
 
+# Division filter
 div_selection = st.sidebar.multiselect("Division", options=df['DIV_CODE_DESC'].dropna().unique(), default=["HB Dallas-Fort Worth"], key="div_selection")
+
+# Sale date range filter
 sale_date_range = st.sidebar.date_input("Sale Date Range", value=(datetime.date(2024, 9, 1), datetime.date.today() - datetime.timedelta(days=1)), key="sale_date_range")
+
+# Aggregation level (Hub, Community Name, Plan Name)
 agg_level = st.sidebar.selectbox("Aggregation Level", ["Hub", "Community Name", "Plan Name"], index=0, key="plan_agg_level")
 group_col = agg_level
 
+# Validate and convert date range
 if isinstance(sale_date_range, tuple) and len(sale_date_range) == 2:
     start_date = pd.to_datetime(sale_date_range[0])
     end_date = pd.to_datetime(sale_date_range[1])
@@ -40,28 +48,33 @@ else:
     st.error("Invalid date range selection.")
     st.stop()
 
-hub_options = sorted(df[df['SALE_DATE'].between(start_date, end_date)]['Hub'].dropna().unique())
+# Dynamic filter options
+date_mask = df['SALE_DATE'].between(start_date, end_date)
+hub_options = sorted(df[date_mask]['Hub'].dropna().unique())
 selected_hubs = st.sidebar.multiselect("Hub", options=hub_options, key="plan_hubs")
 hubs = hub_options if not selected_hubs else selected_hubs
 
-community_options = sorted(df[(df['SALE_DATE'].between(start_date, end_date)) & (df['Hub'].isin(hubs))]['Community Name'].dropna().unique())
+community_options = sorted(df[date_mask & df['Hub'].isin(hubs)]['Community Name'].dropna().unique())
 selected_communities = st.sidebar.multiselect("Community Name", options=community_options, key="plan_communities")
 communities = community_options if not selected_communities else selected_communities
 
-plan_options = sorted(df[(df['SALE_DATE'].between(start_date, end_date)) & (df['Hub'].isin(hubs)) & (df['Community Name'].isin(communities))]['Plan Name'].dropna().unique())
+plan_options = sorted(df[date_mask & df['Hub'].isin(hubs) & df['Community Name'].isin(communities)]['Plan Name'].dropna().unique())
 selected_plans = st.sidebar.multiselect("Plan Name", options=plan_options, key="plan_plans")
 plans = plan_options if not selected_plans else selected_plans
 
+# Investor sale filter
 investor_filter = st.sidebar.selectbox("Investor Sale", options=["All", "Retail", "Investor"], index=1, key="investor_filter")
 
-# --- Filter to homes with sale dates within range ---
-sold_df = df[df['SALE_DATE'].between(start_date, end_date)]
-sold_df = sold_df[sold_df['Hub'].isin(hubs)]
-sold_df = sold_df[sold_df['Community Name'].isin(communities)]
-sold_df = sold_df[sold_df['Plan Name'].isin(plans)]
-sold_df = sold_df[sold_df['DIV_CODE_DESC'].isin(div_selection)]
+# --- Filter to only sold homes within date and group selections ---
+sold_df = df[
+    df['SALE_DATE'].between(start_date, end_date) &
+    df['Hub'].isin(hubs) &
+    df['Community Name'].isin(communities) &
+    df['Plan Name'].isin(plans) &
+    df['DIV_CODE_DESC'].isin(div_selection)
+]
 
-# --- Compute Plan Pricing ---
+# --- Compute average pricing ---
 if group_col == "Plan Name":
     pricing_df = compute_plan_pricing(sold_df, start_date, end_date, group_col=["Community Name", "Plan Name"])
 else:
@@ -71,7 +84,7 @@ if pricing_df.empty:
     st.warning("No sold home data available for the selected filters.")
     st.stop()
 
-# --- Chart ---
+# --- Create scatter plot of pricing ---
 if group_col == "Plan Name":
     x_labels = pricing_df["Plan Name"] + " (" + pricing_df["Community Name"] + ")"
 else:
@@ -104,9 +117,10 @@ fig.update_layout(
 
 st.plotly_chart(fig, use_container_width=True)
 
-# --- Data Table ---
+# --- Pricing table output ---
 st.markdown("### Pricing Data Table")
 
+# Format table output by aggregation level
 if group_col == "Hub":
     plan_counts = sold_df.groupby("Hub").size().reset_index(name="Sold Homes")
     formatted_df = pricing_df.merge(plan_counts, on="Hub", how="left")
@@ -134,6 +148,7 @@ else:
         .merge(plan_counts, on=["Community Name", "Plan Name"], how="left")
     )
 
+# Format display columns
 formatted_df["Avg SqFt"] = formatted_df["Avg SqFt"].round(0).astype(int).map("{:,}".format)
 formatted_df["Avg Base Price"] = formatted_df["Avg Base Price"].map("${:,.0f}".format)
 formatted_df["Avg List Price"] = formatted_df["Avg List Price"].map("${:,.0f}".format)
@@ -143,9 +158,7 @@ st.dataframe(
     formatted_df[["Hub", "Community Name", "Plan Name", "Avg SqFt", "Sold Homes", "Avg Base Price", "Avg List Price", "Avg Net Revenue"]],
     use_container_width=True,
     hide_index=True
-)  
-
-
+)
 
 
 

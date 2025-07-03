@@ -5,9 +5,11 @@ import plotly.express as px
 
 from scripts.process_matt import compute_pace_vs_margin
 
+# --- Page setup ---
 st.set_page_config(page_title="Pace vs. Margin", layout="wide")
 st.title("Pace vs. Margin")
 
+# --- Custom CSS for multi-select tags ---
 st.markdown("""
     <style>
         .stMultiSelect [data-baseweb=\"tag\"] {
@@ -16,6 +18,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# --- Check for uploaded data ---
 uploaded = 'matt_processed' in st.session_state
 if not uploaded:
     st.warning("Please upload a valid MATT report on the MATT Upload page.")
@@ -23,7 +26,7 @@ if not uploaded:
 
 matt_df = st.session_state['matt_processed']
 
-# Sidebar Filters
+# --- Sidebar filters ---
 with st.sidebar:
     st.header("Filters")
 
@@ -32,7 +35,7 @@ with st.sidebar:
     st.session_state["target_date"] = target_date_input
     target_date = target_date_input
 
-    # COE Date Range
+    # COE Date Range filter
     coe_range_input = st.date_input("COE Date Range", value=(datetime.date(2025, 6, 1), datetime.date(2025, 8, 31)))
     st.session_state["pace_margin_est_coe_range"] = coe_range_input
     if isinstance(coe_range_input, tuple) and len(coe_range_input) == 2:
@@ -53,24 +56,25 @@ with st.sidebar:
     if not selected_communities:
         selected_communities = all_communities
 
-# Apply filters
+# --- Apply filters to MATT data ---
 matt_df = matt_df[
     (matt_df['EST_COE_DATE'] >= est_coe_start) &
     (matt_df['EST_COE_DATE'] <= est_coe_end) &
     (matt_df['Hub'].isin(selected_hubs)) &
     (matt_df['Community Name'].isin(selected_communities))
-]
+].copy()
 
+# --- Calculate sales pace and break-even ---
 summary, slope = compute_pace_vs_margin(matt_df, target_date, est_coe_start, est_coe_end)
 
-# Filter out communities with no homes (sold or unsold) in the COE Date Range
+# --- Remove communities with no valid COE ---
 est_coe_col = 'EST_COE_DATE'
 matt_df[est_coe_col] = pd.to_datetime(matt_df[est_coe_col], errors='coerce')
 mask = (matt_df[est_coe_col] >= est_coe_start) & (matt_df[est_coe_col] <= est_coe_end)
 valid_communities = matt_df.loc[mask, 'Community Name'].dropna().unique()
 summary = summary[summary.index.isin(valid_communities)]
 
-# Plotly Scatter Plot
+# --- Generate scatter plot ---
 summary_plot = summary.reset_index()
 summary_plot.rename(columns={'3Wk Avg Sales Pace': 'Sales Pace'}, inplace=True)
 summary_plot['Break-even Pace'] = summary_plot['Unsold'] * slope
@@ -132,6 +136,7 @@ fig.update_layout(
 )
 st.plotly_chart(fig, use_container_width=True)
 
+# --- Equilibrium line explanation ---
 st.markdown("""
 <div style='font-size: 18px; margin-top: -10px; color: #333;'>
     <strong>Equilibrium Line:</strong> Communities along the Equilibrium Line are selling exactly fast enough to sell all remaining homes by the Target Sell-by Date.
@@ -141,7 +146,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Category Distribution Pie Charts
+# --- Category distribution pie charts ---
 st.markdown("### Distribution of Communities by Category")
 category_order = ['Margin', 'Target', 'Pace', 'Behind']
 category_counts = summary_plot['Category'].value_counts().reset_index()
@@ -151,6 +156,7 @@ category_counts = category_counts.sort_values('Category')
 
 col1, col2 = st.columns(2)
 
+# Pie chart: Community count by category
 with col1:
     fig_pie = px.pie(
         category_counts,
@@ -171,6 +177,7 @@ with col1:
     fig_pie.update_layout(title_font=dict(size=20))
     st.plotly_chart(fig_pie, use_container_width=True)
 
+# Pie chart: Unsold homes by category
 with col2:
     total_unsold_by_category = summary_plot.groupby('Category')['Unsold'].sum().reset_index()
     total_unsold_by_category['Category'] = pd.Categorical(total_unsold_by_category['Category'], categories=category_order, ordered=True)
@@ -195,7 +202,7 @@ with col2:
     fig_unsold_pie.update_layout(title_font=dict(size=20))
     st.plotly_chart(fig_unsold_pie, use_container_width=True)
 
-# Styled DataFrame Output
+# --- Styled DataFrame output for each category ---
 st.markdown("---")
 summary_display = summary.copy()
 summary_display = summary_display.merge(
@@ -237,9 +244,6 @@ for category in category_order:
         ]).apply(highlight_row, axis=1).hide(axis='index')
 
         st.dataframe(styled, use_container_width=True, hide_index=True)
-
-
-
 
 
 

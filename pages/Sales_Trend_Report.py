@@ -3,25 +3,27 @@ import pandas as pd
 import plotly.graph_objects as go
 import datetime
 
+# --- Streamlit page config ---
 st.set_page_config(page_title="Sales Trend Report", layout="wide")
 st.title("Sales Trend Report")
 
+# --- Custom styling ---
 st.markdown("""
-    <style>
-        .stMultiSelect [data-baseweb=\"tag\"] {
-            background-color: #1f77b4 !important;
-        }
-    </style>
+<style>
+.stMultiSelect [data-baseweb=\"tag\"] {
+    background-color: #1f77b4 !important;
+}
+</style>
 """, unsafe_allow_html=True)
 
-# Ensure processed data is available
+# --- Ensure data is available ---
 if 'matt_processed' not in st.session_state:
     st.warning("Please upload a valid MATT report on the MATT Upload page.")
     st.stop()
 
 df = st.session_state['matt_processed'].copy()
 
-# Inline filters
+# --- Sidebar filters ---
 st.sidebar.header("Filters")
 
 div_selection = st.sidebar.multiselect(
@@ -44,6 +46,7 @@ investor_filter = st.sidebar.selectbox(
     key="trend_investor_filter"
 )
 
+# --- Validate and apply filters ---
 if isinstance(sale_date_range, tuple) and len(sale_date_range) == 2:
     start_date = pd.to_datetime(sale_date_range[0])
     end_date = pd.to_datetime(sale_date_range[1])
@@ -51,22 +54,18 @@ else:
     st.error("Invalid date range selection.")
     st.stop()
 
-# Apply filter mask
 mask = df['DIV_CODE_DESC'].isin(div_selection)
 mask &= df['SALE_DATE'].between(start_date, end_date)
 if investor_filter != "All":
     mask &= df['Investor Sale'] == investor_filter
-filtered_df = df[mask]
 
-# Exit if no data
+filtered_df = df[mask].dropna(subset=['SALE_DATE'])
+
 if filtered_df.empty:
     st.warning("No data available for the selected filters.")
     st.stop()
 
-# Drop NA sale dates
-filtered_df = filtered_df.dropna(subset=['SALE_DATE'])
-
-# --- Avg. Daily Sales Trend Chart ---
+# --- Daily Sales Trend Chart ---
 daily_sales = filtered_df.groupby('SALE_DATE').size()
 daily_sales_ma14 = daily_sales.rolling(window=14).mean()
 daily_sales_ma30 = daily_sales.rolling(window=30).mean()
@@ -90,8 +89,8 @@ fig_avg_daily.add_trace(go.Scatter(
 ))
 fig_avg_daily.update_layout(
     title=dict(text="Avg. Daily Sales Trend", font=dict(size=20)),
-    xaxis=dict(title=dict(text="Date", font=dict(size=16)), showgrid=True, tickfont=dict(size=14)),
-    yaxis=dict(title=dict(text="Avg. Daily Sales", font=dict(size=16)), showgrid=True, tickfont=dict(size=14)),
+    xaxis=dict(title="Date", showgrid=True, tickfont=dict(size=14)),
+    yaxis=dict(title="Avg. Daily Sales", showgrid=True, tickfont=dict(size=14)),
     hovermode="x unified",
     height=500,
     margin=dict(t=60, b=40, l=60, r=20),
@@ -99,7 +98,7 @@ fig_avg_daily.update_layout(
 )
 st.plotly_chart(fig_avg_daily, use_container_width=True)
 
-# --- RAR Plot ---
+# --- Realtor Attachment Rate Chart ---
 daily_summary = filtered_df.groupby(['SALE_DATE', 'Realtor/Direct']).size().unstack(fill_value=0)
 daily_summary['Total Sales'] = daily_summary.sum(axis=1)
 daily_summary['Realtor %'] = daily_summary.get('Realtor', 0) / daily_summary['Total Sales']
@@ -116,8 +115,8 @@ fig_rar.add_trace(go.Scatter(
 ))
 fig_rar.update_layout(
     title=dict(text="Realtor Attachment Rate", font=dict(size=20)),
-    xaxis=dict(title=dict(text="Date", font=dict(size=16)), showgrid=True, tickfont=dict(size=14)),
-    yaxis=dict(title=dict(text="Realtor Attachment Rate", font=dict(size=16)), showgrid=True, range=[0.3, 1.0], tickformat=".0%", tickfont=dict(size=14)),
+    xaxis=dict(title="Date", showgrid=True, tickfont=dict(size=14)),
+    yaxis=dict(title="Realtor Attachment Rate", showgrid=True, range=[0.3, 1.0], tickformat=".0%", tickfont=dict(size=14)),
     hovermode="x unified",
     height=500,
     margin=dict(t=60, b=40, l=60, r=20),
@@ -125,7 +124,7 @@ fig_rar.update_layout(
 )
 st.plotly_chart(fig_rar, use_container_width=True)
 
-# --- Direct vs Realtor Volume Plot ---
+# --- Direct vs. Realtor Volume Chart ---
 volume_df = filtered_df.groupby(['SALE_DATE', 'Realtor/Direct']).size().unstack(fill_value=0)
 volume_df['Direct MA'] = volume_df.get('Direct', 0).rolling(window=14).mean()
 volume_df['Realtor MA'] = volume_df.get('Realtor', 0).rolling(window=14).mean()
@@ -149,8 +148,8 @@ fig_vol.add_trace(go.Scatter(
 ))
 fig_vol.update_layout(
     title=dict(text="Direct vs. Realtor Sales", font=dict(size=20)),
-    xaxis=dict(title=dict(text="Date", font=dict(size=16)), showgrid=True, tickfont=dict(size=14)),
-    yaxis=dict(title=dict(text="Avg. Daily Sales", font=dict(size=16)), showgrid=True, tickfont=dict(size=14)),
+    xaxis=dict(title="Date", showgrid=True, tickfont=dict(size=14)),
+    yaxis=dict(title="Avg. Daily Sales", showgrid=True, tickfont=dict(size=14)),
     hovermode="x unified",
     height=500,
     margin=dict(t=60, b=40, l=60, r=20),
