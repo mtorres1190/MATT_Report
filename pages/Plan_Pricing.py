@@ -25,9 +25,6 @@ if not uploaded:
 df = st.session_state['matt_processed']
 df = df.copy()
 
-# --- Debug block to inspect key pricing columns ---
-st.write(df[['PRICE_REDUCTION_INCENTIVES', 'BASE_PRICE']].head(10))
-
 # --- Filters ---
 st.sidebar.header("Filters")
 
