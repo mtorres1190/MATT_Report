@@ -100,7 +100,7 @@ for week in ['L3W', 'L2W', 'LW', 'Snapshot']:
     ))
 
 fig.update_layout(
-    title=dict(text="<b>Weekly Unsold Inventory Snapshots</b>", font=dict(size=22), x=0.5),
+    title=dict(text="<b>Weekly Unsold Inventory Snapshots</b>", font=dict(size=22), x=0.0),
     xaxis=dict(title="<b>Unsold Homes</b>", range=[-0.75, max(viz_df['Unsold'].max(), 10) + 1], fixedrange=True,
                showgrid=True, gridcolor='lightgrey', gridwidth=1, zeroline=False),
     yaxis=dict(title=f"<b>{group_col}</b>", categoryorder='array',
