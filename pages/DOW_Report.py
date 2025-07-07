@@ -127,10 +127,38 @@ dow_group['Sat-Sun %'] = (dow_group['Sat-Sun'] / dow_group['Total'] * 100).round
 
 fig_trend = go.Figure()
 formatted_dates = [p.to_timestamp().strftime('%b, %Y') for p in dow_group.index]
-fig_trend.add_trace(go.Bar(x=formatted_dates, y=dow_group['M-F'], name='Sales - M-F'))
-fig_trend.add_trace(go.Bar(x=formatted_dates, y=dow_group['Sat-Sun'], name='Sales - Sat-Sun'))
-fig_trend.add_trace(go.Scatter(x=formatted_dates, y=dow_group['M-F %'], mode='lines+markers+text', name='Sales % - M-F', yaxis='y2', text=[f"<b>{int(val)}%</b>" for val in dow_group['M-F %']], textposition="top center"))
-fig_trend.add_trace(go.Scatter(x=formatted_dates, y=dow_group['Sat-Sun %'], mode='lines+markers', name='Sales % - Sat-Sun', yaxis='y2'))
+fig_trend.add_trace(go.Bar(
+    x=formatted_dates,
+    y=dow_group['M-F'],
+    name='Sales - M-F',
+    customdata=dow_group[['M-F', 'Total']],
+    hovertemplate='<b>%{x}</b><br>M-F Sales: %{customdata[0]}<br>Total Sales: %{customdata[1]}<extra></extra>'
+))
+fig_trend.add_trace(go.Bar(
+    x=formatted_dates,
+    y=dow_group['Sat-Sun'],
+    name='Sales - Sat-Sun',
+    customdata=dow_group[['Sat-Sun', 'Total']],
+    hovertemplate='<b>%{x}</b><br>Sat-Sun Sales: %{customdata[0]}<br>Total Sales: %{customdata[1]}<extra></extra>'
+))
+fig_trend.add_trace(go.Scatter(
+    x=formatted_dates,
+    y=dow_group['M-F %'],
+    mode='lines+markers+text',
+    name='Sales % - M-F',
+    yaxis='y2',
+    text=[f"<b>{int(val)}%</b>" for val in dow_group['M-F %']],
+    textposition="top center",
+    hovertemplate='<b>%{x}</b><br>M-F %: %{y:.0f}%<extra></extra>'
+))
+fig_trend.add_trace(go.Scatter(
+    x=formatted_dates,
+    y=dow_group['Sat-Sun %'],
+    mode='lines+markers',
+    name='Sales % - Sat-Sun',
+    yaxis='y2',
+    hovertemplate='<b>%{x}</b><br>Sat-Sun %: %{y:.0f}%<extra></extra>'
+))
 fig_trend.update_layout(
     title='DOW Contribution to Sales',
     barmode='group',
