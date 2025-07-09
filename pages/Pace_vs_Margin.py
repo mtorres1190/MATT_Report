@@ -31,7 +31,7 @@ with st.sidebar:
     st.header("Filters")
 
     # Target Sell-by Date
-    target_date_input = st.date_input("Target Sell-by Date", value=datetime.date(2025, 8, 15))
+    target_date_input = st.date_input("Target Sell-by Date", value=datetime.date(2025, 8, 31))
     st.session_state["target_date"] = target_date_input
     target_date = target_date_input
 
