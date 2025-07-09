@@ -34,6 +34,9 @@ with st.sidebar:
     est_coe_start, est_coe_end = pd.to_datetime(est_coe_range[0]), pd.to_datetime(est_coe_range[1])
 
     snapshot_date = st.date_input("Snapshot Date", datetime.date.today() - datetime.timedelta(days=1), key="sales_snapshot_date")
+    days_to_end = (est_coe_end - pd.to_datetime(snapshot_date)).days
+    st.markdown(f"**Days between snapshot and COE end:** {days_to_end} days")
+
     all_weeks = ["Snapshot", "LW", "L2W", "L3W"]
     selected_weeks = st.multiselect("Select Snapshot Week(s)", options=all_weeks, default=[], key="sales_selected_weeks") or all_weeks
     agg_level = st.selectbox("Aggregation Level", ["Hub", "Community Name"], index=0, key="sales_agg_level")
@@ -76,6 +79,23 @@ cmax = 60
 # --- Create scatter chart ---
 fig = go.Figure()
 fig.update_layout(template='plotly_white', hoverlabel=dict(bgcolor="white", font_size=12))
+fig.add_shape(
+    type="line",
+    x0=1.05, x1=1.07, xref="paper",
+    y0=days_to_end / cmax, y1=days_to_end / cmax, yref="paper",
+    line=dict(color="black", width=2, dash="dot")
+)
+fig.add_annotation(
+    x=1.14, xref="paper",
+    y=min(days_to_end / cmax, 1.0), yref="paper",
+    text=f"{days_to_end} days",
+    showarrow=True,
+    arrowhead=2,
+    ax=30,
+    ay=0,
+    font=dict(color="black"),
+    align="left"
+)
 for week in ['L3W', 'L2W', 'LW', 'Snapshot']:
     week_df = viz_df[viz_df['Week'] == week].copy()
     if week_df.empty:
@@ -141,6 +161,8 @@ table_df = table_df.drop(columns=['Avg_Age'])
 if not table_df.empty:
     st.subheader("Community Detail Table")
     st.dataframe(table_df, use_container_width=True, hide_index=True)
+
+
 
 
 
