@@ -69,8 +69,9 @@ if not results:
 
 viz_df = pd.concat(results)
 viz_df['label'] = viz_df[group_col]
-days_to_end = (est_coe_end - pd.to_datetime(snapshot_date)).days
-cmax = max(60, days_to_end)
+
+# --- Static color scale config ---
+cmax = 60
 
 # --- Create scatter chart ---
 fig = go.Figure()
@@ -92,7 +93,7 @@ for week in ['L3W', 'L2W', 'LW', 'Snapshot']:
         x=week_df['Unsold'], y=week_df['label'], mode='markers+text',
         marker=dict(size=16, color=marker_colors, colorscale=[[0, 'red'], [0.5, 'yellow'], [1, 'green']],
                     cmin=0, cmax=cmax, colorbar=dict(title='Avg Age (days)',
-                    tickvals=[0, 30, 60, days_to_end], ticktext=['0', '30', '60', f'{days_to_end}'], tickmode='array'),
+                    tickvals=[0, 30, 60], ticktext=['0', '30', '60'], tickmode='array'),
                     showscale=True,
                     line=dict(color=['black' if x == 0 else 'rgba(0,0,0,0)' for x in week_df['Unsold']], width=1)),
         customdata=customdata, meta=week, hovertemplate=hovertemplate,
