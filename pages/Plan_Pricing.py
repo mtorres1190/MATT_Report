@@ -34,7 +34,7 @@ st.sidebar.header("Filters")
 div_selection = st.sidebar.multiselect("Division", options=df['DIV_CODE_DESC'].dropna().unique(), default=["HB Dallas-Fort Worth"], key="div_selection")
 
 # Sale date range filter
-sale_date_range = st.sidebar.date_input("Sale Date Range", value=(datetime.date(2024, 9, 1), datetime.date.today() - datetime.timedelta(days=1)), key="sale_date_range")
+sale_date_range = st.sidebar.date_input("Sale Date Range", value=(datetime.date(2025, 4, 1), datetime.date.today() - datetime.timedelta(days=1)), key="sale_date_range")
 
 # Aggregation level (Hub, Community Name, Plan Name)
 agg_level = st.sidebar.selectbox("Aggregation Level", ["Hub", "Community Name", "Plan Name"], index=0, key="plan_agg_level")
