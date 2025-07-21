@@ -57,6 +57,7 @@ def process_matt_data(matt_df: pd.DataFrame) -> pd.DataFrame:
     investor_names = {
         "Chanin, Kristian                   (DFW)",
         "PEREZ, LARRY",
+        "LAWRENCE PETER                          ",
         "Perez, Larry                       (DFW)",
         "Stierwalt, Tanner                  (DFW)",
         "Krueger, Cole                      (HOU)",
