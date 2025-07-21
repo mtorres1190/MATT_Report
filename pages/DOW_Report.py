@@ -225,12 +225,10 @@ if not sales_week_df.empty:
     st.plotly_chart(fig_week, use_container_width=True)
 
     # --- Detailed sales table for the selected week ---
-    st.markdown("### Detailed Sales Table for Selected Week")
+    sales_week_df = sales_week_df.copy()  # Avoid SettingWithCopyWarning
 
-    sales_week_df = sales_week_df.copy()  # <-- add this line to avoid SettingWithCopyWarning
     sales_week_df['COE Year'] = sales_week_df['EST_COE_DATE'].dt.year
-    sales_week_df['COE Month'] = sales_week_df['EST_COE_DATE'].dt.month
-
+    sales_week_df['COE Month'] = sales_week_df['EST_COE_DATE'].dt.strftime('%b')  # 3-letter month abbreviation
 
     display_cols = [
         'Hub',
@@ -250,7 +248,15 @@ if not sales_week_df.empty:
     detailed_table = sales_week_df[display_cols_available].copy()
 
     if 'SALE_DATE' in detailed_table.columns:
-        detailed_table['SALE_DATE'] = detailed_table['SALE_DATE'].dt.strftime('%Y-%m-%d')
+        detailed_table['SALE_DATE'] = pd.to_datetime(detailed_table['SALE_DATE'], errors='coerce')
+        detailed_table['SALE_DATE'] = detailed_table['SALE_DATE'].dt.strftime('%b %d, %Y')
+
+    # Rename columns for display
+    detailed_table = detailed_table.rename(columns={
+        'SALE_DATE': 'Sale Date',
+        'BUYER_NAME': 'Buyer',
+        'NHC_NAME': 'NHC Name'
+    })
 
     st.dataframe(detailed_table, use_container_width=True, hide_index=True)
 
