@@ -11,7 +11,7 @@ st.title("Day of Week (DOW) Sales Report")
 # --- Custom CSS for multi-select filter tags ---
 st.markdown("""
     <style>
-        .stMultiSelect [data-baseweb=\"tag\"] {
+        .stMultiSelect [data-baseweb="tag"] {
             background-color: #1f77b4 !important;
         }
     </style>
@@ -50,7 +50,7 @@ else:
     st.error("Invalid date range selection.")
     st.stop()
 
-# Investor sale filter
+# Investor sale filter with default set to Retail
 investor_filter = st.sidebar.selectbox(
     "Investor Sale",
     options=["All", "Retail", "Investor"],
@@ -181,7 +181,14 @@ st.markdown("---")
 # --- Weekly snapshot bar chart ---
 most_recent_monday = datetime.date.today() - datetime.timedelta(days=datetime.date.today().weekday())
 week_start = st.date_input("Select Week Start Date", most_recent_monday)
-sales_week_df = df[df['SALE_DATE'].between(pd.to_datetime(week_start), pd.to_datetime(week_start) + pd.Timedelta(days=6))]
+week_end = week_start + datetime.timedelta(days=6)
+
+# Filter sales data by date range first
+sales_week_df = df[df['SALE_DATE'].between(pd.to_datetime(week_start), pd.to_datetime(week_end))]
+
+# Apply existing investor sale filter if not "All"
+if investor_filter != "All":
+    sales_week_df = sales_week_df[sales_week_df['Investor Sale'] == investor_filter]
 
 total_sales = sales_week_df.shape[0]
 st.subheader(f"Total Sales This Week: {total_sales}")
@@ -216,8 +223,40 @@ if not sales_week_df.empty:
         legend_title_text=''
     )
     st.plotly_chart(fig_week, use_container_width=True)
+
+    # --- Detailed sales table for the selected week ---
+    st.markdown("### Detailed Sales Table for Selected Week")
+
+    sales_week_df = sales_week_df.copy()  # <-- add this line to avoid SettingWithCopyWarning
+    sales_week_df['COE Year'] = sales_week_df['EST_COE_DATE'].dt.year
+    sales_week_df['COE Month'] = sales_week_df['EST_COE_DATE'].dt.month
+
+
+    display_cols = [
+        'Hub',
+        'Community Name',
+        'Plan Name',
+        'Investor Sale',
+        'NHC_NAME',
+        'SALE_DATE',
+        'BUYER_NAME',
+        'Realtor/Direct',
+        'COE Year',
+        'COE Month'
+    ]
+
+    display_cols_available = [col for col in display_cols if col in sales_week_df.columns]
+
+    detailed_table = sales_week_df[display_cols_available].copy()
+
+    if 'SALE_DATE' in detailed_table.columns:
+        detailed_table['SALE_DATE'] = detailed_table['SALE_DATE'].dt.strftime('%Y-%m-%d')
+
+    st.dataframe(detailed_table, use_container_width=True, hide_index=True)
+
 else:
     st.info("No data available for the selected week.")
+
 
 
 
