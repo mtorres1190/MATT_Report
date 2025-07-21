@@ -24,6 +24,12 @@ def process_matt_data(matt_df: pd.DataFrame) -> pd.DataFrame:
     hub_df = pd.read_csv(hub_path)
     plan_df = pd.read_csv(plan_path)
 
+    # Rename columns
+    matt_df = matt_df.rename(columns={
+        'Textbox4': 'HS_TYPE',
+        'Textbox22': 'Net_Sales_Price'
+    })
+
     # Extract community number and normalize plan codes
     matt_df['Comm_#'] = matt_df['COMMUNITY'].astype(str).str[:5].astype(int)
     matt_df['PLAN_CODE'] = matt_df['PLAN_CODE'].astype(str).str.strip().str.replace('.0', '', regex=False)
@@ -32,18 +38,6 @@ def process_matt_data(matt_df: pd.DataFrame) -> pd.DataFrame:
     # Merge Hub and Plan details
     merged_df = pd.merge(matt_df, hub_df, how='left', left_on='Comm_#', right_on='Community Number')
     merged_df = pd.merge(merged_df, plan_df, how='left', left_on='PLAN_CODE', right_on='Plan Code')
-
-    # Rename and clean up key columns
-    merged_df.rename(columns={
-        'Community Name': 'Community Name',
-        'Hub': 'Hub',
-        'Plan Name': 'Plan Name',
-        'Collection': 'Collection',
-        'Core': 'Core',
-        'Textbox4': 'HS_TYPE',
-        'Textbox22': 'NET SALES PRICE',
-        'PRICE_REDUCTION_INCENTIVES': 'PRICE_REDUCTION_INCENTIVES'
-    }, inplace=True)
 
     merged_df['Hub'] = merged_df['Hub'].astype(str).str.strip()
     merged_df['Community Name'] = merged_df['Community Name'].astype(str).str.strip()
@@ -59,7 +53,7 @@ def process_matt_data(matt_df: pd.DataFrame) -> pd.DataFrame:
         merged_df['DOW_Sale'].isin(['Saturday', 'Sunday']), 'Sat-Sun', 'M-F'
     )
 
-    # Label investor sales based on known NHC names
+    # Label investor sales based on known NHC names (normalized for casing and spacing)
     investor_names = {
         "Chanin, Kristian                   (DFW)",
         "PEREZ, LARRY",
@@ -69,8 +63,10 @@ def process_matt_data(matt_df: pd.DataFrame) -> pd.DataFrame:
         "Shackelford, Leah                  (HOU)",
         "Batchelor, Christina               (HOU)"
     }
-    merged_df['Investor Sale'] = merged_df['NHC_NAME'].apply(
-        lambda x: "Investor" if x in investor_names else "Retail"
+    investor_names_normalized = {name.strip().upper() for name in investor_names}
+    merged_df['NHC_NAME_CLEAN'] = merged_df['NHC_NAME'].astype(str).str.strip().str.upper()
+    merged_df['Investor Sale'] = merged_df['NHC_NAME_CLEAN'].apply(
+        lambda x: "Investor" if x in investor_names_normalized else "Retail"
     )
 
     # Parse and clean sales cancellation dates
@@ -79,8 +75,8 @@ def process_matt_data(matt_df: pd.DataFrame) -> pd.DataFrame:
         merged_df['SALES_CANCELLATION_DATE'], errors='coerce'
     )
 
-    # Create Realtor/Direct flag
-    merged_df['Realtor/Direct'] = merged_df['COBROKE_Y_N'].fillna('').apply(map_realtor_direct)
+    # Create Realtor/Direct flag (with stripped whitespace)
+    merged_df['Realtor/Direct'] = merged_df['COBROKE_Y_N'].fillna('').str.strip().apply(map_realtor_direct)
 
     # Label homesite type (Backlog, Unsold, etc.)
     status_map = {
@@ -98,6 +94,7 @@ def map_realtor_direct(cobroke_value):
     mapping = {'Y': 'Realtor', '': 'Direct', None: 'Direct'}
     return mapping.get(cobroke_value, 'Direct')
 
+
 # --- Plan-Level Pricing Aggregation for Sold Homes ---
 from typing import Union
 
@@ -107,7 +104,7 @@ def compute_plan_pricing(df: pd.DataFrame, start_date: pd.Timestamp, end_date: p
     df = df[(df['SALE_DATE'] >= start_date) & (df['SALE_DATE'] <= end_date)]
 
     # Clean pricing columns
-    cols_to_clean = ['BASE_PRICE', 'HOMESITE_PREMIUM', 'PRICE_REDUCTION_INCENTIVES', 'OPTION_REVENUE', 'NET SALES PRICE']
+    cols_to_clean = ['BASE_PRICE', 'HOMESITE_PREMIUM', 'PRICE_REDUCTION_INCENTIVES', 'OPTION_REVENUE', 'Net_Sales_Price']
     for col in cols_to_clean:
         df[col] = pd.to_numeric(
             df[col].astype(str)
@@ -129,7 +126,7 @@ def compute_plan_pricing(df: pd.DataFrame, start_date: pd.Timestamp, end_date: p
     summary = df.groupby(group_keys, as_index=False).agg({
         'BASE_PRICE': 'mean',
         'List Price': 'mean',
-        'NET SALES PRICE': 'mean',
+        'Net_Sales_Price': 'mean',
         'TOTAL_SQFT': 'mean'
     })
 
@@ -137,7 +134,7 @@ def compute_plan_pricing(df: pd.DataFrame, start_date: pd.Timestamp, end_date: p
     summary.rename(columns={
         'BASE_PRICE': 'Avg Base Price',
         'List Price': 'Avg List Price',
-        'NET SALES PRICE': 'Avg Net Revenue',
+        'Net_Sales_Price': 'Avg Net Revenue',
         'TOTAL_SQFT': 'Avg SqFt'
     }, inplace=True)
 
@@ -224,6 +221,7 @@ __all__ = [
     "compute_plan_pricing",
     "color_map"
 ]
+
 
 
 

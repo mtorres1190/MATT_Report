@@ -9,7 +9,7 @@ from scripts.process_matt import process_matt_data
 st.set_page_config(page_title="MATT Upload", layout="wide")
 st.title("MATT Report Upload Page")
 
-# --- Define required MATT headers for validation ---
+# --- Define required MATT headers for validation (same names, new positions) ---
 REQUIRED_COLUMNS = {
     "DIV_CODE_DESC", "PROJECT", "BUYER_NAME", "COMMUNITY",
     "PLAN_CODE", "SALE_DATE", "NHC_NAME", "SALES_CANCELLATION_DATE"
@@ -36,7 +36,7 @@ if DEVELOPER_MODE:
         st.session_state['matt_processed'] = process_matt_data(df)
         st.success("Latest MATT Report Loaded.")
     except Exception as e:
-        st.error("Failed to load sample file. Please ensure 'sample_matt.csv' exists in the data folder.")
+        st.error("Failed to load sample file. Please ensure 'Homesite Detail Data (MATT).csv' exists in the data folder.")
 
 # --- User file upload logic ---
 else:
@@ -50,19 +50,24 @@ else:
     if uploaded_file is not None:
         try:
             df = pd.read_csv(uploaded_file, low_memory=False)
-            missing_cols = REQUIRED_COLUMNS - set(df.columns)
+            st.write("**Uploaded Columns:**", list(df.columns))  # Debugging aid
+            normalized_cols = {col.strip() for col in df.columns}
+            missing_cols = REQUIRED_COLUMNS - normalized_cols
             if missing_cols:
-                st.error("The uploaded file does not appear to be a valid MATT Report. Please upload the correct file exported from the company data portal.")
+                st.error("The uploaded file does not appear to be a valid MATT Report. Missing columns: " + ", ".join(missing_cols))
             else:
                 st.session_state['matt_raw'] = df
                 st.session_state['matt_processed'] = process_matt_data(df)
+                st.success("MATT Report uploaded and processed successfully.")
         except Exception as e:
             st.error("Failed to read the uploaded file. Please ensure it is a valid CSV.")
+            st.exception(e)
     else:
         st.warning("Please upload a file to proceed.")
 
 # --- Streamlit command to run this file locally ---
 # streamlit run MATT_Upload.py
+
 
 
 
