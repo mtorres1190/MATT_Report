@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 import datetime
+from scripts.process_matt import get_fred_data_filtered
 
 # --- Streamlit page config ---
 st.set_page_config(page_title="Sales Trend Report", layout="wide")
@@ -156,5 +157,28 @@ fig_vol.update_layout(
     legend=dict(orientation="h", yanchor="bottom", y=1.1, xanchor="center", x=0.5, font=dict(size=14))
 )
 st.plotly_chart(fig_vol, use_container_width=True)
+
+# --- 30-Year Fixed Mortgage Rate Chart ---
+fred_df = get_fred_data_filtered(start_date, end_date)
+
+fig_fred = go.Figure()
+fig_fred.add_trace(go.Scatter(
+    x=fred_df['date'],
+    y=fred_df['value'],
+    mode='lines',
+    line=dict(color='green', width=2),
+    name='30Y FRM',
+    hovertemplate='%{x|%b %d, %Y}<br>Rate: %{y:.2f}%%<extra></extra>'
+))
+fig_fred.update_layout(
+    title=dict(text="30-Year Fixed Mortgage Rate (FRED)", font=dict(size=20)),
+    xaxis=dict(title="Date", showgrid=True, tickfont=dict(size=14)),
+    yaxis=dict(title="Rate (%)", showgrid=True, tickfont=dict(size=14)),
+    hovermode="x unified",
+    height=500,
+    margin=dict(t=60, b=40, l=60, r=20),
+    legend=dict(font=dict(size=14))
+)
+st.plotly_chart(fig_fred, use_container_width=True)
 
 

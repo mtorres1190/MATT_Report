@@ -95,6 +95,11 @@ def map_realtor_direct(cobroke_value):
     mapping = {'Y': 'Realtor', '': 'Direct', None: 'Direct'}
     return mapping.get(cobroke_value, 'Direct')
 
+# --- FRED Mortgage Rate Filter ---
+def get_fred_data_filtered(start_date: pd.Timestamp, end_date: pd.Timestamp) -> pd.DataFrame:
+    from scripts.fred_api import fetch_fred_30yr_mortgage_rate
+    df = fetch_fred_30yr_mortgage_rate()
+    return df[(df['date'] >= start_date) & (df['date'] <= end_date)].copy()
 
 # --- Plan-Level Pricing Aggregation for Sold Homes ---
 from typing import Union
@@ -220,8 +225,10 @@ __all__ = [
     "process_matt_data",
     "map_realtor_direct",
     "compute_plan_pricing",
+    "get_fred_data_filtered",
     "color_map"
 ]
+
 
 
 
