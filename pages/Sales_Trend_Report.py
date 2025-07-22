@@ -157,7 +157,7 @@ fig_vol.update_layout(
     legend=dict(orientation="h", yanchor="bottom", y=1.1, xanchor="center", x=0.5, font=dict(size=14))
 )
 st.plotly_chart(fig_vol, use_container_width=True)
-
+'''
 # --- 30-Year Fixed Mortgage Rate Chart ---
 fred_df = get_fred_data_filtered(start_date, end_date)
 
@@ -179,6 +179,7 @@ fig_fred.update_layout(
     margin=dict(t=60, b=40, l=60, r=20),
     legend=dict(font=dict(size=14))
 )
-st.plotly_chart(fig_fred, use_container_width=True)
 
+st.plotly_chart(fig_fred, use_container_width=True)
+'''
 
