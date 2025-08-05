@@ -50,11 +50,11 @@ else:
     st.error("Invalid date range selection.")
     st.stop()
 
-# Investor sale filter with default set to Retail
+# Investor sale filter
 investor_filter = st.sidebar.selectbox(
     "Investor Sale",
     options=["All", "Retail", "Investor"],
-    index=["All", "Retail", "Investor"].index("Retail"),
+    index=1,
     key="investor_filter"
 )
 
@@ -62,7 +62,7 @@ investor_filter = st.sidebar.selectbox(
 cobroke_filter = st.sidebar.selectbox(
     "Realtor/Direct",
     options=["All", "Realtor", "Direct"],
-    index=["All", "Realtor", "Direct"].index("All"),
+    index=0,
     key="cobroke_filter"
 )
 
@@ -183,10 +183,7 @@ most_recent_monday = datetime.date.today() - datetime.timedelta(days=datetime.da
 week_start = st.date_input("Select Week Start Date", most_recent_monday)
 week_end = week_start + datetime.timedelta(days=6)
 
-# Filter sales data by date range first
 sales_week_df = df[df['SALE_DATE'].between(pd.to_datetime(week_start), pd.to_datetime(week_end))]
-
-# Apply existing investor sale filter if not "All"
 if investor_filter != "All":
     sales_week_df = sales_week_df[sales_week_df['Investor Sale'] == investor_filter]
 
@@ -194,46 +191,15 @@ total_sales = sales_week_df.shape[0]
 st.subheader(f"Total Sales This Week: {total_sales}")
 
 if not sales_week_df.empty:
-    weekly_chart_data = sales_week_df.groupby(['SALE_DATE', 'Realtor/Direct']).size().reset_index(name='Homes Sold')
-    weekly_chart_data['DateLabel'] = weekly_chart_data['SALE_DATE'].dt.strftime('%A<br>%m/%d/%Y')
-    weekly_chart_data.sort_values('SALE_DATE', inplace=True)
-    date_order = weekly_chart_data['DateLabel'].unique().tolist()
-
-    fig_week = px.bar(
-        weekly_chart_data,
-        x='DateLabel',
-        y='Homes Sold',
-        color='Realtor/Direct',
-        text='Homes Sold',
-        barmode='stack',
-        title='Sales Week',
-        labels={'DateLabel': '', 'Homes Sold': 'Homes Sold'},
-        custom_data=['Realtor/Direct', 'Homes Sold'],
-        category_orders={'DateLabel': date_order}
-    )
-    fig_week.update_traces(textposition='inside', textfont=dict(size=16))
-    fig_week.update_traces(hovertemplate='<b>%{x}</b><br>Realtor/Direct: %{customdata[0]}<br>Homes Sold: %{customdata[1]}<extra></extra>')
-
-    fig_week.update_layout(
-        xaxis=dict(tickfont=dict(size=16)),
-        title_font=dict(size=20),
-        legend_font=dict(size=16),
-        font=dict(size=16),
-        yaxis_title='Homes Sold',
-        legend_title_text=''
-    )
-    st.plotly_chart(fig_week, use_container_width=True)
-
     # --- Detailed sales table for the selected week ---
-    sales_week_df = sales_week_df.copy()  # Avoid SettingWithCopyWarning
-
     sales_week_df['COE Year'] = sales_week_df['EST_COE_DATE'].dt.year
-    sales_week_df['COE Month'] = sales_week_df['EST_COE_DATE'].dt.strftime('%b')  # 3-letter month abbreviation
+    sales_week_df['COE Month'] = sales_week_df['EST_COE_DATE'].dt.strftime('%b')
 
     display_cols = [
         'Hub',
         'Community Name',
         'Plan Name',
+        'Address',
         'Investor Sale',
         'NHC_NAME',
         'SALE_DATE',
@@ -242,16 +208,12 @@ if not sales_week_df.empty:
         'COE Year',
         'COE Month'
     ]
-
     display_cols_available = [col for col in display_cols if col in sales_week_df.columns]
-
     detailed_table = sales_week_df[display_cols_available].copy()
 
     if 'SALE_DATE' in detailed_table.columns:
-        detailed_table['SALE_DATE'] = pd.to_datetime(detailed_table['SALE_DATE'], errors='coerce')
-        detailed_table['SALE_DATE'] = detailed_table['SALE_DATE'].dt.strftime('%b %d, %Y')
+        detailed_table['SALE_DATE'] = pd.to_datetime(detailed_table['SALE_DATE'], errors='coerce').dt.strftime('%b %d, %Y')
 
-    # Rename columns for display
     detailed_table = detailed_table.rename(columns={
         'SALE_DATE': 'Sale Date',
         'BUYER_NAME': 'Buyer',
