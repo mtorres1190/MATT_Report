@@ -198,8 +198,8 @@ if not sales_week_df.empty:
     display_cols = [
         'Hub',
         'Community Name',
-        'Plan Name',
         'Address',
+        'Plan Name',
         'Investor Sale',
         'NHC_NAME',
         'SALE_DATE',
