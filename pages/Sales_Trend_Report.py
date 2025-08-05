@@ -3,7 +3,6 @@ import pandas as pd
 import plotly.graph_objects as go
 import datetime
 
-
 # --- Streamlit page config ---
 st.set_page_config(page_title="Sales Trend Report", layout="wide")
 st.title("Sales Trend Report")
@@ -23,6 +22,10 @@ if 'matt_processed' not in st.session_state:
     st.stop()
 
 df = st.session_state['matt_processed'].copy()
+
+# --- Sidebar Printable Mode Toggle ---
+st.sidebar.header("Printable Mode")
+printable_mode = st.sidebar.radio("Select Mode", ["Off", "On"], index=0, label_visibility="collapsed")
 
 # --- Sidebar filters ---
 st.sidebar.header("Filters")
@@ -66,6 +69,25 @@ if filtered_df.empty:
     st.warning("No data available for the selected filters.")
     st.stop()
 
+# --- Function for consistent printable label formatting ---
+def add_printable_annotation(fig, x_val, y_val, text):
+    fig.add_annotation(
+        x=x_val,
+        y=y_val,
+        text=text,
+        showarrow=True,
+        arrowhead=2,
+        ax=40,
+        ay=-40,
+        arrowcolor="lightgrey",
+        bordercolor="lightgrey",
+        borderwidth=1,
+        borderpad=4,
+        bgcolor="white",
+        font=dict(size=12),
+        opacity=0.95
+    )
+
 # --- Daily Sales Trend Chart ---
 daily_sales = filtered_df.groupby('SALE_DATE').size()
 daily_sales_ma14 = daily_sales.rolling(window=14).mean()
@@ -88,6 +110,10 @@ fig_avg_daily.add_trace(go.Scatter(
     name='Daily Sales 30DMA',
     hovertemplate='%{x|%b %d, %Y}<br>30DMA: %{y:.1f}<extra></extra>'
 ))
+
+if printable_mode == "On" and not daily_sales_ma14.dropna().empty:
+    add_printable_annotation(fig_avg_daily, daily_sales_ma14.dropna().index[-1], daily_sales_ma14.dropna().iloc[-1], f"Avg: {daily_sales_ma14.dropna().iloc[-1]:.1f}")
+
 fig_avg_daily.update_layout(
     title=dict(text="Avg. Daily Sales Trend", font=dict(size=20)),
     xaxis=dict(title="Date", showgrid=True, tickfont=dict(size=14)),
@@ -114,6 +140,10 @@ fig_rar.add_trace(go.Scatter(
     name='14 per. Mov. Avg. (RAR)',
     hovertemplate='%{x|%b %d, %Y}<br>RAR: %{y:.1%}<extra></extra>'
 ))
+
+if printable_mode == "On" and not daily_summary['14d_MA_RAR'].dropna().empty:
+    add_printable_annotation(fig_rar, daily_summary['14d_MA_RAR'].dropna().index[-1], daily_summary['14d_MA_RAR'].dropna().iloc[-1], f"Avg: {daily_summary['14d_MA_RAR'].dropna().iloc[-1]:.1%}")
+
 fig_rar.update_layout(
     title=dict(text="Realtor Attachment Rate", font=dict(size=20)),
     xaxis=dict(title="Date", showgrid=True, tickfont=dict(size=14)),
@@ -147,6 +177,12 @@ fig_vol.add_trace(go.Scatter(
     name='Realtor 14DMA',
     hovertemplate='%{x|%b %d, %Y}<br>Realtor Sales Avg: %{y:.1f}<extra></extra>'
 ))
+
+if printable_mode == "On" and not volume_df['Direct MA'].dropna().empty:
+    add_printable_annotation(fig_vol, volume_df['Direct MA'].dropna().index[-1], volume_df['Direct MA'].dropna().iloc[-1], f"D Avg: {volume_df['Direct MA'].dropna().iloc[-1]:.1f}")
+    if not volume_df['Realtor MA'].dropna().empty:
+        add_printable_annotation(fig_vol, volume_df['Realtor MA'].dropna().index[-1], volume_df['Realtor MA'].dropna().iloc[-1], f"R Avg: {volume_df['Realtor MA'].dropna().iloc[-1]:.1f}")
+
 fig_vol.update_layout(
     title=dict(text="Direct vs. Realtor Sales", font=dict(size=20)),
     xaxis=dict(title="Date", showgrid=True, tickfont=dict(size=14)),
@@ -157,6 +193,7 @@ fig_vol.update_layout(
     legend=dict(orientation="h", yanchor="bottom", y=1.1, xanchor="center", x=0.5, font=dict(size=14))
 )
 st.plotly_chart(fig_vol, use_container_width=True)
+
 
 
 
