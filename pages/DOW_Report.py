@@ -8,11 +8,19 @@ import datetime
 st.set_page_config(page_title="DOW Report", layout="wide")
 st.title("Day of Week (DOW) Sales Report")
 
-# --- Custom CSS for multi-select filter tags ---
+# --- Custom CSS for multi-select filter tags and titles ---
 st.markdown("""
     <style>
         .stMultiSelect [data-baseweb="tag"] {
             background-color: #1f77b4 !important;
+        }
+        .chart-title {
+            font-size: 20px !important;
+            font-weight: bold !important;
+        }
+        .week-start-label {
+            font-size: 20px !important;
+            font-weight: bold !important;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -88,7 +96,6 @@ dow_summary = (
     .fillna(0)
 )
 dow_summary['Sales %'] = 100 * dow_summary['Sales'] / dow_summary['Sales'].sum()
-dow_summary['Running %'] = dow_summary['Sales %'].cumsum()
 
 text_labels = [f"{round(val)}%" for val in dow_summary['Sales %']] + ["100%"]
 custom_hover = [
@@ -99,22 +106,24 @@ custom_hover = [
 ]
 
 fig_waterfall = go.Figure(go.Waterfall(
-    name="",
-    orientation="v",
     measure=["relative"] * len(dow_summary) + ["total"],
     x=list(dow_summary.index) + ["Grand Total"],
     y=list(dow_summary['Sales %']) + [100],
     text=text_labels,
     textposition="inside",
     insidetextanchor="middle",
-    textfont=dict(color="white", family="Arial", size=14),
+    textfont=dict(color="white", size=14),
     textangle=90,
     customdata=custom_hover,
     hovertemplate="%{customdata}<extra></extra>",
-    connector={"line": {"color": "rgb(63, 63, 63)"}},
-    showlegend=False
+    connector={"line": {"color": "rgb(63, 63, 63)"}}
 ))
-fig_waterfall.update_layout(title='DOW Sales Distribution', title_font=dict(size=20), yaxis_title='% of Weekly Sales')
+fig_waterfall.update_layout(
+    title='DOW Sales Distribution',
+    title_font=dict(size=20),
+    yaxis_title='% of Weekly Sales',
+    height=450  # Explicitly set height for consistency
+)
 
 # --- Monthly bar + line trend chart ---
 filtered_df['Sales_Month'] = filtered_df['SALE_DATE'].dt.to_period('M')
@@ -130,16 +139,12 @@ formatted_dates = [p.to_timestamp().strftime('%b, %Y') for p in dow_group.index]
 fig_trend.add_trace(go.Bar(
     x=formatted_dates,
     y=dow_group['M-F'],
-    name='Sales - M-F',
-    customdata=dow_group[['M-F', 'Total']],
-    hovertemplate='<b>%{x}</b><br>M-F Sales: %{customdata[0]}<br>Total Sales: %{customdata[1]}<extra></extra>'
+    name='Sales - M-F'
 ))
 fig_trend.add_trace(go.Bar(
     x=formatted_dates,
     y=dow_group['Sat-Sun'],
-    name='Sales - Sat-Sun',
-    customdata=dow_group[['Sat-Sun', 'Total']],
-    hovertemplate='<b>%{x}</b><br>Sat-Sun Sales: %{customdata[0]}<br>Total Sales: %{customdata[1]}<extra></extra>'
+    name='Sales - Sat-Sun'
 ))
 fig_trend.add_trace(go.Scatter(
     x=formatted_dates,
@@ -148,39 +153,48 @@ fig_trend.add_trace(go.Scatter(
     name='Sales % - M-F',
     yaxis='y2',
     text=[f"<b>{int(val)}%</b>" for val in dow_group['M-F %']],
-    textposition="top center",
-    hovertemplate='<b>%{x}</b><br>M-F %: %{y:.0f}%<extra></extra>'
+    textposition="top center"
 ))
 fig_trend.add_trace(go.Scatter(
     x=formatted_dates,
     y=dow_group['Sat-Sun %'],
     mode='lines+markers',
     name='Sales % - Sat-Sun',
-    yaxis='y2',
-    hovertemplate='<b>%{x}</b><br>Sat-Sun %: %{y:.0f}%<extra></extra>'
+    yaxis='y2'
 ))
 fig_trend.update_layout(
     title='DOW Contribution to Sales',
+    title_font=dict(size=20),
     barmode='group',
     yaxis=dict(title='Total Sales'),
-    yaxis2=dict(title='Sales %', overlaying='y', side='right', showgrid=False, range=[0, 100]),
-    margin=dict(b=120),
-    height=500,
-    legend=dict(orientation="h", yanchor="top", y=-0.3, xanchor="center", x=0.5)
+    yaxis2=dict(title='Sales %', overlaying='y', side='right', range=[0, 100], showgrid=False),
+    legend=dict(orientation="h", yanchor="top", y=-0.3, xanchor="center", x=0.5),
+    margin=dict(b=50),
+    height=495  # Match the height of DOW Sales Distribution chart
 )
+
+
 
 # --- Show charts side-by-side ---
 col1, col2 = st.columns([1, 2])
 with col1:
     st.plotly_chart(fig_waterfall, use_container_width=True)
 with col2:
-    st.plotly_chart(fig_trend, use_container_width=True)
+    # Putting chart in a container to prevent overlap
+    with st.container():
+        st.plotly_chart(fig_trend, use_container_width=True)
 
 st.markdown("---")
 
 # --- Weekly snapshot bar chart ---
 most_recent_monday = datetime.date.today() - datetime.timedelta(days=datetime.date.today().weekday())
-week_start = st.date_input("Select Week Start Date", most_recent_monday)
+st.markdown('<div class="week-start-label">Select Week Start Date</div>', unsafe_allow_html=True)
+week_start = st.date_input(
+    "Select Week Start Date",  # Accessibility-friendly label
+    most_recent_monday,
+    label_visibility="collapsed"
+)
+
 week_end = week_start + datetime.timedelta(days=6)
 
 sales_week_df = df[df['SALE_DATE'].between(pd.to_datetime(week_start), pd.to_datetime(week_end))]
@@ -190,11 +204,40 @@ if investor_filter != "All":
 total_sales = sales_week_df.shape[0]
 st.subheader(f"Total Sales This Week: {total_sales}")
 
+# --- Add bar chart for weekly sales ---
 if not sales_week_df.empty:
-    # --- Detailed sales table for the selected week ---
+    weekly_chart_data = sales_week_df.groupby(['SALE_DATE', 'Realtor/Direct']).size().reset_index(name='Homes Sold')
+    weekly_chart_data['DateLabel'] = weekly_chart_data['SALE_DATE'].dt.strftime('%A<br>%m/%d/%Y')
+    weekly_chart_data.sort_values('SALE_DATE', inplace=True)
+    date_order = weekly_chart_data['DateLabel'].unique().tolist()
+
+    # Accessibility-friendly label for DateLabel
+    fig_week = px.bar(
+        weekly_chart_data,
+        x='DateLabel',
+        y='Homes Sold',
+        color='Realtor/Direct',
+        text='Homes Sold',
+        barmode='stack',
+        title='Sales Week',
+        category_orders={'DateLabel': date_order},
+        labels={'DateLabel': 'Sale Date'}  # Accessible label
+    )
+    fig_week.update_traces(textposition='inside', textfont=dict(size=16))
+    fig_week.update_layout(
+        title_font=dict(size=20),  # Match title font size to other charts
+        font=dict(size=16),
+        xaxis=dict(title=None),  # Hide only the axis title, keep tick labels
+        yaxis=dict(title='Homes Sold')
+    )
+    st.plotly_chart(fig_week, use_container_width=True)
+
+
+    
+
+    # --- Detailed sales table ---
     sales_week_df['COE Year'] = sales_week_df['EST_COE_DATE'].dt.year
     sales_week_df['COE Month'] = sales_week_df['EST_COE_DATE'].dt.strftime('%b')
-
     display_cols = [
         'Hub',
         'Community Name',
@@ -210,20 +253,18 @@ if not sales_week_df.empty:
     ]
     display_cols_available = [col for col in display_cols if col in sales_week_df.columns]
     detailed_table = sales_week_df[display_cols_available].copy()
-
     if 'SALE_DATE' in detailed_table.columns:
         detailed_table['SALE_DATE'] = pd.to_datetime(detailed_table['SALE_DATE'], errors='coerce').dt.strftime('%b %d, %Y')
-
     detailed_table = detailed_table.rename(columns={
         'SALE_DATE': 'Sale Date',
         'BUYER_NAME': 'Buyer',
         'NHC_NAME': 'NHC Name'
     })
-
     st.dataframe(detailed_table, use_container_width=True, hide_index=True)
-
 else:
     st.info("No data available for the selected week.")
+
+
 
 
 
