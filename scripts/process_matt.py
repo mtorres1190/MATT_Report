@@ -64,7 +64,11 @@ def process_matt_data(matt_df: pd.DataFrame) -> pd.DataFrame:
     clean_strings(matt_df, matt_df.columns)
     # Create cleaned Address column if present
     if 'HOMESITE_ADDRESS1' in matt_df.columns:
-        matt_df['Address'] = matt_df['HOMESITE_ADDRESS1'].astype(str).str.strip()
+        matt_df = matt_df.assign(
+    Address=matt_df['HOMESITE_ADDRESS1'].astype(str).str.strip(),
+    **{'Comm_#': matt_df['COMMUNITY'].astype(str).str[:5].astype(int)}
+)
+
 
     # 2. Merge Reference Data (Hub & Plan lookups)
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
