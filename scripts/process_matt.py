@@ -116,14 +116,23 @@ def compute_plan_pricing(df: pd.DataFrame, start_date: pd.Timestamp, end_date: p
     df = df.copy()
     df['SALE_DATE'] = pd.to_datetime(df['SALE_DATE'], errors='coerce')
     df = df[(df['SALE_DATE'] >= start_date) & (df['SALE_DATE'] <= end_date)]
-    cols_to_clean = ['BASE_PRICE', 'HOMESITE_PREMIUM', 'PRICE_REDUCTION_INCENTIVES', 'OPTION_REVENUE', 'Net_Sales_Price']
+    cols_to_clean = [
+    'BASE_PRICE', 
+    'HOMESITE_PREMIUM', 
+    'PRICE_REDUCTION_INCENTIVES', 
+    'OPTION_REVENUE', 
+    'Net_Sales_Price',
+    'TOTAL_SQFT'  # <-- Add this
+]
+
     for col in cols_to_clean:
         df[col] = pd.to_numeric(
             df[col].astype(str)
-                  .str.replace(r'[$,]', '', regex=True)
-                  .str.replace(r'^\((.*)\)$', r'-\1', regex=True),
+                .str.replace(r'[$,]', '', regex=True)
+                .str.replace(r'^\((.*)\)$', r'-\1', regex=True),
             errors='coerce'
         )
+
     df['List Price'] = (
         df['BASE_PRICE'].fillna(0) +
         df['HOMESITE_PREMIUM'].fillna(0) +
