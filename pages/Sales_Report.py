@@ -24,39 +24,90 @@ if 'matt_processed' not in st.session_state:
 
 df = st.session_state['matt_processed'].copy()
 
-# --- Sidebar filters ---
+# ======================================================================================
+# Sidebar filters — CASCADING, DATA-AWARE OPTIONS (no empty options shown)
+# ======================================================================================
 with st.sidebar:
     st.header("Filters")
-    est_coe_range = st.date_input("COE Date Range", (datetime.date(2025, 6, 1), datetime.date(2025, 8, 31)), key="sales_est_coe_range")
+
+    # 1) COE Date Range (foundation for all other options)
+    est_coe_range = st.date_input(
+        "COE Date Range",
+        (datetime.date(2025, 6, 1), datetime.date(2025, 8, 31)),
+        key="sales_est_coe_range"
+    )
     if not (isinstance(est_coe_range, tuple) and len(est_coe_range) == 2):
         st.error("Please select a valid COE date range.")
         st.stop()
     est_coe_start, est_coe_end = pd.to_datetime(est_coe_range[0]), pd.to_datetime(est_coe_range[1])
 
-    snapshot_date = st.date_input("Snapshot Date", datetime.date.today() - datetime.timedelta(days=1), key="sales_snapshot_date")
+    # Snapshot date (used for week labels and days-to-end calc)
+    snapshot_date = st.date_input(
+        "Snapshot Date",
+        datetime.date.today() - datetime.timedelta(days=1),
+        key="sales_snapshot_date"
+    )
     days_to_end = (est_coe_end - pd.to_datetime(snapshot_date)).days
     st.markdown(f"**Days between snapshot and COE end:** {days_to_end} days")
 
+    # Which snapshot weeks are visible (we will derive pace from earliest→latest visible)
     all_weeks = ["Snapshot", "LW", "L2W", "L3W"]
-    selected_weeks = st.multiselect("Select Snapshot Week(s)", options=all_weeks, default=[], key="sales_selected_weeks") or all_weeks
-    agg_level = st.selectbox("Aggregation Level", ["Hub", "Community Name"], index=0, key="sales_agg_level")
+    selected_weeks = st.multiselect(
+        "Select Snapshot Week(s)",
+        options=all_weeks,
+        default=[],
+        key="sales_selected_weeks"
+    ) or all_weeks
 
-    hubs = st.multiselect("Hub", sorted(df['Hub'].dropna().unique()), key="sales_hubs") or sorted(df['Hub'].dropna().unique())
-    communities = st.multiselect("Community Name", sorted(df['Community Name'].dropna().unique()), key="sales_communities") or sorted(df['Community Name'].dropna().unique())
+    # Aggregation level
+    agg_level = st.selectbox(
+        "Aggregation Level",
+        ["Hub", "Community Name"],
+        index=0,
+        key="sales_agg_level"
+    )
 
-# --- Filter data by hub/community ---
-df = df[df['Hub'].isin(hubs) & df['Community Name'].isin(communities)]
+    # ---- Start cascading options from date window ----
+    df_date = df[(df['EST_COE_DATE'] >= est_coe_start) & (df['EST_COE_DATE'] <= est_coe_end)].copy()
+
+    # Hubs available in this date window
+    hub_options = sorted(df_date['Hub'].dropna().unique())
+    selected_hubs = st.multiselect("Hub", options=hub_options, key="sales_hubs")
+    hubs = selected_hubs if selected_hubs else hub_options
+
+    df_hub = df_date[df_date['Hub'].isin(hubs)]
+
+    # Communities available given date + hubs
+    community_options = sorted(df_hub['Community Name'].dropna().unique())
+    selected_communities = st.multiselect("Community Name", options=community_options, key="sales_communities")
+    communities = selected_communities if selected_communities else community_options
+
+# ======================================================================================
+# Filter working dataframe using cascaded selections
+# ======================================================================================
+df = df_hub[df_hub['Community Name'].isin(communities)].copy()
+
+# If no rows remain, stop early
+if df.empty:
+    st.warning("No matching data for the current filter set.")
+    st.stop()
+
+# ======================================================================================
+# Build snapshot datasets for Unsold + Avg Age at each visible week
+# ======================================================================================
 snapshot_map = {w: pd.to_datetime(snapshot_date) - pd.Timedelta(days=i*7) for i, w in enumerate(['Snapshot', 'LW', 'L2W', 'L3W'])}
+
 group_col = 'Hub' if agg_level == 'Hub' else 'Community Name'
 
-# --- Build snapshot datasets ---
 results = []
-all_groups = df[(df['EST_COE_DATE'] >= est_coe_start) & (df['EST_COE_DATE'] <= est_coe_end)][group_col].dropna().unique()
+all_groups = df[group_col].dropna().unique()
+
 for label in selected_weeks:
     snap_date = snapshot_map.get(label)
     agg_df = compute_snapshot_unsold_inventory(df, group_col, snap_date, est_coe_start, est_coe_end, label)
     if agg_df.empty:
         continue
+    # include all groups so missing values show as 0 rather than disappearing
     filled_df = pd.DataFrame({group_col: all_groups})
     merged = filled_df.merge(agg_df, on=group_col, how='left')
     merged['Week'] = label
@@ -73,8 +124,9 @@ if not results:
 viz_df = pd.concat(results)
 viz_df['label'] = viz_df[group_col]
 
-# --- Compute Avg Sales Pace based on visible snapshots ---
-# Use the earliest and latest visible snapshot (chronologically) for each group.
+# ======================================================================================
+# Compute Avg Sales Pace based on earliest & latest visible snapshots
+# ======================================================================================
 used_weeks = sorted(viz_df['Week'].unique(), key=lambda w: snapshot_map[w])
 earliest_week, latest_week = used_weeks[0], used_weeks[-1]
 
@@ -89,12 +141,15 @@ else:
     pace_df['Avg Sales Pace'] = ((pace_df['Unsold_earliest'] - pace_df['Unsold_latest']) / _days_between) * 7.0
 pace_df = pace_df[[group_col, 'Avg Sales Pace']]
 
-# --- Static color scale config ---
-cmax = 60
+# ======================================================================================
+# Scatter chart — Weekly Unsold Inventory Snapshots
+# ======================================================================================
+cmax = 60  # color scale upper bound for Avg Age
 
-# --- Create scatter chart ---
 fig = go.Figure()
 fig.update_layout(template='plotly_white', hoverlabel=dict(bgcolor="white", font_size=12))
+
+# triangle-ish marker to the right of the color bar (as a line+annotation in paper coords)
 fig.add_shape(
     type="line",
     x0=1.05, x1=1.07, xref="paper",
@@ -112,6 +167,7 @@ fig.add_annotation(
     font=dict(color="black"),
     align="left"
 )
+
 for week in ['L3W', 'L2W', 'LW', 'Snapshot']:
     week_df = viz_df[viz_df['Week'] == week].copy()
     if week_df.empty:
@@ -127,11 +183,15 @@ for week in ['L3W', 'L2W', 'LW', 'Snapshot']:
 
     fig.add_trace(go.Scatter(
         x=week_df['Unsold'], y=week_df['label'], mode='markers+text',
-        marker=dict(size=16, color=marker_colors, colorscale=[[0, 'red'], [0.5, 'yellow'], [1, 'green']],
-                    cmin=0, cmax=cmax, colorbar=dict(title='Avg Age (days)',
-                    tickvals=[0, 30, 60], ticktext=['0', '30', '60'], tickmode='array'),
-                    showscale=True,
-                    line=dict(color=['black' if x == 0 else 'rgba(0,0,0,0)' for x in week_df['Unsold']], width=1)),
+        marker=dict(
+            size=16,
+            color=marker_colors,
+            colorscale=[[0, 'red'], [0.5, 'yellow'], [1, 'green']],
+            cmin=0, cmax=cmax,
+            colorbar=dict(title='Avg Age (days)', tickvals=[0, 30, 60], ticktext=['0', '30', '60'], tickmode='array'),
+            showscale=True,
+            line=dict(color=['black' if x == 0 else 'rgba(0,0,0,0)' for x in week_df['Unsold']], width=1)
+        ),
         customdata=customdata, meta=week, hovertemplate=hovertemplate,
         text=text_labels, textfont=dict(color='white', size=14, family='Arial Black'), textposition='middle center', showlegend=False
     ))
@@ -149,12 +209,19 @@ fig.update_layout(
 )
 st.plotly_chart(fig, use_container_width=True)
 
-# --- Community Detail Table ---
+# ======================================================================================
+# Community Detail Table (includes cascaded Avg Sales Pace and Avg Age)
+# ======================================================================================
+
 snapshot_only = viz_df[viz_df['Week'] == 'Snapshot'][[group_col, 'Unsold']]
 community_snapshot = df[(df['EST_COE_DATE'] >= est_coe_start) & (df['EST_COE_DATE'] <= est_coe_end)]
-sold_counts = community_snapshot[(community_snapshot['SALE_DATE'].notna()) &
-                                  (community_snapshot['SALE_DATE'] >= snapshot_map['LW']) &
-                                  (community_snapshot['SALE_DATE'] < snapshot_map['Snapshot'])].groupby(group_col).size().reset_index(name='Sold')
+
+sold_counts = (
+    community_snapshot[(community_snapshot['SALE_DATE'].notna()) &
+                       (community_snapshot['SALE_DATE'] >= snapshot_map['LW']) &
+                       (community_snapshot['SALE_DATE'] < snapshot_map['Snapshot'])]
+    .groupby(group_col).size().reset_index(name='Sold')
+)
 
 if group_col == 'Community Name':
     table_df = community_snapshot[['Hub', 'Community Name']].drop_duplicates()
@@ -166,12 +233,17 @@ else:
     table_df = table_df.merge(snapshot_only, on='Hub', how='left')
     table_df = table_df.merge(sold_counts, on='Hub', how='left')
 
-# Merge in Avg Sales Pace (computed above from visible snapshots)
+# Merge in Avg Sales Pace (computed from visible snapshots)
 table_df = table_df.merge(pace_df, on=group_col, how='left')
 
 # Fill and format values
 table_df['Unsold'] = table_df['Unsold'].fillna(0).astype(int)
-table_df['Sold'] = table_df['Sold'].fillna(0).astype(int)
+# LW Sold may be NaN for groups with no sales in LW window
+if 'Sold' in table_df.columns:
+    table_df['Sold'] = table_df['Sold'].fillna(0).astype(int)
+else:
+    table_df['Sold'] = 0
+
 table_df['Avg Sales Pace'] = table_df['Avg Sales Pace'].fillna(0).round(2)
 
 # Rename and order columns
@@ -192,6 +264,7 @@ table_df = table_df[existing_cols + remaining_cols]
 if not table_df.empty:
     st.subheader("Community Detail Table")
     st.dataframe(table_df, use_container_width=True, hide_index=True)
+
 
 
 
