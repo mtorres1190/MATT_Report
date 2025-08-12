@@ -73,6 +73,22 @@ if not results:
 viz_df = pd.concat(results)
 viz_df['label'] = viz_df[group_col]
 
+# --- Compute Avg Sales Pace based on visible snapshots ---
+# Use the earliest and latest visible snapshot (chronologically) for each group.
+used_weeks = sorted(viz_df['Week'].unique(), key=lambda w: snapshot_map[w])
+earliest_week, latest_week = used_weeks[0], used_weeks[-1]
+
+earliest_df = viz_df[viz_df['Week'] == earliest_week][[group_col, 'Unsold']].rename(columns={'Unsold': 'Unsold_earliest'})
+latest_df = viz_df[viz_df['Week'] == latest_week][[group_col, 'Unsold']].rename(columns={'Unsold': 'Unsold_latest'})
+pace_df = earliest_df.merge(latest_df, on=group_col, how='outer').fillna(0)
+
+_days_between = (snapshot_map[latest_week] - snapshot_map[earliest_week]).days
+if _days_between <= 0:
+    pace_df['Avg Sales Pace'] = 0.0
+else:
+    pace_df['Avg Sales Pace'] = ((pace_df['Unsold_earliest'] - pace_df['Unsold_latest']) / _days_between) * 7.0
+pace_df = pace_df[[group_col, 'Avg Sales Pace']]
+
 # --- Static color scale config ---
 cmax = 60
 
@@ -150,17 +166,33 @@ else:
     table_df = table_df.merge(snapshot_only, on='Hub', how='left')
     table_df = table_df.merge(sold_counts, on='Hub', how='left')
 
+# Merge in Avg Sales Pace (computed above from visible snapshots)
+table_df = table_df.merge(pace_df, on=group_col, how='left')
+
+# Fill and format values
 table_df['Unsold'] = table_df['Unsold'].fillna(0).astype(int)
 table_df['Sold'] = table_df['Sold'].fillna(0).astype(int)
+table_df['Avg Sales Pace'] = table_df['Avg Sales Pace'].fillna(0).round(2)
+
+# Rename and order columns
 table_df = table_df.rename(columns={'Unsold': 'Unsold (Snapshot)', 'Sold': 'LW Sold'})
+
+# Bring in Avg Age (days) from the Snapshot rows
 table_df = table_df.sort_values(by=['Hub', 'Community Name'])
 table_df = table_df.merge(viz_df[viz_df['Week'] == 'Snapshot'][[group_col, 'Avg_Age']], on=group_col, how='left')
 table_df['Avg Age (days)'] = table_df['Avg_Age'].fillna(0).round(1)
 table_df = table_df.drop(columns=['Avg_Age'])
 
+# Reorder to place "Avg Sales Pace" between "LW Sold" and "Avg Age (days)"
+preferred_order = ['Hub', 'Community Name', 'Unsold (Snapshot)', 'LW Sold', 'Avg Sales Pace', 'Avg Age (days)']
+existing_cols = [c for c in preferred_order if c in table_df.columns]
+remaining_cols = [c for c in table_df.columns if c not in existing_cols]
+table_df = table_df[existing_cols + remaining_cols]
+
 if not table_df.empty:
     st.subheader("Community Detail Table")
     st.dataframe(table_df, use_container_width=True, hide_index=True)
+
 
 
 
