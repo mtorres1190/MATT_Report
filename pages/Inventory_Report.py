@@ -28,7 +28,9 @@ if not uploaded:
 
 df = st.session_state['matt_processed']
 
-# --- Sidebar filters ---
+# ======================================================================================
+# Sidebar filters — CASCADING, DATA-AWARE OPTIONS (no empty options shown)
+# ======================================================================================
 with st.sidebar:
     st.header("Filters")
 
@@ -46,120 +48,145 @@ with st.sidebar:
         st.stop()
 
     # Aggregation level (Hub, Community Name, Plan Name)
-    agg_level = st.selectbox("Aggregation Level", ["Hub", "Community Name", "Plan Name"], index=0, key="inv_agg_level")
+    agg_level = st.selectbox(
+        "Aggregation Level",
+        ["Hub", "Community Name", "Plan Name"],
+        index=0,
+        key="inv_agg_level"
+    )
 
-    # Hub filter
-    all_hubs = sorted(df['Hub'].dropna().unique())
-    selected_hubs = st.multiselect("Hub", options=all_hubs, key="inv_hubs")
-    hubs = all_hubs if not selected_hubs else selected_hubs
+    # ---- 1) Filter by Date first
+    df_date = df[(df['EST_COE_DATE'] >= est_coe_start) & (df['EST_COE_DATE'] <= est_coe_end)].copy()
 
-    # Community filter
-    community_options = sorted(df[df['Hub'].isin(hubs)]['Community Name'].dropna().unique())
+    # ---- 2) Homesite Status options (depend on date only)
+    status_options = sorted(df_date['HS_TYPE_LABEL'].dropna().unique())
+    selected_statuses = st.multiselect("Homesite Status", options=status_options, key="inv_statuses")
+    statuses = selected_statuses if selected_statuses else status_options
+
+    # Reduce base set by status
+    df_base = df_date[df_date['HS_TYPE_LABEL'].isin(statuses)].copy()
+
+    # ---- 3) Hub options (date + status)
+    hub_options = sorted(df_base['Hub'].dropna().unique())
+    selected_hubs = st.multiselect("Hub", options=hub_options, key="inv_hubs")
+    hubs = selected_hubs if selected_hubs else hub_options
+
+    df_hub = df_base[df_base['Hub'].isin(hubs)]
+
+    # ---- 4) Community options (date + status + hub)
+    community_options = sorted(df_hub['Community Name'].dropna().unique())
     selected_communities = st.multiselect("Community Name", options=community_options, key="inv_communities")
-    communities = community_options if not selected_communities else selected_communities
+    communities = selected_communities if selected_communities else community_options
 
-    # Collection filter
-    collection_options = sorted(df[df['Hub'].isin(hubs) & df['Community Name'].isin(communities)]['Collection'].dropna().unique())
+    df_comm = df_hub[df_hub['Community Name'].isin(communities)]
+
+    # ---- 5) Collection options (date + status + hub + community)
+    collection_options = sorted(df_comm['Collection'].dropna().unique())
     selected_collections = st.multiselect("Collection", options=collection_options, key="inv_collections")
-    collections = collection_options if not selected_collections else selected_collections
+    collections = selected_collections if selected_collections else collection_options
 
-    # Plan filter (only used if Plan Name is selected)
-    plan_options = sorted(df[df['Hub'].isin(hubs) & df['Community Name'].isin(communities) & df['Collection'].isin(collections)]['Plan Name'].dropna().unique())
+    df_coll = df_comm[df_comm['Collection'].isin(collections)]
+
+    # ---- 6) Plan options (date + status + hub + community + collection)
+    plan_options = sorted(df_coll['Plan Name'].dropna().unique())
     selected_plans = st.multiselect("Plan Name", options=plan_options, key="inv_plans")
-    plans = plan_options if not selected_plans else selected_plans
+    plans = selected_plans if selected_plans else plan_options
 
-    # Homesite status filter
-    all_statuses = sorted(df['HS_TYPE_LABEL'].dropna().unique())
-    selected_statuses = st.multiselect("Homesite Status", options=all_statuses, key="inv_statuses")
-    if not selected_statuses:
-        selected_statuses = all_statuses
-
-# --- Apply all filters ---
-filtered_df = df[
-    (df['EST_COE_DATE'] >= est_coe_start) &
-    (df['EST_COE_DATE'] <= est_coe_end) &
-    (df['HS_TYPE_LABEL'].isin(selected_statuses)) &
-    (df['Hub'].isin(hubs)) &
-    (df['Community Name'].isin(communities)) &
-    (df['Collection'].isin(collections))
-]
-
+# ======================================================================================
+# Apply all filters to the working dataframe
+# ======================================================================================
+filtered_df = df_coll.copy()
 if agg_level == "Plan Name":
     filtered_df = filtered_df[filtered_df['Plan Name'].isin(plans)]
 
-# --- Create monthly summary pivot table ---
+# ======================================================================================
+# Create monthly summary pivot table
+# ======================================================================================
 summary_df = filtered_df.copy()
-summary_df['MonthYear'] = summary_df['EST_COE_DATE'].dt.to_period('M').astype(str)
-summary_df['MonthYearOrder'] = pd.to_datetime(summary_df['MonthYear'], format='%Y-%m')
-summary_df['Status Label'] = summary_df['HS_TYPE_LABEL']
+if not summary_df.empty:
+    summary_df['MonthYear'] = summary_df['EST_COE_DATE'].dt.to_period('M').astype(str)
+    summary_df['MonthYearOrder'] = pd.to_datetime(summary_df['MonthYear'], format='%Y-%m')
+    summary_df['Status Label'] = summary_df['HS_TYPE_LABEL']
 
-pivot = pd.pivot_table(
-    summary_df,
-    values='COMMUNITY',
-    index='Status Label',
-    columns='MonthYear',
-    aggfunc='count',
-    fill_value=0,
-    margins=True,
-    margins_name='Grand Total'
-).rename_axis("Status")
+    pivot = pd.pivot_table(
+        summary_df,
+        values='COMMUNITY',
+        index='Status Label',
+        columns='MonthYear',
+        aggfunc='count',
+        fill_value=0,
+        margins=True,
+        margins_name='Grand Total'
+    ).rename_axis("Status")
 
-# --- Order and format month columns ---
-ordered_months = summary_df[['MonthYear', 'MonthYearOrder']].drop_duplicates().sort_values('MonthYearOrder')['MonthYear'].tolist()
-if 'Grand Total' in pivot.columns:
-    ordered_months += ['Grand Total']
-renamed_columns = {col: pd.to_datetime(col).strftime('%b-%Y') for col in pivot.columns if col != 'Grand Total'}
-pivot.rename(columns=renamed_columns, inplace=True)
-pivot = pivot[[renamed_columns.get(col, col) for col in ordered_months]]
+    # Order and format month columns
+    ordered_months = (
+        summary_df[['MonthYear', 'MonthYearOrder']]
+        .drop_duplicates()
+        .sort_values('MonthYearOrder')['MonthYear']
+        .tolist()
+    )
+    if 'Grand Total' in pivot.columns:
+        ordered_months += ['Grand Total']
 
-# --- Apply color styling to pivot rows ---
-def color_rows(row):
-    color = color_map.get(row.name, '')
-    return [f'background-color: {color}80'] * len(row)
+    renamed_columns = {col: pd.to_datetime(col).strftime('%b-%Y') for col in pivot.columns if col != 'Grand Total'}
+    pivot.rename(columns=renamed_columns, inplace=True)
+    pivot = pivot[[renamed_columns.get(col, col) for col in ordered_months]]
 
-styled = pivot.style.format('{:,}').apply(color_rows, axis=1)
-st.dataframe(styled, use_container_width=True)
+    # Apply color styling to pivot rows
+    def color_rows(row):
+        color = color_map.get(row.name, '')
+        return [f'background-color: {color}80'] * len(row)
 
-# --- Generate inventory bar chart ---
-if agg_level == "Hub":
-    group_col = "Hub"
-elif agg_level == "Community Name":
-    group_col = "Community Name"
+    styled = pivot.style.format('{:,}').apply(color_rows, axis=1)
+    st.dataframe(styled, use_container_width=True)
 else:
-    group_col = ["Community Name", "Plan Name"]
+    st.info("No rows match the current filter set.")
 
-if isinstance(group_col, list):
-    chart_data = filtered_df.groupby(group_col + ['HS_TYPE_LABEL']).size().reset_index(name='Count')
-    chart_data['Label'] = chart_data['Plan Name'] + " (" + chart_data['Community Name'] + ")"
-    x_col = 'Label'
-else:
-    chart_data = filtered_df.groupby([group_col, 'HS_TYPE_LABEL']).size().reset_index(name='Count')
-    x_col = group_col
+# ======================================================================================
+# Inventory bar chart (stacked) by aggregation level and homesite status
+# ======================================================================================
+if not filtered_df.empty:
+    if agg_level == "Hub":
+        group_col = "Hub"
+    elif agg_level == "Community Name":
+        group_col = "Community Name"
+    else:
+        group_col = ["Community Name", "Plan Name"]
 
-fig = go.Figure()
-for label in chart_data['HS_TYPE_LABEL'].unique():
-    subset = chart_data[chart_data['HS_TYPE_LABEL'] == label]
-    fig.add_trace(go.Bar(
-        x=subset[x_col],
-        y=subset['Count'],
-        name=label,
-        customdata=subset[[x_col, 'Count']].values,
-        hovertemplate=f"<b>%{{customdata[0]}}</b><br>Homesite Status: {label}<br>Count: %{{customdata[1]:,}}<extra></extra>",
-        marker_color=color_map.get(label, None)
-    ))
+    if isinstance(group_col, list):
+        chart_data = filtered_df.groupby(group_col + ['HS_TYPE_LABEL']).size().reset_index(name='Count')
+        chart_data['Label'] = chart_data['Plan Name'] + " (" + chart_data['Community Name'] + ")"
+        x_col = 'Label'
+    else:
+        chart_data = filtered_df.groupby([group_col, 'HS_TYPE_LABEL']).size().reset_index(name='Count')
+        x_col = group_col
 
-fig.update_layout(
-    title=f"Inventory by {agg_level} and Homesite Status",
-    title_font=dict(size=20),
-    xaxis_title=agg_level,
-    yaxis_title="Number of Homesites",
-    legend_title="Homesite Status",
-    barmode='stack',
-    xaxis={'categoryorder': 'total descending'},
-    margin=dict(t=50, l=20, r=20, b=20)
-)
+    fig = go.Figure()
+    for label in chart_data['HS_TYPE_LABEL'].unique():
+        subset = chart_data[chart_data['HS_TYPE_LABEL'] == label]
+        fig.add_trace(go.Bar(
+            x=subset[x_col],
+            y=subset['Count'],
+            name=label,
+            customdata=subset[[x_col, 'Count']].values,
+            hovertemplate=f"<b>%{{customdata[0]}}</b><br>Homesite Status: {label}<br>Count: %{{customdata[1]:,}}<extra></extra>",
+            marker_color=color_map.get(label, None)
+        ))
 
-st.plotly_chart(fig, use_container_width=True)
+    fig.update_layout(
+        title=f"Inventory by {agg_level} and Homesite Status",
+        title_font=dict(size=20),
+        xaxis_title=agg_level,
+        yaxis_title="Number of Homesites",
+        legend_title="Homesite Status",
+        barmode='stack',
+        xaxis={'categoryorder': 'total descending'},
+        margin=dict(t=50, l=20, r=20, b=20)
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
 
 
 
