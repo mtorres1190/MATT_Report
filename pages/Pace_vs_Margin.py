@@ -26,7 +26,9 @@ if not uploaded:
 
 matt_df = st.session_state['matt_processed']
 
-# --- Sidebar filters ---
+# ======================================================================================
+# Sidebar filters — CASCADING, DATA-AWARE OPTIONS (no empty options shown)
+# ======================================================================================
 with st.sidebar:
     st.header("Filters")
 
@@ -36,45 +38,62 @@ with st.sidebar:
     target_date = target_date_input
 
     # COE Date Range filter
-    coe_range_input = st.date_input("COE Date Range", value=(datetime.date(2025, 8, 1), datetime.date(2025, 11, 30)))
-    st.session_state["pace_margin_est_coe_range"] = coe_range_input
+    coe_range_input = st.date_input(
+        "COE Date Range",
+        value=(datetime.date(2025, 8, 1), datetime.date(2025, 11, 30)),
+        key="pace_margin_est_coe_range"
+    )
     if isinstance(coe_range_input, tuple) and len(coe_range_input) == 2:
         est_coe_start, est_coe_end = pd.to_datetime(coe_range_input[0]), pd.to_datetime(coe_range_input[1])
     else:
         st.error("Please select a date range for COE Date.")
         st.stop()
 
-    # Hub Filter
-    all_hubs = sorted(matt_df['Hub'].dropna().unique())
-    selected_hubs = st.multiselect("Hub", options=all_hubs, key="pace_margin_hubs")
-    if not selected_hubs:
-        selected_hubs = all_hubs
+    # ---- 1) Filter by Date first
+    df_date = matt_df[(matt_df['EST_COE_DATE'] >= est_coe_start) & (matt_df['EST_COE_DATE'] <= est_coe_end)].copy()
 
-    # Community Filter
-    all_communities = sorted(matt_df['Community Name'].dropna().unique())
-    selected_communities = st.multiselect("Community Name", options=all_communities, key="pace_margin_communities")
-    if not selected_communities:
-        selected_communities = all_communities
+    # ---- 2) Hub options (dependent on date)
+    hub_options = sorted(df_date['Hub'].dropna().unique())
+    selected_hubs = st.multiselect("Hub", options=hub_options, key="pace_margin_hubs")
+    hubs = selected_hubs if selected_hubs else hub_options
 
-# --- Apply filters to MATT data ---
-matt_df = matt_df[
-    (matt_df['EST_COE_DATE'] >= est_coe_start) &
-    (matt_df['EST_COE_DATE'] <= est_coe_end) &
-    (matt_df['Hub'].isin(selected_hubs)) &
-    (matt_df['Community Name'].isin(selected_communities))
-].copy()
+    df_hub = df_date[df_date['Hub'].isin(hubs)]
 
-# --- Calculate sales pace and break-even ---
-summary, slope = compute_pace_vs_margin(matt_df, target_date, est_coe_start, est_coe_end)
+    # ---- 3) Community options (dependent on date + hub)
+    community_options = sorted(df_hub['Community Name'].dropna().unique())
+    selected_communities = st.multiselect("Community Name", options=community_options, key="pace_margin_communities")
+    communities = selected_communities if selected_communities else community_options
 
-# --- Remove communities with no valid COE ---
+# ======================================================================================
+# Apply all filters to the working dataframe
+# ======================================================================================
+filtered_df = df_hub[df_hub['Community Name'].isin(communities)].copy()
+
+# Stop early if no data matches
+if filtered_df.empty:
+    st.info("No rows match the current filter set.")
+    st.stop()
+
+# ======================================================================================
+# Calculate sales pace and break-even
+# ======================================================================================
+summary, slope = compute_pace_vs_margin(filtered_df, target_date, est_coe_start, est_coe_end)
+
+# Remove communities with no valid COE within window (defensive)
 est_coe_col = 'EST_COE_DATE'
-matt_df[est_coe_col] = pd.to_datetime(matt_df[est_coe_col], errors='coerce')
-mask = (matt_df[est_coe_col] >= est_coe_start) & (matt_df[est_coe_col] <= est_coe_end)
-valid_communities = matt_df.loc[mask, 'Community Name'].dropna().unique()
+filtered_df[est_coe_col] = pd.to_datetime(filtered_df[est_coe_col], errors='coerce')
+mask = (filtered_df[est_coe_col] >= est_coe_start) & (filtered_df[est_coe_col] <= est_coe_end)
+valid_communities = filtered_df.loc[mask, 'Community Name'].dropna().unique()
 summary = summary[summary.index.isin(valid_communities)]
 
-# --- Generate scatter plot ---
+# Stop if summary is empty after filtering
+if summary.empty:
+    st.info("No communities have valid COE dates in the selected range.")
+    st.stop()
+
+# ======================================================================================
+# Generate scatter plot: Pace vs. Margin with Equilibrium line
+# ======================================================================================
 summary_plot = summary.reset_index()
 summary_plot.rename(columns={'3Wk Avg Sales Pace': 'Sales Pace'}, inplace=True)
 summary_plot['Break-even Pace'] = summary_plot['Unsold'] * slope
@@ -146,7 +165,9 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# --- Category distribution pie charts ---
+# ======================================================================================
+# Category distribution pie charts
+# ======================================================================================
 st.markdown("### Distribution of Communities by Category")
 category_order = ['Margin', 'Target', 'Pace', 'Behind']
 category_counts = summary_plot['Category'].value_counts().reset_index()
@@ -202,11 +223,13 @@ with col2:
     fig_unsold_pie.update_layout(title_font=dict(size=20))
     st.plotly_chart(fig_unsold_pie, use_container_width=True)
 
-# --- Styled DataFrame output for each category ---
+# ======================================================================================
+# Styled DataFrame output for each category
+# ======================================================================================
 st.markdown("---")
 summary_display = summary.copy()
 summary_display = summary_display.merge(
-    matt_df[['Community Name', 'Hub']].drop_duplicates(),
+    filtered_df[['Community Name', 'Hub']].drop_duplicates(),
     on='Community Name',
     how='left'
 )
@@ -222,7 +245,7 @@ color_map = {
     'Behind': '#f8d7da'
 }
 
-for category in category_order:
+for category in ['Margin', 'Target', 'Pace', 'Behind']:
     group = summary_display[summary_display['Category'] == category].copy()
     if not group.empty:
         st.markdown(f"### {category} Communities")
@@ -244,6 +267,7 @@ for category in category_order:
         ]).apply(highlight_row, axis=1).hide(axis='index')
 
         st.dataframe(styled, use_container_width=True, hide_index=True)
+
 
 
 
