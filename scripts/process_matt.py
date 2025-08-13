@@ -65,10 +65,9 @@ def process_matt_data(matt_df: pd.DataFrame) -> pd.DataFrame:
     # Create cleaned Address column if present
     if 'HOMESITE_ADDRESS1' in matt_df.columns:
         matt_df = matt_df.assign(
-    Address=matt_df['HOMESITE_ADDRESS1'].astype(str).str.strip(),
-    **{'Comm_#': matt_df['COMMUNITY'].astype(str).str[:5].astype(int)}
-)
-
+            Address=matt_df['HOMESITE_ADDRESS1'].astype(str).str.strip(),
+            **{'Comm_#': matt_df['COMMUNITY'].astype(str).str[:5].astype(int)}
+        )
 
     # 2. Merge Reference Data (Hub & Plan lookups)
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -87,6 +86,8 @@ def process_matt_data(matt_df: pd.DataFrame) -> pd.DataFrame:
     merged_df['Weekday_Group'] = np.where(
         merged_df['DOW_Sale'].isin(['Saturday', 'Sunday']), 'Sat-Sun', 'M-F'
     )
+    # Optional one-liner for page-level ECOE month aggregations
+    merged_df['ECOE_Month'] = merged_df['EST_COE_DATE'].dt.to_period('M')
 
     # 4. Classification & Labeling
     investor_names_normalized = {name.strip().upper() for name in investor_names}
@@ -117,13 +118,13 @@ def compute_plan_pricing(df: pd.DataFrame, start_date: pd.Timestamp, end_date: p
     df['SALE_DATE'] = pd.to_datetime(df['SALE_DATE'], errors='coerce')
     df = df[(df['SALE_DATE'] >= start_date) & (df['SALE_DATE'] <= end_date)]
     cols_to_clean = [
-    'BASE_PRICE', 
-    'HOMESITE_PREMIUM', 
-    'PRICE_REDUCTION_INCENTIVES', 
-    'OPTION_REVENUE', 
-    'Net_Sales_Price',
-    'TOTAL_SQFT'  # <-- Add this
-]
+        'BASE_PRICE', 
+        'HOMESITE_PREMIUM', 
+        'PRICE_REDUCTION_INCENTIVES', 
+        'OPTION_REVENUE', 
+        'Net_Sales_Price',
+        'TOTAL_SQFT'  # <-- Add this
+    ]
 
     for col in cols_to_clean:
         df[col] = pd.to_numeric(
@@ -217,6 +218,7 @@ __all__ = [
     "get_fred_data_filtered",
     "color_map"
 ]
+
 
 
 

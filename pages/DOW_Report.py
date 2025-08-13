@@ -74,6 +74,7 @@ fig_waterfall.update_layout(title='DOW Sales Distribution', title_font=dict(size
 # --- Monthly trend chart ---
 filtered_df['Sales_Month'] = filtered_df['SALE_DATE'].dt.to_period('M')
 dow_group = filtered_df.groupby(['Sales_Month', 'Weekday_Group']).size().unstack().fillna(0)
+# Ensure expected columns exist
 dow_group['M-F'] = dow_group.get('M-F', 0)
 dow_group['Sat-Sun'] = dow_group.get('Sat-Sun', 0)
 dow_group['Total'] = dow_group.sum(axis=1)
@@ -156,9 +157,91 @@ sales_week_df = df[df['SALE_DATE'].between(pd.to_datetime(week_start), pd.to_dat
 if investor_filter != "All":
     sales_week_df = sales_week_df[sales_week_df['Investor Sale'] == investor_filter]
 
+# Total sales subheader — ECOE chart goes just below this
 total_sales = sales_week_df.shape[0]
 st.subheader(f"Total Sales This Week: {total_sales}")
 
+# >>> INSERTED: Sales Distribution by Est. ECOE Month (spline area chart) <<<
+# Uses the same filtered set as the Sales Week chart (sales_week_df)
+import math
+
+ecoe_week_df = sales_week_df.dropna(subset=['EST_COE_DATE']).copy()
+if not ecoe_week_df.empty and total_sales > 0:
+    # Prefer precomputed period if present; otherwise compute
+    if 'ECOE_Month' in ecoe_week_df.columns:
+        ecoe_week_df['ECOE_Month_Period'] = ecoe_week_df['ECOE_Month']
+    else:
+        ecoe_week_df['ECOE_Month_Period'] = pd.to_datetime(ecoe_week_df['EST_COE_DATE'], errors='coerce').dt.to_period('M')
+
+    ecoe_month_counts = (
+        ecoe_week_df
+        .groupby('ECOE_Month_Period')
+        .size()
+        .reset_index(name='Homes Sold')
+        .sort_values('ECOE_Month_Period')
+    )
+
+    # Build labels and % of total
+    ecoe_month_counts['MonthLabel'] = ecoe_month_counts['ECOE_Month_Period'].dt.to_timestamp().dt.strftime('%b %Y')
+    ecoe_month_counts['Pct of Total'] = (ecoe_month_counts['Homes Sold'] / total_sales * 100).round(0).astype(int)
+    pct_text = [f"{p}%" for p in ecoe_month_counts['Pct of Total']]
+
+    # Dynamic y-axis ceiling: ceil(1.10 × max monthly value)
+    max_val = int(ecoe_month_counts['Homes Sold'].max()) if not ecoe_month_counts.empty else 0
+    y_max = int(math.ceil(max_val * 1.10)) if max_val > 0 else 1
+
+    fig_ecoe = go.Figure()
+
+    # Main spline area chart
+    fig_ecoe.add_trace(go.Scatter(
+        x=ecoe_month_counts['MonthLabel'],
+        y=ecoe_month_counts['Homes Sold'],
+        mode='lines+markers+text',
+        line_shape='spline',          # smooth line
+        fill='tozeroy',               # area under the line
+        text=pct_text,                # visible % labels
+        textposition='top center',
+        cliponaxis=False,             # prevent first/last labels from being clipped
+        hovertemplate='<b>%{x}</b><br>Homes Sold: %{y:,}<br>% of Total: %{text}<extra></extra>'
+    ))
+
+    # Layout + vertical dashed hover guide ending at datapoint
+    fig_ecoe.update_layout(
+        title='ECOE Distribution',
+        title_font=dict(size=20),
+        xaxis_title=None,
+        height=150,
+        margin=dict(t=50, r=0, b=0, l=40),
+        hovermode='x',  # Snap hover to closest datapoint
+        spikedistance=-1,
+        hoverdistance=-1,
+    )
+
+    # Spikeline styling to end at datapoint
+    fig_ecoe.update_xaxes(
+    automargin=True,
+    showspikes=True,
+    spikemode='toaxis',       # <- was 'toaxis+across'; now stops at the datapoint
+    spikesnap='data',         # snap to the nearest datapoint
+    spikedash='dash',
+    spikethickness=2,
+    spikecolor='grey',
+    hoverformat=''            # suppress x-axis hover label
+)
+
+    fig_ecoe.update_yaxes(title='Homes Sold', range=[0, y_max], automargin=True)
+
+    st.plotly_chart(fig_ecoe, use_container_width=True)
+else:
+    st.info("No valid EST ECOE dates for this week's sales to display distribution.")
+# <<< END INSERTED BLOCK >>>
+
+
+
+
+
+
+# --- Existing Sales Week bar chart (unchanged) ---
 if not sales_week_df.empty:
     weekly_chart_data = sales_week_df.groupby(['SALE_DATE', 'Realtor/Direct']).size().reset_index(name='Homes Sold')
     weekly_chart_data['DateLabel'] = weekly_chart_data['SALE_DATE'].dt.strftime('%A<br>%m/%d/%Y')
@@ -197,6 +280,7 @@ if not sales_week_df.empty:
 
     st.plotly_chart(fig_week, use_container_width=True)
 
+    # --- Detail table (unchanged) ---
     sales_week_df['COE Year'] = sales_week_df['EST_COE_DATE'].dt.year
     sales_week_df['COE Month'] = sales_week_df['EST_COE_DATE'].dt.strftime('%b')
     display_cols = ['Hub', 'Community Name', 'Address', 'Plan Name', 'Investor Sale', 'NHC_NAME', 'SALE_DATE', 'BUYER_NAME', 'Realtor/Direct', 'COE Year', 'COE Month']
@@ -208,6 +292,7 @@ if not sales_week_df.empty:
     st.dataframe(detailed_table, use_container_width=True, hide_index=True)
 else:
     st.info("No data available for the selected week.")
+
 
 
 
