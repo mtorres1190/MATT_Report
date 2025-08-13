@@ -72,7 +72,7 @@ fig_waterfall = go.Figure(go.Waterfall(
 ))
 fig_waterfall.update_layout(title='DOW Sales Distribution', title_font=dict(size=20), yaxis_title='% of Weekly Sales', height=450)
 
-# --- Monthly trend chart ---
+# --- DOW Contribution to Sales ---
 filtered_df['Sales_Month'] = filtered_df['SALE_DATE'].dt.to_period('M')
 dow_group = filtered_df.groupby(['Sales_Month', 'Weekday_Group']).size().unstack().fillna(0)
 dow_group['M-F'] = dow_group.get('M-F', 0)
@@ -119,7 +119,6 @@ fig_trend.add_trace(go.Scatter(
     hoverinfo='skip'
 ))
 
-# --- Update layout for DOW Contribution to Sales chart ---
 fig_trend.update_layout(
     title='DOW Contribution to Sales',
     title_font=dict(size=20),
@@ -146,7 +145,7 @@ with col2:
 
 st.markdown("---")
 
-# --- Weekly snapshot bar chart ---
+# --- Select Week Start Date ---
 most_recent_monday = datetime.date.today() - datetime.timedelta(days=datetime.date.today().weekday())
 st.markdown('<div class="week-start-label">Select Week Start Date</div>', unsafe_allow_html=True)
 week_start = st.date_input("Select Week Start Date", most_recent_monday, label_visibility="collapsed")
