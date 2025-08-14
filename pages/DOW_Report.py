@@ -27,7 +27,21 @@ df = st.session_state['matt_processed']
 
 # --- Sidebar filters ---
 st.sidebar.header("Filters")
+
+# Division filter
 div_selection = st.sidebar.multiselect("Division", options=df['DIV_CODE_DESC'].dropna().unique(), default=["HB Dallas-Fort Worth"])
+
+# Hub filter (cascading from division)
+hub_options = sorted(df[df['DIV_CODE_DESC'].isin(div_selection)]['Hub'].dropna().unique())
+selected_hubs = st.sidebar.multiselect("Hub", options=hub_options)
+hubs = selected_hubs if selected_hubs else hub_options
+
+# Community filter (cascading from hub)
+community_options = sorted(df[df['Hub'].isin(hubs)]['Community Name'].dropna().unique())
+selected_communities = st.sidebar.multiselect("Community Name", options=community_options)
+communities = selected_communities if selected_communities else community_options
+
+# Sale Date Range filter
 most_recent_sunday = datetime.date.today() - datetime.timedelta(days=datetime.date.today().weekday() + 1)
 sale_date_range = st.sidebar.date_input("Sale Date Range", value=(datetime.date(2024, 9, 1), most_recent_sunday))
 if isinstance(sale_date_range, tuple) and len(sale_date_range) == 2:
@@ -36,11 +50,17 @@ else:
     st.error("Invalid date range selection.")
     st.stop()
 
+# Investor and Realtor/Direct filters
 investor_filter = st.sidebar.selectbox("Investor Sale", ["All", "Retail", "Investor"], index=1)
 cobroke_filter = st.sidebar.selectbox("Realtor/Direct", ["All", "Realtor", "Direct"], index=0)
 
 # --- Filter for DOW charts only ---
-dow_mask = df['DIV_CODE_DESC'].isin(div_selection) & df['SALE_DATE'].between(start_date, end_date)
+dow_mask = (
+    df['DIV_CODE_DESC'].isin(div_selection) &
+    df['Hub'].isin(hubs) &
+    df['Community Name'].isin(communities) &
+    df['SALE_DATE'].between(start_date, end_date)
+)
 if investor_filter != "All":
     dow_mask &= df['Investor Sale'] == investor_filter
 if cobroke_filter != "All":
@@ -152,7 +172,12 @@ week_start = st.date_input("Select Week Start Date", most_recent_monday, label_v
 week_end = week_start + datetime.timedelta(days=6)
 
 # --- Filter for week-based charts ---
-sales_week_df = df[df['DIV_CODE_DESC'].isin(div_selection) & df['SALE_DATE'].between(pd.to_datetime(week_start), pd.to_datetime(week_end))]
+sales_week_df = df[
+    df['DIV_CODE_DESC'].isin(div_selection) &
+    df['Hub'].isin(hubs) &
+    df['Community Name'].isin(communities) &
+    df['SALE_DATE'].between(pd.to_datetime(week_start), pd.to_datetime(week_end))
+]
 if investor_filter != "All":
     sales_week_df = sales_week_df[sales_week_df['Investor Sale'] == investor_filter]
 if cobroke_filter != "All":
@@ -265,6 +290,7 @@ if not sales_week_df.empty:
     st.dataframe(detailed_table, use_container_width=True, hide_index=True)
 else:
     st.info("No data available for the selected week.")
+
 
 
 
