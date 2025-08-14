@@ -39,20 +39,20 @@ else:
 investor_filter = st.sidebar.selectbox("Investor Sale", ["All", "Retail", "Investor"], index=1)
 cobroke_filter = st.sidebar.selectbox("Realtor/Direct", ["All", "Realtor", "Direct"], index=0)
 
-# --- Apply filters ---
-mask = df['DIV_CODE_DESC'].isin(div_selection) & df['SALE_DATE'].between(start_date, end_date)
+# --- Filter for DOW charts only ---
+dow_mask = df['DIV_CODE_DESC'].isin(div_selection) & df['SALE_DATE'].between(start_date, end_date)
 if investor_filter != "All":
-    mask &= df['Investor Sale'] == investor_filter
+    dow_mask &= df['Investor Sale'] == investor_filter
 if cobroke_filter != "All":
-    mask &= df['Realtor/Direct'] == cobroke_filter
-filtered_df = df[mask].copy()
-if filtered_df.empty or 'Weekday_Group' not in filtered_df.columns:
+    dow_mask &= df['Realtor/Direct'] == cobroke_filter
+filtered_dow_df = df[dow_mask].copy()
+if filtered_dow_df.empty or 'Weekday_Group' not in filtered_dow_df.columns:
     st.warning("No data available for the selected filters.")
     st.stop()
 
 # --- Waterfall chart ---
 dow_summary = (
-    filtered_df.groupby('DOW_Sale')
+    filtered_dow_df.groupby('DOW_Sale')
     .agg(Sales=('DOW_Sale', 'count'))
     .reindex(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])
     .fillna(0)
@@ -73,8 +73,8 @@ fig_waterfall = go.Figure(go.Waterfall(
 fig_waterfall.update_layout(title='DOW Sales Distribution', title_font=dict(size=20), yaxis_title='% of Weekly Sales', height=450)
 
 # --- DOW Contribution to Sales ---
-filtered_df['Sales_Month'] = filtered_df['SALE_DATE'].dt.to_period('M')
-dow_group = filtered_df.groupby(['Sales_Month', 'Weekday_Group']).size().unstack().fillna(0)
+filtered_dow_df['Sales_Month'] = filtered_dow_df['SALE_DATE'].dt.to_period('M')
+dow_group = filtered_dow_df.groupby(['Sales_Month', 'Weekday_Group']).size().unstack().fillna(0)
 dow_group['M-F'] = dow_group.get('M-F', 0)
 dow_group['Sat-Sun'] = dow_group.get('Sat-Sun', 0)
 dow_group['Total'] = dow_group.sum(axis=1)
@@ -135,7 +135,7 @@ fig_trend.update_layout(
     )
 )
 
-# --- Show charts ---
+# --- Show DOW charts ---
 col1, col2 = st.columns([1, 2])
 with col1:
     st.plotly_chart(fig_waterfall, use_container_width=True)
@@ -151,9 +151,12 @@ st.markdown('<div class="week-start-label">Select Week Start Date</div>', unsafe
 week_start = st.date_input("Select Week Start Date", most_recent_monday, label_visibility="collapsed")
 week_end = week_start + datetime.timedelta(days=6)
 
-sales_week_df = df[df['SALE_DATE'].between(pd.to_datetime(week_start), pd.to_datetime(week_end))]
+# --- Filter for week-based charts ---
+sales_week_df = df[df['DIV_CODE_DESC'].isin(div_selection) & df['SALE_DATE'].between(pd.to_datetime(week_start), pd.to_datetime(week_end))]
 if investor_filter != "All":
     sales_week_df = sales_week_df[sales_week_df['Investor Sale'] == investor_filter]
+if cobroke_filter != "All":
+    sales_week_df = sales_week_df[sales_week_df['Realtor/Direct'] == cobroke_filter]
 
 # Total sales subheader
 total_sales = sales_week_df.shape[0]
@@ -162,7 +165,6 @@ st.subheader(f"Total Sales This Week: {total_sales}")
 # --- ECOE Distribution Chart ---
 ecoe_week_df = sales_week_df.dropna(subset=['EST_COE_DATE']).copy()
 if not ecoe_week_df.empty and total_sales > 0:
-    # Prefer precomputed period if present; otherwise compute
     if 'ECOE_Month' in ecoe_week_df.columns:
         ecoe_week_df['ECOE_Month_Period'] = ecoe_week_df['ECOE_Month']
     else:
@@ -176,42 +178,36 @@ if not ecoe_week_df.empty and total_sales > 0:
         .sort_values('ECOE_Month_Period')
     )
 
-    # Build labels and % of total
     ecoe_month_counts['MonthLabel'] = ecoe_month_counts['ECOE_Month_Period'].dt.to_timestamp().dt.strftime('%b %Y')
     ecoe_month_counts['Pct of Total'] = (ecoe_month_counts['Homes Sold'] / total_sales * 100).round(0).astype(int)
     pct_text = [f"{p}%" for p in ecoe_month_counts['Pct of Total']]
 
-    # Dynamic y-axis ceiling
     max_val = int(ecoe_month_counts['Homes Sold'].max()) if not ecoe_month_counts.empty else 0
     y_max = int(math.ceil(max_val * 1.10)) if max_val > 0 else 1
 
     fig_ecoe = go.Figure()
-
-    # Main spline area chart
     fig_ecoe.add_trace(go.Scatter(
         x=ecoe_month_counts['MonthLabel'],
         y=ecoe_month_counts['Homes Sold'],
         mode='lines+markers+text',
-        line_shape='spline',          # smooth line
-        fill='tozeroy',               # area under the line
-        text=pct_text,                # visible % labels
+        line_shape='spline',
+        fill='tozeroy',
+        text=pct_text,
         textposition='top center',
-        cliponaxis=False,             # prevent first/last labels from being clipped
+        cliponaxis=False,
         hovertemplate='<b>%{x}</b><br>Homes Sold: %{y:,}<br>% of Total: %{text}<extra></extra>'
     ))
 
-    # Chart Layout
     fig_ecoe.update_layout(
         title='ECOE Distribution',
         title_font=dict(size=20),
         xaxis_title=None,
         height=150,
         margin=dict(t=50, r=0, b=0, l=40),
-        hovermode='x',  # Snap hover to closest datapoint
+        hovermode='x',
         spikedistance=-1,
         hoverdistance=-1,
     )
-
     fig_ecoe.update_yaxes(title='Homes Sold', range=[0, y_max], automargin=True)
 
     st.plotly_chart(fig_ecoe, use_container_width=True)
