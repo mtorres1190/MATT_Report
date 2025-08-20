@@ -61,10 +61,16 @@ with st.sidebar:
     communities = selected_communities if selected_communities else community_options
     df_comm = df_hub.loc[df_hub['Community Name'].isin(communities)].copy()
 
-    # ---- 5) Investor filter (division + hub + community)
+        # ---- 5) Investor filter (division + hub + community)
     investor_options = sorted(df_comm['Investor Sale'].dropna().astype(str).unique()) if 'Investor Sale' in df_comm.columns else []
     investor_options = [opt for opt in investor_options if not df_comm.loc[df_comm['Investor Sale'] == opt].empty]
-    investor_filter = st.selectbox("Investor Sale", ["All"] + investor_options, index=0)
+
+    # Default to "Retail" if available, otherwise fallback to "All"
+    default_index = 0  # fallback to "All"
+    if "Retail" in investor_options:
+        default_index = (["All"] + investor_options).index("Retail")
+
+    investor_filter = st.selectbox("Investor Sale", ["All"] + investor_options, index=default_index)
     df_inv = df_comm.copy()
     if investor_filter != "All":
         df_inv = df_inv.loc[df_inv['Investor Sale'] == investor_filter].copy()
