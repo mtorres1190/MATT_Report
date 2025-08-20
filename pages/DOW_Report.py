@@ -25,163 +25,173 @@ if 'matt_processed' not in st.session_state:
 
 df = st.session_state['matt_processed']
 
-# --- Sidebar filters ---
-st.sidebar.header("Filters")
+# ======================================================================================
+# Sidebar filters — CASCADING, DATA-AWARE OPTIONS
+# ======================================================================================
+with st.sidebar:
+    st.header("Filters")
 
-# Division filter
-div_selection = st.sidebar.multiselect("Division", options=df['DIV_CODE_DESC'].dropna().unique(), default=["HB Dallas-Fort Worth"])
+    # Sale Date Range filter (applies ONLY to DOW charts)
+    most_recent_sunday = datetime.date.today() - datetime.timedelta(days=datetime.date.today().weekday() + 1)
+    sale_date_range = st.date_input("Sale Date Range", value=(datetime.date(2024, 9, 1), most_recent_sunday))
+    if isinstance(sale_date_range, tuple) and len(sale_date_range) == 2:
+        start_date, end_date = pd.to_datetime(sale_date_range[0]), pd.to_datetime(sale_date_range[1])
+    else:
+        st.error("Invalid date range selection.")
+        st.stop()
 
-# Hub filter (cascading from division)
-hub_options = sorted(df[df['DIV_CODE_DESC'].isin(div_selection)]['Hub'].dropna().unique())
-selected_hubs = st.sidebar.multiselect("Hub", options=hub_options)
-hubs = selected_hubs if selected_hubs else hub_options
+    # ---- 1) Build base set WITHOUT date filtering (for non-DOW charts)
+    df_base = df.copy()
 
-# Community filter (cascading from hub)
-community_options = sorted(df[df['Hub'].isin(hubs)]['Community Name'].dropna().unique())
-selected_communities = st.sidebar.multiselect("Community Name", options=community_options)
-communities = selected_communities if selected_communities else community_options
+    # ---- 2) Division filter (data-aware)
+    div_options = sorted(df_base['DIV_CODE_DESC'].dropna().astype(str).unique())
+    div_selection = st.multiselect("Division", options=div_options, default=[])
+    div_selected = div_selection if div_selection else div_options
+    df_div = df_base.loc[df_base['DIV_CODE_DESC'].isin(div_selected)].copy()
 
-# Sale Date Range filter
-most_recent_sunday = datetime.date.today() - datetime.timedelta(days=datetime.date.today().weekday() + 1)
-sale_date_range = st.sidebar.date_input("Sale Date Range", value=(datetime.date(2024, 9, 1), most_recent_sunday))
-if isinstance(sale_date_range, tuple) and len(sale_date_range) == 2:
-    start_date, end_date = pd.to_datetime(sale_date_range[0]), pd.to_datetime(sale_date_range[1])
-else:
-    st.error("Invalid date range selection.")
-    st.stop()
+    # ---- 3) Hub filter (division)
+    hub_options = sorted(df_div['Hub'].dropna().astype(str).unique())
+    selected_hubs = st.multiselect("Hub", options=hub_options, default=[])
+    hubs = selected_hubs if selected_hubs else hub_options
+    df_hub = df_div.loc[df_div['Hub'].isin(hubs)].copy()
 
-# Investor and Realtor/Direct filters
-investor_filter = st.sidebar.selectbox("Investor Sale", ["All", "Retail", "Investor"], index=1)
-cobroke_filter = st.sidebar.selectbox("Realtor/Direct", ["All", "Realtor", "Direct"], index=0)
+    # ---- 4) Community filter (division + hub)
+    community_options = sorted(df_hub['Community Name'].dropna().astype(str).unique())
+    selected_communities = st.multiselect("Community Name", options=community_options, default=[])
+    communities = selected_communities if selected_communities else community_options
+    df_comm = df_hub.loc[df_hub['Community Name'].isin(communities)].copy()
 
-# --- Filter for DOW charts only ---
-dow_mask = (
-    df['DIV_CODE_DESC'].isin(div_selection) &
-    df['Hub'].isin(hubs) &
-    df['Community Name'].isin(communities) &
-    df['SALE_DATE'].between(start_date, end_date)
-)
-if investor_filter != "All":
-    dow_mask &= df['Investor Sale'] == investor_filter
-if cobroke_filter != "All":
-    dow_mask &= df['Realtor/Direct'] == cobroke_filter
-filtered_dow_df = df[dow_mask].copy()
-if filtered_dow_df.empty or 'Weekday_Group' not in filtered_dow_df.columns:
-    st.warning("No data available for the selected filters.")
-    st.stop()
+    # ---- 5) Investor filter (division + hub + community)
+    investor_options = sorted(df_comm['Investor Sale'].dropna().astype(str).unique()) if 'Investor Sale' in df_comm.columns else []
+    investor_options = [opt for opt in investor_options if not df_comm.loc[df_comm['Investor Sale'] == opt].empty]
+    investor_filter = st.selectbox("Investor Sale", ["All"] + investor_options, index=0)
+    df_inv = df_comm.copy()
+    if investor_filter != "All":
+        df_inv = df_inv.loc[df_inv['Investor Sale'] == investor_filter].copy()
 
-# --- Waterfall chart ---
-dow_summary = (
-    filtered_dow_df.groupby('DOW_Sale')
-    .agg(Sales=('DOW_Sale', 'count'))
-    .reindex(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])
-    .fillna(0)
-)
-dow_summary['Sales %'] = 100 * dow_summary['Sales'] / dow_summary['Sales'].sum()
-sales_counts = list(dow_summary['Sales']) + [int(dow_summary['Sales'].sum())]
-fig_waterfall = go.Figure(go.Waterfall(
-    measure=["relative"] * len(dow_summary) + ["total"],
-    x=list(dow_summary.index) + ["Grand Total"],
-    y=list(dow_summary['Sales %']) + [100],
-    text=[f"{round(val)}%" for val in dow_summary['Sales %']] + ["100%"],
-    textposition="inside",
-    textfont=dict(color="white", size=14),
-    customdata=sales_counts,
-    hovertemplate="<b>%{x}</b><br>Share: %{y:.0f}%<br>Sales: %{customdata:,}<extra></extra>",
-    connector={"line": {"color": "rgb(63, 63, 63)"}}
-))
-fig_waterfall.update_layout(title='DOW Sales Distribution', title_font=dict(size=20), yaxis_title='% of Weekly Sales', height=450)
+    # ---- 6) Realtor/Direct filter (division + hub + community + investor)
+    rd_options = sorted(df_inv['Realtor/Direct'].dropna().astype(str).unique()) if 'Realtor/Direct' in df_inv.columns else []
+    rd_options = [opt for opt in rd_options if not df_inv.loc[df_inv['Realtor/Direct'] == opt].empty]
+    cobroke_filter = st.selectbox("Realtor/Direct", ["All"] + rd_options, index=0)
+    df_final = df_inv.copy()
+    if cobroke_filter != "All":
+        df_final = df_final.loc[df_final['Realtor/Direct'] == cobroke_filter].copy()
 
-# --- DOW Contribution to Sales ---
-filtered_dow_df['Sales_Month'] = filtered_dow_df['SALE_DATE'].dt.to_period('M')
-dow_group = filtered_dow_df.groupby(['Sales_Month', 'Weekday_Group']).size().unstack().fillna(0)
-dow_group['M-F'] = dow_group.get('M-F', 0)
-dow_group['Sat-Sun'] = dow_group.get('Sat-Sun', 0)
-dow_group['Total'] = dow_group.sum(axis=1)
-dow_group['M-F %'] = (dow_group['M-F'] / dow_group['Total'] * 100).round(0)
-dow_group['Sat-Sun %'] = (dow_group['Sat-Sun'] / dow_group['Total'] * 100).round(0)
+# ======================================================================================
+# Create date-filtered copy for DOW charts only
+# ======================================================================================
+df_dow = df_final.loc[(df_final['SALE_DATE'] >= start_date) & (df_final['SALE_DATE'] <= end_date)].copy()
 
-fig_trend = go.Figure()
-formatted_dates = [p.to_timestamp().strftime('%b, %Y') for p in dow_group.index]
-
-# Hover labels
-fig_trend.add_trace(go.Bar(
-    x=formatted_dates,
-    y=dow_group['M-F'],
-    name='M-F Sales',
-    customdata=formatted_dates,
-    hovertemplate="<b>M-F Sales</b><br>%{customdata}<br>Sales: %{y:,}<extra></extra>"
-))
-fig_trend.add_trace(go.Bar(
-    x=formatted_dates,
-    y=dow_group['Sat-Sun'],
-    name='Sat-Sun Sales',
-    customdata=formatted_dates,
-    hovertemplate="<b>Sat-Sun Sales</b><br>%{customdata}<br>Sales: %{y:,}<extra></extra>"
-))
-
-fig_trend.add_trace(go.Scatter(
-    x=formatted_dates,
-    y=dow_group['M-F %'],
-    mode='lines+markers+text',
-    name='Sales % - M-F',
-    yaxis='y2',
-    text=[f"<b>{int(val)}%</b>" for val in dow_group['M-F %']],
-    textposition="top center",
-    hoverinfo='skip'
-))
-fig_trend.add_trace(go.Scatter(
-    x=formatted_dates,
-    y=dow_group['Sat-Sun %'],
-    mode='lines+markers',
-    name='Sales % - Sat-Sun',
-    yaxis='y2',
-    hoverinfo='skip'
-))
-
-fig_trend.update_layout(
-    title='DOW Contribution to Sales',
-    title_font=dict(size=20),
-    barmode='group',
-    yaxis=dict(title='Total Sales'),
-    yaxis2=dict(title='Sales %', overlaying='y', side='right', range=[0, 100], showgrid=False),
-    hovermode='closest',
-    legend=dict(
-        orientation="h",
-        yanchor="top",
-        y=-0.3,
-        xanchor="center",
-        x=0.5
+# ======================================================================================
+# DOW Charts (use df_dow)
+# ======================================================================================
+if not df_dow.empty and 'Weekday_Group' in df_dow.columns:
+    dow_summary = (
+        df_dow.groupby('DOW_Sale')
+        .agg(Sales=('DOW_Sale', 'count'))
+        .reindex(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])
+        .fillna(0)
     )
-)
+    dow_summary['Sales %'] = 100 * dow_summary['Sales'] / dow_summary['Sales'].sum()
+    sales_counts = list(dow_summary['Sales']) + [int(dow_summary['Sales'].sum())]
+    fig_waterfall = go.Figure(go.Waterfall(
+        measure=["relative"] * len(dow_summary) + ["total"],
+        x=list(dow_summary.index) + ["Grand Total"],
+        y=list(dow_summary['Sales %']) + [100],
+        text=[f"{round(val)}%" for val in dow_summary['Sales %']] + ["100%"],
+        textposition="inside",
+        textfont=dict(color="white", size=14),
+        customdata=sales_counts,
+        hovertemplate="<b>%{x}</b><br>Share: %{y:.0f}%<br>Sales: %{customdata:,}<extra></extra>",
+        connector={"line": {"color": "rgb(63, 63, 63)"}}
+    ))
+    fig_waterfall.update_layout(title='DOW Sales Distribution', title_font=dict(size=20), yaxis_title='% of Weekly Sales', height=450)
 
-# --- Show DOW charts ---
-col1, col2 = st.columns([1, 2])
-with col1:
-    st.plotly_chart(fig_waterfall, use_container_width=True)
-with col2:
-    with st.container():
+    df_dow['Sales_Month'] = df_dow['SALE_DATE'].dt.to_period('M')
+    dow_group = df_dow.groupby(['Sales_Month', 'Weekday_Group']).size().unstack().fillna(0)
+    dow_group['M-F'] = dow_group.get('M-F', 0)
+    dow_group['Sat-Sun'] = dow_group.get('Sat-Sun', 0)
+    dow_group['Total'] = dow_group.sum(axis=1)
+    dow_group['M-F %'] = (dow_group['M-F'] / dow_group['Total'] * 100).round(0)
+    dow_group['Sat-Sun %'] = (dow_group['Sat-Sun'] / dow_group['Total'] * 100).round(0)
+
+    fig_trend = go.Figure()
+    formatted_dates = [p.to_timestamp().strftime('%b, %Y') for p in dow_group.index]
+
+    fig_trend.add_trace(go.Bar(
+        x=formatted_dates,
+        y=dow_group['M-F'],
+        name='M-F Sales',
+        customdata=formatted_dates,
+        hovertemplate="<b>M-F Sales</b><br>%{customdata}<br>Sales: %{y:,}<extra></extra>"
+    ))
+    fig_trend.add_trace(go.Bar(
+        x=formatted_dates,
+        y=dow_group['Sat-Sun'],
+        name='Sat-Sun Sales',
+        customdata=formatted_dates,
+        hovertemplate="<b>Sat-Sun Sales</b><br>%{customdata}<br>Sales: %{y:,}<extra></extra>"
+    ))
+
+    fig_trend.add_trace(go.Scatter(
+        x=formatted_dates,
+        y=dow_group['M-F %'],
+        mode='lines+markers+text',
+        name='Sales % - M-F',
+        yaxis='y2',
+        text=[f"<b>{int(val)}%</b>" for val in dow_group['M-F %']],
+        textposition="top center",
+        hoverinfo='skip'
+    ))
+    fig_trend.add_trace(go.Scatter(
+        x=formatted_dates,
+        y=dow_group['Sat-Sun %'],
+        mode='lines+markers',
+        name='Sales % - Sat-Sun',
+        yaxis='y2',
+        hoverinfo='skip'
+    ))
+
+    fig_trend.update_layout(
+        title='DOW Contribution to Sales',
+        title_font=dict(size=20),
+        barmode='group',
+        yaxis=dict(title='Total Sales'),
+        yaxis2=dict(title='Sales %', overlaying='y', side='right', range=[0, 100], showgrid=False),
+        hovermode='closest',
+        legend=dict(
+            orientation="h",
+            yanchor="top",
+            y=-0.3,
+            xanchor="center",
+            x=0.5
+        )
+    )
+
+    col1, col2 = st.columns([1, 2])
+    with col1:
+        st.plotly_chart(fig_waterfall, use_container_width=True)
+    with col2:
         st.plotly_chart(fig_trend, use_container_width=True)
+else:
+    st.warning("No data available for the selected filters.")
 
 st.markdown("---")
 
-# --- Select Week Start Date ---
+# ======================================================================================
+# Week-based charts (NOT affected by Sale Date Range filter)
+# ======================================================================================
 most_recent_monday = datetime.date.today() - datetime.timedelta(days=datetime.date.today().weekday())
 st.markdown('<div class="week-start-label">Select Week Start Date</div>', unsafe_allow_html=True)
 week_start = st.date_input("Select Week Start Date", most_recent_monday, label_visibility="collapsed")
 week_end = week_start + datetime.timedelta(days=6)
 
-# --- Filter for week-based charts ---
-sales_week_df = df[
-    df['DIV_CODE_DESC'].isin(div_selection) &
-    df['Hub'].isin(hubs) &
-    df['Community Name'].isin(communities) &
-    df['SALE_DATE'].between(pd.to_datetime(week_start), pd.to_datetime(week_end))
-]
-if investor_filter != "All":
-    sales_week_df = sales_week_df[sales_week_df['Investor Sale'] == investor_filter]
-if cobroke_filter != "All":
-    sales_week_df = sales_week_df[sales_week_df['Realtor/Direct'] == cobroke_filter]
+sales_week_df = df_final.loc[
+    df_final['DIV_CODE_DESC'].isin(div_selected) &
+    df_final['Hub'].isin(hubs) &
+    df_final['Community Name'].isin(communities) &
+    df_final['SALE_DATE'].between(pd.to_datetime(week_start), pd.to_datetime(week_end))
+].copy()
 
 # Total sales subheader
 total_sales = sales_week_df.shape[0]
@@ -190,10 +200,11 @@ st.subheader(f"Total Sales This Week: {total_sales}")
 # --- ECOE Distribution Chart ---
 ecoe_week_df = sales_week_df.dropna(subset=['EST_COE_DATE']).copy()
 if not ecoe_week_df.empty and total_sales > 0:
+    ecoe_week_df = ecoe_week_df.copy()
     if 'ECOE_Month' in ecoe_week_df.columns:
-        ecoe_week_df['ECOE_Month_Period'] = ecoe_week_df['ECOE_Month']
+        ecoe_week_df.loc[:, 'ECOE_Month_Period'] = ecoe_week_df['ECOE_Month']
     else:
-        ecoe_week_df['ECOE_Month_Period'] = pd.to_datetime(ecoe_week_df['EST_COE_DATE'], errors='coerce').dt.to_period('M')
+        ecoe_week_df.loc[:, 'ECOE_Month_Period'] = pd.to_datetime(ecoe_week_df['EST_COE_DATE'], errors='coerce').dt.to_period('M')
 
     ecoe_month_counts = (
         ecoe_week_df
@@ -279,17 +290,20 @@ if not sales_week_df.empty:
     st.plotly_chart(fig_week, use_container_width=True)
 
     # --- Detail table ---
-    sales_week_df['COE Year'] = sales_week_df['EST_COE_DATE'].dt.year
-    sales_week_df['COE Month'] = sales_week_df['EST_COE_DATE'].dt.strftime('%b')
+    sales_week_df = sales_week_df.copy()
+    sales_week_df.loc[:, 'COE Year'] = sales_week_df['EST_COE_DATE'].dt.year
+    sales_week_df.loc[:, 'COE Month'] = sales_week_df['EST_COE_DATE'].dt.strftime('%b')
     display_cols = ['Hub', 'Community Name', 'Address', 'Plan Name', 'Investor Sale', 'NHC_NAME', 'SALE_DATE', 'BUYER_NAME', 'Realtor/Direct', 'COE Year', 'COE Month']
     display_cols_available = [col for col in display_cols if col in sales_week_df.columns]
     detailed_table = sales_week_df[display_cols_available].copy()
     if 'SALE_DATE' in detailed_table.columns:
-        detailed_table['SALE_DATE'] = pd.to_datetime(detailed_table['SALE_DATE'], errors='coerce').dt.strftime('%b %d, %Y')
+        detailed_table.loc[:, 'SALE_DATE'] = pd.to_datetime(detailed_table['SALE_DATE'], errors='coerce').dt.strftime('%b %d, %Y')
     detailed_table = detailed_table.rename(columns={'SALE_DATE': 'Sale Date','BUYER_NAME': 'Buyer','NHC_NAME': 'NHC Name'})
     st.dataframe(detailed_table, use_container_width=True, hide_index=True)
 else:
     st.info("No data available for the selected week.")
+
+
 
 
 

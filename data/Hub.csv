@@ -1,6 +1,6 @@
 ﻿Community Number,Community Name,Hub,Region,Division Name
-29122,Acorn North,,Grove,Dallas/Ft Worth
-29123,Acorn South,,Grove,Dallas/Ft Worth
+29122,Acorn North,Unknown,Grove,Dallas/Ft Worth
+29123,Acorn South,Unknown,Grove,Dallas/Ft Worth
 15658,Addison Hills Classic,Central Hub,Grove,Dallas/Ft Worth
 15659,Addison Hills Classic 3 Car,Central Hub,Grove,Dallas/Ft Worth
 14757,Alexander Estates 50',#N/A,Grove,Houston
@@ -54,7 +54,7 @@
 14988,Bluebonnet Estates,Central Hub,Grove,Dallas/Ft Worth
 66941,Bradford Park,No Hub,Grove,Dallas/Ft Worth
 66942,BRADFORD PARK,No Hub,Grove,Dallas/Ft Worth
-14631,Branch Village,,Grove,Dallas/Ft Worth
+14631,Branch Village,Unknown,Grove,Dallas/Ft Worth
 14173,Bridgeland 28',No Hub,Grove,Houston
 4497,Bridgeland 65',No Hub,Grove,Houston
 14542,Bridgeland Brookstone,No Hub,Grove,Houston
@@ -88,31 +88,31 @@
 66944,Caraway Vista,No Hub,Grove,Dallas/Ft Worth
 15632,Carrell Hills,SW Fort Worth Hub,Grove,Dallas/Ft Worth
 14635,Cartwright Ranch,Southeast Hub,Grove,Dallas/Ft Worth
-15671,Castle Rk Watermill,,Grove,Dallas/Ft Worth
+15671,Castle Rk Watermill,Unknown,Grove,Dallas/Ft Worth
 74005,Chapel Run,Rausch Hub,Grove,Houston
 14630,Chisholm Trail Ranch,No Hub,Grove,Dallas/Ft Worth
 74006,Cielo,Rausch Hub,Grove,Houston
 40294,Clearwater - Barrington,East Hub,Grove,San Antonio
 40292,Clearwater - Belmar,East Hub,Grove,San Antonio
 40293,Clearwater - Cottage,East Hub,Grove,San Antonio
-29165,Clearwater Classic,,Grove,Dallas/Ft Worth
-29163,Clearwater Cottage,,Grove,Dallas/Ft Worth
-29164,Clearwater Majors,,Grove,Dallas/Ft Worth
+29165,Clearwater Classic,Unknown,Grove,Dallas/Ft Worth
+29163,Clearwater Cottage,Unknown,Grove,Dallas/Ft Worth
+29164,Clearwater Majors,Unknown,Grove,Dallas/Ft Worth
 22698,Coastal Point 50' WF,Southeast Hub,Grove,Houston
 22694,Coastal Point 60/70' Pinnacle,Southeast Hub,Grove,Houston
 22760,Colton 50',Northwest Hub,Grove,Houston
-14929,Copper Creek Classics,,Grove,Dallas/Ft Worth
+14929,Copper Creek Classics,Unknown,Grove,Dallas/Ft Worth
 40131,Cordova Crossing,North Hub,Grove,San Antonio
 15625,Cottonwood Cottage,Central Hub,Grove,Dallas/Ft Worth
 14738,Country Colony NuHome,#N/A,Grove,Houston
 29111,Creekiew Classic,380 Hub,Grove,Dallas/Ft Worth
-40955,Creeks of Legacy Ph 2 BS,,Grove,Dallas/Ft Worth
+40955,Creeks of Legacy Ph 2 BS,Unknown,Grove,Dallas/Ft Worth
 29142,Creekview Cottage,380 Hub,Grove,Dallas/Ft Worth
 40146,Crescent Hills 35,Southwest Hub,Grove,San Antonio
 40147,Crescent Hills 40,Southwest Hub,Grove,San Antonio
 40148,Crescent Hills 45,Southwest Hub,Grove,San Antonio
 40149,Crescent Hills-Belmar,Southwest Hub,Grove,San Antonio
-29178,Crooked Cross Majors,,Grove,Dallas/Ft Worth
+29178,Crooked Cross Majors,Unknown,Grove,Dallas/Ft Worth
 74007,Crosby Farms,Rausch Hub,Grove,Houston
 14763,Cross Creek 50',No Hub,Grove,Houston
 14764,Cross Creek 60' Vista,No Hub,Grove,Houston
@@ -128,8 +128,8 @@
 22689,Cypress Green 50' Classic,No Hub,Grove,Houston
 22646,Cypress Green 50' WF,Northwest Hub,Grove,Houston
 40532,David Estates-Watermill,Corpus Christi Hub,Grove,San Antonio
-29125,Daybreak,,Grove,Dallas/Ft Worth
-29154,Daybreak Addition,,Grove,Dallas/Ft Worth
+29125,Daybreak,Unknown,Grove,Dallas/Ft Worth
+29154,Daybreak Addition,Unknown,Grove,Dallas/Ft Worth
 29126,Deer Creek Addition,SW Fort Worth Hub,Grove,Dallas/Ft Worth
 29109,Deer Creek Cottage,SW Fort Worth Hub,Grove,Dallas/Ft Worth
 29110,Deer Creek Watermill,SW Fort Worth Hub,Grove,Dallas/Ft Worth
@@ -138,8 +138,8 @@
 43636,Delany Cove Wildflower II,No Hub,Grove,Houston
 14724,Dellrose 50,Northwest Hub,Grove,Houston
 67201,Dellrose 60',Northwest Hub,Grove,Houston
-29132,Dove Valley Cottage,,Grove,Dallas/Ft Worth
-29133,Dove Valley Watermill,,Grove,Dallas/Ft Worth
+29132,Dove Valley Cottage,Unknown,Grove,Dallas/Ft Worth
+29133,Dove Valley Watermill,Unknown,Grove,Dallas/Ft Worth
 15615,Eagles Crossing Broadview,SW Fort Worth Hub,Grove,Dallas/Ft Worth
 15614,Eagles Crossing Cottage,SW Fort Worth Hub,Grove,Dallas/Ft Worth
 14666,Eastland Classic,Southeast Hub,Grove,Dallas/Ft Worth
@@ -164,11 +164,11 @@
 22686,Esperanza 50' Classic,No Hub,Grove,Houston
 74011,Esperanza Cottage,Rausch Hub,Grove,Houston
 74024,Esperanza NEW Avante 40',Rausch Hub,Grove,Houston
-14947,Estates at Shaddock,,Grove,Dallas/Ft Worth
+14947,Estates at Shaddock,Unknown,Grove,Dallas/Ft Worth
 15619,Falcon Heights Cottage,Southeast Hub,Grove,Dallas/Ft Worth
 15620,Falcon Heights Watermill,Southeast Hub,Grove,Dallas/Ft Worth
 14639,Ferris Springs,Central Hub,Grove,Dallas/Ft Worth
-14977,Fireside Park,,Grove,Dallas/Ft Worth
+14977,Fireside Park,Unknown,Grove,Dallas/Ft Worth
 40423,Fischer Gardens-Barrington,East Hub,Grove,San Antonio
 40422,Fischer Gardens-Watermill,East Hub,Grove,San Antonio
 22655,Flagstone 40',No Hub,Grove,Houston
@@ -247,9 +247,9 @@
 22746,Hill and Dale Ranch 50',Northeast Hub,Grove,Houston
 22749,Hill and Dale Ranch 50',Northeast Hub,Grove,Houston
 14936,Hills of Crown Ridge BS,No Hub,Grove,Dallas/Ft Worth
-14986,Hillstone Pointe 50s,,Grove,Dallas/Ft Worth
-14946,Hillstone Pointe Jewel,,Grove,Dallas/Ft Worth
-14946,Hillstone Pointe SW,,Grove,Dallas/Ft Worth
+14986,Hillstone Pointe 50s,Unknown,Grove,Dallas/Ft Worth
+14946,Hillstone Pointe Jewel,Unknown,Grove,Dallas/Ft Worth
+14946,Hillstone Pointe SW,Unknown,Grove,Dallas/Ft Worth
 14659,Honey Creek BFR,North Hub,Grove,Dallas/Ft Worth
 24606,Huntington Ridge,OKC Hub,Grove,Dallas/Ft Worth
 15631,Hurricane Creek North Classic,North Hub,Grove,Dallas/Ft Worth
@@ -297,7 +297,7 @@
 14928,Lakewood Hills East & West,No Hub,Grove,Dallas/Ft Worth
 14660,Landing at Creekside,N Fort Worth Hub,Grove,Dallas/Ft Worth
 40300,Landon Ridge-Cottage,West Hub,Grove,San Antonio
-66939,Laviana,,Grove,Dallas/Ft Worth
+66939,Laviana,Unknown,Grove,Dallas/Ft Worth
 22763,Legacy 50',Southeast Hub,Grove,Houston
 15635,Legacy Hills Brookstone,380 Hub,Grove,Dallas/Ft Worth
 15636,Legacy Hills Brookstone 3 Car,380 Hub,Grove,Dallas/Ft Worth
@@ -315,7 +315,7 @@
 40248,Lodi Grove-Watermill,South Hub,Grove,San Antonio
 14985,Lonestar Estates,No Hub,Grove,Dallas/Ft Worth
 4485,Long Meadow Farms Renaissance Collection,No Hub,Grove,Houston
-29124,Loyd Ranch,,Grove,Dallas/Ft Worth
+29124,Loyd Ranch,Unknown,Grove,Dallas/Ft Worth
 15677,Luella Crossing Cottage,North Hub,Grove,Dallas/Ft Worth
 22690,Magnolia Forest 40' Cottage,No Hub,Grove,Houston
 22691,Magnolia Forest 45' WM,No Hub,Grove,Houston
@@ -324,10 +324,10 @@
 14775,Magnolia Ridge 45' NuHome,No Hub,Grove,Houston
 14776,Magnolia Ridge 50',No Hub,Grove,Houston
 74016,Magnolia Springs,Rausch Hub,Grove,Houston
-29144,Mantua Cottage,,Grove,Dallas/Ft Worth
-29145,Mantua Watermill,,Grove,Dallas/Ft Worth
-15640,Maple Trails Majors,,Grove,Dallas/Ft Worth
-29120,Marilee,,Grove,Dallas/Ft Worth
+29144,Mantua Cottage,Unknown,Grove,Dallas/Ft Worth
+29145,Mantua Watermill,Unknown,Grove,Dallas/Ft Worth
+15640,Maple Trails Majors,Unknown,Grove,Dallas/Ft Worth
+29120,Marilee,Unknown,Grove,Dallas/Ft Worth
 14780,Marvida 50' Wildflower II,#N/A,Grove,Houston
 14716,McCrary Meadows 45',#N/A,Grove,Houston
 14716,McCrary Meadows 45' Watermill,#N/A,Grove,Houston
@@ -344,7 +344,7 @@
 14773,Miller's Pass 40' Cottage,No Hub,Grove,Houston
 14778,Miller's Pond 50' Watermill,Southwest Hub,Grove,Houston
 14779,Miller's Pond 60' Wildflower,Southwest Hub,Grove,Houston
-29148,Miraverde AD Watermill,,Grove,Dallas/Ft Worth
+29148,Miraverde AD Watermill,Unknown,Grove,Dallas/Ft Worth
 40380,Miro Meadows-Wellton,South Hub,Grove,San Antonio
 40040,Mission Del Lago,South Hub,Grove,San Antonio
 40057,Mission Del Lago 40s,South Hub,Grove,San Antonio
@@ -396,15 +396,15 @@
 40194,Parkside Barrington,North Hub,Grove,San Antonio
 40193,Parkside Cottage,North Hub,Grove,San Antonio
 40195,Parkside Watermill,North Hub,Grove,San Antonio
-40875,Parkside West 50's 2B,,Grove,Dallas/Ft Worth
+40875,Parkside West 50's 2B,Unknown,Grove,Dallas/Ft Worth
 14955,Parkview Hills,No Hub,Grove,Dallas/Ft Worth
 14990,Parkview Hills Classic,No Hub,Grove,Dallas/Ft Worth
 24604,Parkway Square,OKC Hub,Grove,Dallas/Ft Worth
 22642,Pecan Lakes Estates 50' WM,No Hub,Grove,Houston
-15641,Pecan Meadows Classic,,Grove,Dallas/Ft Worth
+15641,Pecan Meadows Classic,Unknown,Grove,Dallas/Ft Worth
 22674,Pelly Place 40' Cottage,No Hub,Grove,Houston
 22732,Pelly Place 40'A,East Hub,Grove,Houston
-66913,Phillips Creek Ranch 66',,Grove,Dallas/Ft Worth
+66913,Phillips Creek Ranch 66',Unknown,Grove,Dallas/Ft Worth
 14786,Pinewood at Grand Texas 45',Northeast Hub,Grove,Houston
 14787,Pinewood at Grand Texas 50',Northeast Hub,Grove,Houston
 22743,Pinewood Trails 50',Northeast Hub,Grove,Houston
@@ -423,13 +423,13 @@
 14643,Preserve at Honey Creek Brookstone,North Hub,Grove,Dallas/Ft Worth
 14984,Preserve at Honey Creek Classic,North Hub,Grove,Dallas/Ft Worth
 14983,Preserve at Honey Creek Cottage,North Hub,Grove,Dallas/Ft Worth
-29167,Preston Harbor Brookstone,,Grove,Dallas/Ft Worth
-29166,Preston Harbor Classic,,Grove,Dallas/Ft Worth
-29129,Princeton Preserve,,Grove,Dallas/Ft Worth
-29153,Ranchland Brookstone,,Grove,Dallas/Ft Worth
-29152,Ranchland Classic,,Grove,Dallas/Ft Worth
-29150,Ranchland Cottage,,Grove,Dallas/Ft Worth
-29151,Ranchland Watermill,,Grove,Dallas/Ft Worth
+29167,Preston Harbor Brookstone,Unknown,Grove,Dallas/Ft Worth
+29166,Preston Harbor Classic,Unknown,Grove,Dallas/Ft Worth
+29129,Princeton Preserve,Unknown,Grove,Dallas/Ft Worth
+29153,Ranchland Brookstone,Unknown,Grove,Dallas/Ft Worth
+29152,Ranchland Classic,Unknown,Grove,Dallas/Ft Worth
+29150,Ranchland Cottage,Unknown,Grove,Dallas/Ft Worth
+29151,Ranchland Watermill,Unknown,Grove,Dallas/Ft Worth
 14657,Rancho Canyon Brookstone,N Fort Worth Hub,Grove,Dallas/Ft Worth
 29135,Rancho Canyon Classic,N Fort Worth Hub,Grove,Dallas/Ft Worth
 14656,Rancho Canyon Cottage,N Fort Worth Hub,Grove,Dallas/Ft Worth
@@ -442,8 +442,8 @@
 14943,Reserve at Chamberlain Crossing,No Hub,Grove,Dallas/Ft Worth
 40230,Ridgeland Watermill,Hill Country Hub,Grove,San Antonio
 14645,Risinger Court,SW Fort Worth Hub,Grove,Dallas/Ft Worth
-66975,River Place Brookstone,No HUB,Grove,Dallas/Ft Worth
-66956,River Place Lonestar,No HUB,Grove,Dallas/Ft Worth
+66975,River Place Brookstone,No Hub,Grove,Dallas/Ft Worth
+66956,River Place Lonestar,No Hub,Grove,Dallas/Ft Worth
 14760,Riverwood Ranch,South Hub,Grove,Houston
 22639,Riverwood Ranch 45' WM,South Hub,Grove,Houston
 22696,Riverwood Ranch 50' Classic,No Hub,Grove,Houston
@@ -477,8 +477,8 @@
 22607,Samara 60',Southeast Hub,Grove,Houston
 14799,Samara 65',Southeast Hub,Grove,Houston
 22709,Sandrock Gardens 40',South Hub,Grove,Houston
-29160,Sanger Cr Cottage,,Grove,Dallas/Ft Worth
-29162,Sanger Cr Majors,,Grove,Dallas/Ft Worth
+29160,Sanger Cr Cottage,Unknown,Grove,Dallas/Ft Worth
+29162,Sanger Cr Majors,Unknown,Grove,Dallas/Ft Worth
 22622,Santa Fe 25' Wellton,No Hub,Grove,Houston
 40240,Sapphire Grove Barrington,South Hub,Grove,San Antonio
 40239,Sapphire Grove Cottage,South Hub,Grove,San Antonio
@@ -508,8 +508,8 @@
 14969,Sendera Watermill,No Hub,Grove,Dallas/Ft Worth
 14753,Sendero 50',Southwest Hub,Grove,Houston
 14754,Sendero 55',Southwest Hub,Grove,Houston
-14628,Sewell Ranch,,Grove,Dallas/Ft Worth
-14628,Sewell Ranch Cottage,,Grove,Dallas/Ft Worth
+14628,Sewell Ranch,Unknown,Grove,Dallas/Ft Worth
+14628,Sewell Ranch Cottage,Unknown,Grove,Dallas/Ft Worth
 15660,Shaded Tree Brookstone,North Hub,Grove,Dallas/Ft Worth
 15652,Shaded Tree Classic,North Hub,Grove,Dallas/Ft Worth
 29137,Shaded Tree Lakeside,North Hub,Grove,Dallas/Ft Worth
@@ -534,7 +534,7 @@
 40389,Sky Ranch-Belmar,North Hub,Grove,San Antonio
 40388,Sky Ranch-Stonehill,North Hub,Grove,San Antonio
 40390,Sky Ranch-Watermill,North Hub,Grove,San Antonio
-14972,Skyline Estates Watermill,Central HUB,Grove,Dallas/Ft Worth
+14972,Skyline Estates Watermill,Central Hub,Grove,Dallas/Ft Worth
 40455,Smiley Ranch-Barrington,South Hub,Grove,San Antonio
 40454,Smiley Ranch-Watermill,South Hub,Grove,San Antonio
 14661,Solterra Brookstone,Southeast Hub,Grove,Dallas/Ft Worth
@@ -542,8 +542,8 @@
 14663,Solterra Lonestar,Southeast Hub,Grove,Dallas/Ft Worth
 40168,Somerset Grove-Cottage,Southwest Hub,Grove,San Antonio
 40167,Somerset Grove-Stonehill,Southwest Hub,Grove,San Antonio
-29130,Songhill Cottage,,Grove,Dallas/Ft Worth
-29131,Songhill Watermill,,Grove,Dallas/Ft Worth
+29130,Songhill Cottage,Unknown,Grove,Dallas/Ft Worth
+29131,Songhill Watermill,Unknown,Grove,Dallas/Ft Worth
 14771,South Lakes 80'Wildflower II,No Hub,Grove,Houston
 14989,South Oak Grove Cottage,SW Fort Worth Hub,Grove,Dallas/Ft Worth
 14669,South Oak Grove Wellton,SW Fort Worth Hub,Grove,Dallas/Ft Worth
@@ -634,7 +634,7 @@
 14781,The Highlands 50',No Hub,Grove,Houston
 14782,The Highlands 60',No Hub,Grove,Houston
 14176,The Highlands 60' Pinnacle,No Hub,Grove,Houston
-29143,The Hollow,,Grove,Dallas/Ft Worth
+29143,The Hollow,Unknown,Grove,Dallas/Ft Worth
 14784,The Pines at Seven Coves 40',#N/A,Grove,Houston
 22664,The Preserve at Rosenberg FW,No Hub,Grove,Houston
 22663,The Preserve at Rosenberg WF,No Hub,Grove,Houston
@@ -671,8 +671,8 @@
 14964,Trinity Crossing,Southeast Hub,Grove,Dallas/Ft Worth
 14965,Trinity Crossing,Southeast Hub,Grove,Dallas/Ft Worth
 14995,Trinity West,Central Hub,Grove,Dallas/Ft Worth
-29112,University Hills Cottage,,Grove,Dallas/Ft Worth
-29113,University Hills Watermill,,Grove,Dallas/Ft Worth
+29112,University Hills Cottage,Unknown,Grove,Dallas/Ft Worth
+29113,University Hills Watermill,Unknown,Grove,Dallas/Ft Worth
 14930,University Place,No Hub,Grove,Dallas/Ft Worth
 14707,Upland Preserve,#N/A,Grove,Houston
 40264,Valle Sol-Cottage,Southwest Hub,Grove,San Antonio
@@ -713,10 +713,10 @@
 15665,West Square Classic,SW Fort Worth Hub,Grove,Dallas/Ft Worth
 15664,West Square Watermill,SW Fort Worth Hub,Grove,Dallas/Ft Worth
 29173,West Square Watermill,SW Fort Worth Hub,Grove,Dallas/Ft Worth
-29158,Weston Brookstone,,Grove,Dallas/Ft Worth
-29157,Weston Classic,,Grove,Dallas/Ft Worth
-29155,Weston Cottage,,Grove,Dallas/Ft Worth
-29156,Weston Watermill,,Grove,Dallas/Ft Worth
+29158,Weston Brookstone,Unknown,Grove,Dallas/Ft Worth
+29157,Weston Classic,Unknown,Grove,Dallas/Ft Worth
+29155,Weston Cottage,Unknown,Grove,Dallas/Ft Worth
+29156,Weston Watermill,Unknown,Grove,Dallas/Ft Worth
 14549,Westwood,Southeast Hub,Grove,Houston
 22682,Wharton Lakes 40' Cottage,No Hub,Grove,Houston
 22683,Wharton Lakes 45' WM,No Hub,Grove,Houston
