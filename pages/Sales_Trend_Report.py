@@ -88,6 +88,15 @@ def add_printable_annotation(fig, x_val, y_val, text):
         opacity=0.95
     )
 
+# --- Helper: Generate footnote ---
+def generate_footnote():
+    investor_label = (
+        "Investor Sales" if investor_filter == "Investor"
+        else "Retail Sales" if investor_filter == "Retail"
+        else "Investor & Retail Sales"
+    )
+    return f"Source: {', '.join(div_selection)} | {start_date.strftime('%m/%d/%Y')} - {end_date.strftime('%m/%d/%Y')} | {investor_label}"
+
 # --- Daily Sales Trend Chart ---
 daily_sales = filtered_df.groupby('SALE_DATE').size()
 daily_sales_ma14 = daily_sales.rolling(window=14).mean()
@@ -124,6 +133,8 @@ fig_avg_daily.update_layout(
     legend=dict(orientation="h", yanchor="bottom", y=1.1, xanchor="center", x=0.5, font=dict(size=14))
 )
 st.plotly_chart(fig_avg_daily, use_container_width=True)
+if printable_mode == "On":
+    st.markdown(f"<div style='font-size:18px; color:gray; text-align:left; margin-top:-10px;'>{generate_footnote()}</div>", unsafe_allow_html=True)
 
 # --- Realtor Attachment Rate Chart ---
 daily_summary = filtered_df.groupby(['SALE_DATE', 'Realtor/Direct']).size().unstack(fill_value=0)
@@ -154,6 +165,8 @@ fig_rar.update_layout(
     legend=dict(font=dict(size=14))
 )
 st.plotly_chart(fig_rar, use_container_width=True)
+if printable_mode == "On":
+    st.markdown(f"<div style='font-size:18px; color:gray; text-align:left; margin-top:-10px;'>{generate_footnote()}</div>", unsafe_allow_html=True)
 
 # --- Direct vs. Realtor Volume Chart ---
 volume_df = filtered_df.groupby(['SALE_DATE', 'Realtor/Direct']).size().unstack(fill_value=0)
@@ -189,10 +202,12 @@ fig_vol.update_layout(
     yaxis=dict(title="Avg. Daily Sales", showgrid=True, tickfont=dict(size=14)),
     hovermode="x unified",
     height=500,
-    margin=dict(t=60, b=40, l=60, r=20),
+    margin=dict(t=60, b=40, l=0, r=20),
     legend=dict(orientation="h", yanchor="bottom", y=1.1, xanchor="center", x=0.5, font=dict(size=14))
 )
 st.plotly_chart(fig_vol, use_container_width=True)
+if printable_mode == "On":
+    st.markdown(f"<div style='font-size:18px; color:gray; text-align:left; margin-top:-10px;'>{generate_footnote()}</div>", unsafe_allow_html=True)
 
 
 

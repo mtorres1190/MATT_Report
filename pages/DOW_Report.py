@@ -295,19 +295,31 @@ if not sales_week_df.empty:
 
     st.plotly_chart(fig_week, use_container_width=True)
 
-    # --- Detail table ---
+        # --- Detail table ---
     sales_week_df = sales_week_df.copy()
     sales_week_df.loc[:, 'COE Year'] = sales_week_df['EST_COE_DATE'].dt.year
     sales_week_df.loc[:, 'COE Month'] = sales_week_df['EST_COE_DATE'].dt.strftime('%b')
-    display_cols = ['Hub', 'Community Name', 'Address', 'Plan Name', 'Investor Sale', 'NHC_NAME', 'SALE_DATE', 'BUYER_NAME', 'Realtor/Direct', 'COE Year', 'COE Month']
+    display_cols = ['Hub', 'Community Name', 'Address', 'Plan Name', 'Investor Sale',
+                    'NHC_NAME', 'SALE_DATE', 'BUYER_NAME', 'Realtor/Direct',
+                    'COE Year', 'COE Month']
     display_cols_available = [col for col in display_cols if col in sales_week_df.columns]
     detailed_table = sales_week_df[display_cols_available].copy()
+
+    # Force to string format for display
     if 'SALE_DATE' in detailed_table.columns:
-        detailed_table.loc[:, 'SALE_DATE'] = pd.to_datetime(detailed_table['SALE_DATE'], errors='coerce').dt.strftime('%b %d, %Y')
-    detailed_table = detailed_table.rename(columns={'SALE_DATE': 'Sale Date','BUYER_NAME': 'Buyer','NHC_NAME': 'NHC Name'})
+        detailed_table['SALE_DATE'] = detailed_table['SALE_DATE'].dt.strftime('%m/%d/%Y')
+
+    detailed_table = detailed_table.rename(columns={
+        'SALE_DATE': 'Sale Date',
+        'BUYER_NAME': 'Buyer',
+        'NHC_NAME': 'NHC Name'
+    })
+
     st.dataframe(detailed_table, use_container_width=True, hide_index=True)
+
 else:
     st.info("No data available for the selected week.")
+
 
 
 
