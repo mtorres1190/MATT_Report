@@ -174,7 +174,7 @@ if not filtered_df.empty:
         ))
 
     fig.update_layout(
-        title=f"Inventory by {agg_level}",
+        title=f"Inventory Status by {agg_level}",
         title_font=dict(size=20),
         xaxis_title=agg_level,
         yaxis_title="Number of Homesites",
