@@ -11,7 +11,12 @@ color_map = {
     'Closed': '#ff4136',
     'Unsold': '#87cefa',
     'Backlog': '#1f77b4',
-    'Grand Total': '#E5ECF6'
+    'Grand Total': '#E5ECF6',
+    # Age Buckets
+    'Black': '#000000',
+    'Red': '#ff0000',
+    'Yellow': '#ffff00',
+    'Green': '#008000'
 }
 
 # Map HS_TYPE codes to descriptive labels
@@ -81,7 +86,7 @@ def process_matt_data(matt_df: pd.DataFrame) -> pd.DataFrame:
     clean_strings(merged_df, ['Hub', 'Community Name', 'Plan Name'])
 
     # 3. Date Parsing & Derived Time Fields
-    parse_dates(merged_df, ['SALE_DATE', 'EST_COE_DATE'])
+    parse_dates(merged_df, ['SALE_DATE', 'EST_COE_DATE', 'CONSTRUCTION_COMPLETE_DATE', 'EST_DELIVERABLE_DATE'])
     merged_df['DOW_Sale'] = merged_df['SALE_DATE'].dt.day_name()
     merged_df['Weekday_Group'] = np.where(
         merged_df['DOW_Sale'].isin(['Saturday', 'Sunday']), 'Sat-Sun', 'M-F'
@@ -101,6 +106,25 @@ def process_matt_data(matt_df: pd.DataFrame) -> pd.DataFrame:
     )
     merged_df['Realtor/Direct'] = merged_df['COBROKE_Y_N'].fillna('').str.strip().apply(map_realtor_direct)
     merged_df['HS_TYPE_LABEL'] = merged_df['HS_TYPE'].map(status_map).fillna(merged_df['HS_TYPE'])
+
+    # 5. Age Calculation (Construction Complete or Est Deliverable)
+    today = pd.Timestamp.today().normalize()
+    merged_df['Chosen_Date'] = merged_df['CONSTRUCTION_COMPLETE_DATE'].combine_first(merged_df['EST_DELIVERABLE_DATE'])
+    merged_df['Age'] = (pd.to_datetime(merged_df['Chosen_Date'], errors='coerce') - today).dt.days
+
+    def categorize_age(days):
+        if pd.isna(days):
+            return None
+        if days < 0:
+            return 'Black'
+        elif 0 <= days <= 30:
+            return 'Red'
+        elif 31 <= days <= 60:
+            return 'Yellow'
+        else:
+            return 'Green'
+
+    merged_df['Age_Bucket'] = merged_df['Age'].apply(categorize_age)
 
     return merged_df
 
@@ -123,7 +147,7 @@ def compute_plan_pricing(df: pd.DataFrame, start_date: pd.Timestamp, end_date: p
         'PRICE_REDUCTION_INCENTIVES', 
         'OPTION_REVENUE', 
         'Net_Sales_Price',
-        'TOTAL_SQFT'  # <-- Add this
+        'TOTAL_SQFT'
     ]
 
     for col in cols_to_clean:

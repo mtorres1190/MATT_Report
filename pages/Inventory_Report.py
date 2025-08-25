@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 import plotly.graph_objects as go
 import datetime
 import os
@@ -175,7 +174,7 @@ if not filtered_df.empty:
         ))
 
     fig.update_layout(
-        title=f"Inventory by {agg_level} and Homesite Status",
+        title=f"Inventory by {agg_level}",
         title_font=dict(size=20),
         xaxis_title=agg_level,
         yaxis_title="Number of Homesites",
@@ -186,6 +185,60 @@ if not filtered_df.empty:
     )
 
     st.plotly_chart(fig, use_container_width=True)
+
+# ======================================================================================
+# Inventory bar chart (stacked) for Unsold homes by Age Bucket
+# ======================================================================================
+if not filtered_df.empty:
+    unsold_df = filtered_df[filtered_df['HS_TYPE_LABEL'] == 'Unsold'].copy()
+
+    if not unsold_df.empty:
+        if agg_level == "Hub":
+            group_col = "Hub"
+        elif agg_level == "Community Name":
+            group_col = "Community Name"
+        else:
+            group_col = ["Community Name", "Plan Name"]
+
+        if isinstance(group_col, list):
+            age_data = unsold_df.groupby(group_col + ['Age_Bucket']).size().reset_index(name='Count')
+            age_data['Label'] = age_data['Plan Name'] + " (" + age_data['Community Name'] + ")"
+            x_col = 'Label'
+        else:
+            age_data = unsold_df.groupby([group_col, 'Age_Bucket']).size().reset_index(name='Count')
+            x_col = group_col
+
+        # Define the desired bucket order
+        bucket_order = ["Green", "Yellow", "Red", "Black"]
+        age_data['Age_Bucket'] = pd.Categorical(age_data['Age_Bucket'], categories=bucket_order, ordered=True)
+        age_data = age_data.sort_values('Age_Bucket')
+
+        fig2 = go.Figure()
+        for bucket in bucket_order:
+            subset = age_data[age_data['Age_Bucket'] == bucket]
+            if not subset.empty:
+                fig2.add_trace(go.Bar(
+                    x=subset[x_col],
+                    y=subset['Count'],
+                    name=bucket,
+                    customdata=subset[[x_col, 'Count']].values,
+                    hovertemplate=f"<b>%{{customdata[0]}}</b><br>Age Bucket: {bucket}<br>Count: %{{customdata[1]:,}}<extra></extra>",
+                    marker_color=color_map.get(bucket, None)
+                ))
+
+        fig2.update_layout(
+            title=f"Inventory Age by {agg_level}",
+            title_font=dict(size=20),
+            xaxis_title=agg_level,
+            yaxis_title="Number of Homesites",
+            legend_title="Age Bucket",
+            barmode='stack',
+            xaxis={'categoryorder': 'total descending'},
+            margin=dict(t=50, l=20, r=20, b=20)
+        )
+
+        st.plotly_chart(fig2, use_container_width=True)
+
 
 
 
