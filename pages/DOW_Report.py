@@ -34,6 +34,8 @@ with st.sidebar:
     # Sale Date Range filter (applies ONLY to DOW charts)
     most_recent_sunday = datetime.date.today() - datetime.timedelta(days=datetime.date.today().weekday() + 1)
     sale_date_range = st.date_input("Sale Date Range", value=(datetime.date(2024, 9, 1), most_recent_sunday))
+
+    start_date, end_date = None, None
     if isinstance(sale_date_range, tuple) and len(sale_date_range) == 2:
         start_date, end_date = pd.to_datetime(sale_date_range[0]), pd.to_datetime(sale_date_range[1])
     else:
@@ -61,7 +63,7 @@ with st.sidebar:
     communities = selected_communities if selected_communities else community_options
     df_comm = df_hub.loc[df_hub['Community Name'].isin(communities)].copy()
 
-        # ---- 5) Investor filter (division + hub + community)
+    # ---- 5) Investor filter (division + hub + community)
     investor_options = sorted(df_comm['Investor Sale'].dropna().astype(str).unique()) if 'Investor Sale' in df_comm.columns else []
     investor_options = [opt for opt in investor_options if not df_comm.loc[df_comm['Investor Sale'] == opt].empty]
 
