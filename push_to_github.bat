@@ -8,6 +8,10 @@ echo -----------------------------------------------------
 REM Navigate to your local project folder
 cd /d "C:\Users\MiTorres\OneDrive - Lennar Azure AD\Files\Daily Reports\MATT Application"
 
+REM Ensure Git identity is set
+git config user.name "Michael Torres"
+git config user.email "michael.torres@lennar.com"
+
 REM Initialize git if not already done
 if not exist ".git" (
     echo Initializing new git repository...
@@ -36,3 +40,4 @@ echo GitHub Sync Complete!
 echo -----------------------------------------------------
 
 pause
+
