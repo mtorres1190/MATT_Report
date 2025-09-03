@@ -50,7 +50,7 @@ else:
     if uploaded_file is not None:
         try:
             df = pd.read_csv(uploaded_file, low_memory=False)
-            st.write("**Uploaded Columns:**", list(df.columns))  # Debugging aid
+            # Removed debug printout of uploaded columns
             normalized_cols = {col.strip() for col in df.columns}
             missing_cols = REQUIRED_COLUMNS - normalized_cols
             if missing_cols:
@@ -67,6 +67,7 @@ else:
 
 # --- Streamlit command to run this file locally ---
 # streamlit run MATT_Upload.py
+
 
 
 
