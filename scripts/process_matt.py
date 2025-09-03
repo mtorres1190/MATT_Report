@@ -3,6 +3,7 @@ import numpy as np
 import os
 import datetime
 import streamlit as st
+from pathlib import Path
 
 # --- Constants & Mapping Dictionaries ---
 # Color coding for homesite status visualization
@@ -67,64 +68,140 @@ def process_matt_data(matt_df: pd.DataFrame) -> pd.DataFrame:
         'Textbox22': 'Net_Sales_Price'
     })
     clean_strings(matt_df, matt_df.columns)
+
     # Create cleaned Address column if present
     if 'HOMESITE_ADDRESS1' in matt_df.columns:
         matt_df = matt_df.assign(
-            Address=matt_df['HOMESITE_ADDRESS1'].astype(str).str.strip(),
-            **{'Comm_#': matt_df['COMMUNITY'].astype(str).str[:5].astype(int)}
+            Address=matt_df['HOMESITE_ADDRESS1'].astype(str).str.strip()
         )
 
-    # 2. Merge Reference Data (Hub & Plan lookups)
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    hub_df = pd.read_csv(os.path.join(base_dir, 'data', 'Hub.csv'))
-    plan_df = pd.read_csv(os.path.join(base_dir, 'data', 'Plan.csv'))
-    matt_df['Comm_#'] = matt_df['COMMUNITY'].astype(str).str[:5].astype(int)
-    matt_df['PLAN_CODE'] = matt_df['PLAN_CODE'].astype(str).str.strip().str.replace('.0', '', regex=False)
-    plan_df['Plan Code'] = plan_df['Plan Code'].astype(str).str.strip()
-    merged_df = pd.merge(matt_df, hub_df, how='left', left_on='Comm_#', right_on='Community Number')
-    merged_df = pd.merge(merged_df, plan_df, how='left', left_on='PLAN_CODE', right_on='Plan Code')
+    # Ensure Comm_# exists (first 5 digits of COMMUNITY)
+    if 'COMMUNITY' in matt_df.columns:
+        matt_df['Comm_#'] = (
+            matt_df['COMMUNITY'].astype(str).str[:5].str.replace(r"[^0-9]", "", regex=True)
+        )
+        with pd.option_context('mode.use_inf_as_na', True):
+            matt_df['Comm_#'] = pd.to_numeric(matt_df['Comm_#'], errors='coerce').astype('Int64')
+
+    # Normalize PLAN_CODE (strip and remove trailing .0)
+    if 'PLAN_CODE' in matt_df.columns:
+        matt_df['PLAN_CODE'] = (
+            matt_df['PLAN_CODE'].astype(str).str.strip().str.replace('.0', '', regex=False)
+        )
+
+    # 2. Merge Reference Data (Hub & Plan lookups) — robust path resolution
+    # Expect repo layout: <repo_root>/data/Hub.csv and Plan.csv
+    repo_root = Path(__file__).resolve().parents[1]
+    data_dir = repo_root / 'data'
+    if not data_dir.exists():
+        # Fallback to CWD/data for hosted environments that set a different working dir
+        data_dir = Path.cwd() / 'data'
+
+    hub_path = data_dir / 'Hub.csv'
+    plan_path = data_dir / 'Plan.csv'
+
+    if not hub_path.exists() or not plan_path.exists():
+        st.error(f"Missing reference files in '{data_dir}'. Expected Hub.csv and Plan.csv.")
+        st.stop()
+
+    hub_df = pd.read_csv(hub_path)
+    plan_df = pd.read_csv(plan_path)
+
+    # Clean lookup keys
+    if 'Plan Code' in plan_df.columns:
+        plan_df['Plan Code'] = plan_df['Plan Code'].astype(str).str.strip()
+
+    # Perform merges
+    merged_df = matt_df.copy()
+    if 'Comm_#' in merged_df.columns and 'Community Number' in hub_df.columns:
+        merged_df = pd.merge(
+            merged_df,
+            hub_df,
+            how='left',
+            left_on='Comm_#',
+            right_on='Community Number'
+        )
+
+    if 'PLAN_CODE' in merged_df.columns and 'Plan Code' in plan_df.columns:
+        merged_df = pd.merge(
+            merged_df,
+            plan_df,
+            how='left',
+            left_on='PLAN_CODE',
+            right_on='Plan Code'
+        )
+
     clean_strings(merged_df, ['Hub', 'Community Name', 'Plan Name'])
 
     # 3. Date Parsing & Derived Time Fields
     parse_dates(merged_df, ['SALE_DATE', 'EST_COE_DATE', 'CONSTRUCTION_COMPLETE_DATE', 'EST_DELIVERABLE_DATE'])
-    merged_df['DOW_Sale'] = merged_df['SALE_DATE'].dt.day_name()
-    merged_df['Weekday_Group'] = np.where(
-        merged_df['DOW_Sale'].isin(['Saturday', 'Sunday']), 'Sat-Sun', 'M-F'
-    )
+    if 'SALE_DATE' in merged_df.columns:
+        merged_df['DOW_Sale'] = merged_df['SALE_DATE'].dt.day_name()
+        merged_df['Weekday_Group'] = np.where(
+            merged_df['DOW_Sale'].isin(['Saturday', 'Sunday']), 'Sat-Sun', 'M-F'
+        )
+    else:
+        merged_df['DOW_Sale'] = pd.NaT
+        merged_df['Weekday_Group'] = np.nan
+
     # Optional one-liner for page-level ECOE month aggregations
-    merged_df['ECOE_Month'] = merged_df['EST_COE_DATE'].dt.to_period('M')
+    if 'EST_COE_DATE' in merged_df.columns:
+        merged_df['ECOE_Month'] = merged_df['EST_COE_DATE'].dt.to_period('M')
 
     # 4. Classification & Labeling
     investor_names_normalized = {name.strip().upper() for name in investor_names}
-    merged_df['NHC_NAME_CLEAN'] = merged_df['NHC_NAME'].astype(str).str.strip().str.upper()
-    merged_df['Investor Sale'] = merged_df['NHC_NAME_CLEAN'].apply(
-        lambda x: "Investor" if x in investor_names_normalized else "Retail"
-    )
-    clean_strings(merged_df, ['SALES_CANCELLATION_DATE'])
-    merged_df['SALES_CANCELLATION_DATE_PARSED'] = pd.to_datetime(
-        merged_df['SALES_CANCELLATION_DATE'], errors='coerce'
-    )
-    merged_df['Realtor/Direct'] = merged_df['COBROKE_Y_N'].fillna('').str.strip().apply(map_realtor_direct)
-    merged_df['HS_TYPE_LABEL'] = merged_df['HS_TYPE'].map(status_map).fillna(merged_df['HS_TYPE'])
+    if 'NHC_NAME' in merged_df.columns:
+        merged_df['NHC_NAME_CLEAN'] = merged_df['NHC_NAME'].astype(str).str.strip().str.upper()
+        merged_df['Investor Sale'] = merged_df['NHC_NAME_CLEAN'].apply(
+            lambda x: "Investor" if x in investor_names_normalized else "Retail"
+        )
+    else:
+        merged_df['Investor Sale'] = 'Retail'
+
+    # Sales cancellation date (keep original text + parsed)
+    if 'SALES_CANCELLATION_DATE' in merged_df.columns:
+        clean_strings(merged_df, ['SALES_CANCELLATION_DATE'])
+        merged_df['SALES_CANCELLATION_DATE_PARSED'] = pd.to_datetime(
+            merged_df['SALES_CANCELLATION_DATE'], errors='coerce'
+        )
+
+    # Realtor/Direct flag
+    if 'COBROKE_Y_N' in merged_df.columns:
+        merged_df['Realtor/Direct'] = merged_df['COBROKE_Y_N'].fillna('').str.strip().apply(map_realtor_direct)
+    else:
+        merged_df['Realtor/Direct'] = 'Direct'
+
+    # HS_TYPE human label
+    if 'HS_TYPE' in merged_df.columns:
+        merged_df['HS_TYPE_LABEL'] = merged_df['HS_TYPE'].map(status_map).fillna(merged_df['HS_TYPE'])
 
     # 5. Age Calculation (Construction Complete or Est Deliverable)
     today = pd.Timestamp.today().normalize()
-    merged_df['Chosen_Date'] = merged_df['CONSTRUCTION_COMPLETE_DATE'].combine_first(merged_df['EST_DELIVERABLE_DATE'])
-    merged_df['Age'] = (pd.to_datetime(merged_df['Chosen_Date'], errors='coerce') - today).dt.days
+    chosen = None
+    if 'CONSTRUCTION_COMPLETE_DATE' in merged_df.columns:
+        chosen = merged_df['CONSTRUCTION_COMPLETE_DATE']
+    if 'EST_DELIVERABLE_DATE' in merged_df.columns:
+        chosen = chosen.combine_first(merged_df['EST_DELIVERABLE_DATE']) if chosen is not None else merged_df['EST_DELIVERABLE_DATE']
+    if chosen is not None:
+        merged_df['Chosen_Date'] = chosen
+        merged_df['Age'] = (pd.to_datetime(merged_df['Chosen_Date'], errors='coerce') - today).dt.days
 
-    def categorize_age(days):
-        if pd.isna(days):
-            return None
-        if days < 0:
-            return 'Black'
-        elif 0 <= days <= 30:
-            return 'Red'
-        elif 31 <= days <= 60:
-            return 'Yellow'
-        else:
-            return 'Green'
+        def categorize_age(days):
+            if pd.isna(days):
+                return None
+            if days < 0:
+                return 'Black'
+            elif 0 <= days <= 30:
+                return 'Red'
+            elif 31 <= days <= 60:
+                return 'Yellow'
+            else:
+                return 'Green'
 
-    merged_df['Age_Bucket'] = merged_df['Age'].apply(categorize_age)
+        merged_df['Age_Bucket'] = merged_df['Age'].apply(categorize_age)
+    else:
+        merged_df['Age'] = np.nan
+        merged_df['Age_Bucket'] = np.nan
 
     return merged_df
 
@@ -218,7 +295,7 @@ def compute_pace_vs_margin(df: pd.DataFrame, target_date: datetime.date, coe_sta
         'Unsold': unsold_counts,
         '3Wk Avg Sales Pace': pace
     }).fillna(0)
-    summary['Needed Pace'] = summary['Unsold'] / weeks_left
+    summary['Needed Pace'] = summary['Unsold'] / weeks_left if weeks_left > 0 else 0
     summary['Delta'] = summary['3Wk Avg Sales Pace'] - summary['Needed Pace']
     def classify(delta):
         if delta > 1:
@@ -242,6 +319,7 @@ __all__ = [
     "get_fred_data_filtered",
     "color_map"
 ]
+
 
 
 
