@@ -50,6 +50,17 @@ investor_filter = st.sidebar.selectbox(
     key="trend_investor_filter"
 )
 
+# --- New Hub and Community Name filters ---
+df_div = df[df['DIV_CODE_DESC'].isin(div_selection)]
+hub_options = sorted(df_div['Hub'].dropna().unique())
+selected_hubs = st.sidebar.multiselect("Hub", options=hub_options, key="trend_hubs")
+hubs = selected_hubs if selected_hubs else hub_options
+
+df_hub = df_div[df_div['Hub'].isin(hubs)]
+community_options = sorted(df_hub['Community Name'].dropna().unique())
+selected_communities = st.sidebar.multiselect("Community Name", options=community_options, key="trend_communities")
+communities = selected_communities if selected_communities else community_options
+
 # --- Validate and apply filters ---
 if isinstance(sale_date_range, tuple) and len(sale_date_range) == 2:
     start_date = pd.to_datetime(sale_date_range[0])
@@ -60,6 +71,8 @@ else:
 
 mask = df['DIV_CODE_DESC'].isin(div_selection)
 mask &= df['SALE_DATE'].between(start_date, end_date)
+mask &= df['Hub'].isin(hubs)
+mask &= df['Community Name'].isin(communities)
 if investor_filter != "All":
     mask &= df['Investor Sale'] == investor_filter
 
@@ -208,7 +221,3 @@ fig_vol.update_layout(
 st.plotly_chart(fig_vol, use_container_width=True)
 if printable_mode == "On":
     st.markdown(f"<div style='font-size:18px; color:gray; text-align:left; margin-top:-10px;'>{generate_footnote()}</div>", unsafe_allow_html=True)
-
-
-
-
