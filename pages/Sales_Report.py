@@ -33,7 +33,7 @@ with st.sidebar:
     # 1) COE Date Range (foundation for all other options)
     est_coe_range = st.date_input(
         "COE Date Range",
-        (datetime.date(2025, 9, 1), datetime.date(2026, 1, 31)),
+        (datetime.date(2025, 10, 1), datetime.date(2026, 1, 31)),
         key="sales_est_coe_range"
     )
     if not (isinstance(est_coe_range, tuple) and len(est_coe_range) == 2):
