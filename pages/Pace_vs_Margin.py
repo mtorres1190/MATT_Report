@@ -40,7 +40,7 @@ with st.sidebar:
     # COE Date Range filter
     coe_range_input = st.date_input(
         "COE Date Range",
-        value=(datetime.date(2025, 10, 1), datetime.date(2025, 12, 31)),
+        value=(datetime.date(2025, 12, 1), datetime.date(2026, 2, 28)),
         key="pace_margin_est_coe_range"
     )
     if isinstance(coe_range_input, tuple) and len(coe_range_input) == 2:
