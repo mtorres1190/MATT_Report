@@ -36,7 +36,7 @@ with st.sidebar:
     # COE Date Range filter
     coe_range = st.date_input(
         "COE Date Range",
-        value=(datetime.date(2025, 10, 1), datetime.date(2026, 2, 28)),
+        value=(datetime.date(2025, 11, 1), datetime.date(2026, 2, 28)),
         key="inv_est_coe_range"
     )
     if isinstance(coe_range, tuple) and len(coe_range) == 2:
