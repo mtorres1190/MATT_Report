@@ -33,7 +33,7 @@ with st.sidebar:
 
     # Sale Date Range filter (applies ONLY to DOW charts)
     most_recent_sunday = datetime.date.today() - datetime.timedelta(days=datetime.date.today().weekday() + 1)
-    sale_date_range = st.date_input("Sale Date Range", value=(datetime.date(2025, 6, 1), most_recent_sunday))
+    sale_date_range = st.date_input("Sale Date Range", value=(datetime.date(2025, 9, 31), most_recent_sunday))
 
     start_date, end_date = None, None
     if isinstance(sale_date_range, tuple) and len(sale_date_range) == 2:

@@ -39,7 +39,7 @@ div_selection = st.sidebar.multiselect(
 
 sale_date_range = st.sidebar.date_input(
     "Sale Date Range",
-    value=(datetime.date(2025, 6, 1), datetime.date.today() - datetime.timedelta(days=1)),
+    value=(datetime.date(2025, 9, 1), datetime.date.today() - datetime.timedelta(days=1)),
     key="trend_sale_date_range"
 )
 

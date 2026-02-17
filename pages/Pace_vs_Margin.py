@@ -33,14 +33,14 @@ with st.sidebar:
     st.header("Filters")
 
     # Target Sell-by Date
-    target_date_input = st.date_input("Target Sell-by Date", value=datetime.date(2026, 2, 15))
+    target_date_input = st.date_input("Target Sell-by Date", value=datetime.date(2026, 2, 28))
     st.session_state["target_date"] = target_date_input
     target_date = target_date_input
 
     # COE Date Range filter
     coe_range_input = st.date_input(
         "COE Date Range",
-        value=(datetime.date(2025, 12, 1), datetime.date(2026, 2, 28)),
+        value=(datetime.date(2025, 1, 31), datetime.date(2026, 2, 28)),
         key="pace_margin_est_coe_range"
     )
     if isinstance(coe_range_input, tuple) and len(coe_range_input) == 2:
