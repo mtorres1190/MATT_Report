@@ -3,16 +3,39 @@ import pandas as pd
 import plotly.graph_objects as go
 import datetime
 
-# --- Streamlit page config ---
+# ======================================================================================
+# PAGE SETUP
+# ======================================================================================
+
 st.set_page_config(page_title="Sales Trend Report", layout="wide")
 st.title("Sales Trend Report")
 
-# --- Custom styling ---
 st.markdown("""
 <style>
-.stMultiSelect [data-baseweb=\"tag\"] {
+
+/* Multiselect styling */
+.stMultiSelect [data-baseweb="tag"] {
     background-color: #1f77b4 !important;
 }
+
+/* ----------------------------------------------------------
+   Allow sidebar popovers to overflow naturally
+   ---------------------------------------------------------- */
+
+section[data-testid="stSidebar"] {
+    overflow: visible !important;
+}
+
+/* Prevent clipping of popovers */
+section[data-testid="stSidebar"] > div {
+    overflow: visible !important;
+}
+
+/* Ensure date popovers render above everything */
+div[data-baseweb="popover"] {
+    z-index: 9999 !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 

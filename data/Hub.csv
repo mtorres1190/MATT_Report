@@ -1,563 +1,1167 @@
 ﻿DIVISION,HUB,PROJECT_NUMBER,PROJECT_NAME
-Tampa,HUB 3,24150,Acacia Fields 50's
-Dallas-Fort Worth,Princeton HUB,29122,Acorn North
-Dallas-Fort Worth,Princeton HUB,29123,Acorn South
-Dallas-Fort Worth,Central HUB,15658,Addison Hills Classic
-Tampa,HUB 1,25530,Angeline 2C Villas
-Tampa,HUB 1,15986,Angeline 40
-Tampa,HUB 1,15339,Angeline 50
-Tampa,HUB 1,15981,Angeline AA 50s
-Tampa,HUB 1,15982,Angeline AA 60s
-Tampa,HUB 1,15980,Angeline AA Villas
-Tampa,HUB 1,24166,Angeline Villas
-Houston,West HUB,14168,Anniston 40' Avante
-Houston,West HUB,14789,Anniston 40' Cottage
-Houston,West HUB,22728,Anniston 45 Bristol
-Houston,West HUB,14791,Anniston 45' Watermill
-Houston,West HUB,14792,Anniston 50' Classic
-Houston,West HUB,14169,Anniston 50' Richmond
-Houston,West HUB,14790,Anniston 55' Fairway
-Houston,West HUB,22718,Anniston 60' Pinnacle
-Austin-San Antonio,West HUB,40302,Applewood-Cottage
-Dallas-Fort Worth,Southeast HUB,15655,Arbors at Eastland Classic
-Houston,North HUB,14739,Artavia 55'
-Houston,South HUB,22737,Ashland 50'
-Dallas-Fort Worth,SW Fort Worth HUB,15623,Ashton Homeplace
-Austin-San Antonio,Far North HUB,41037,Atascosa Watermill
-Austin-San Antonio,Far North HUB,41038,Atascosa Watermill
-Gulf Coast,Alabama HUB,21561,Autumn Fields
-Tampa,HUB 5,15926,Balm Grove 50s
-Tampa,HUB 5,24145,Balm Grove 60's
-Gulf Coast,Rausch HUB,74201,Bay Springs Majors
-Gulf Coast,Alabama HUB,21528,Bayou Ridge
-Tampa,HUB 3,24136,Bellamy 40s
-Tampa,HUB 3,24137,Bellamy 50s
-Austin-San Antonio,West HUB,41010,Bertram Oaks Classics
-Austin-San Antonio,West HUB,41009,Bertram Oaks Majors
-Tampa,HUB 2,15036,Big Connerton 40
-Tampa,HUB 2,15037,Big Connerton 50
-Tampa,HUB 2,15919,Big Connerton 50 PIN
-Tampa,HUB 2,15920,Big Connerton 60 PIN
-Tampa,HUB 2,15034,Big Connerton TH
-Tampa,HUB 2,15035,Big Connerton Villas
-Houston,Rausch HUB,74001,Binford Creek '40
-Houston,Rausch HUB,74002,Binford Creek '50
-Houston,Rausch HUB,74023,Binford Creek Bristol 50'
-Houston,Rausch HUB,74022,Binford Creek NEW Avante 40'
-Austin-San Antonio,Southwest HUB,40477,Blossom Ranch-Eventide
-Orlando,Northwest HUB,26314,Brentwood TH
-Houston,Northwest HUB,14173,Bridgeland 28'
-Houston,Northwest HUB,4497,Bridgeland 65'
-Orlando,Southwest HUB,65316,Bridgewalk 60s
-Orlando,Southwest HUB,26300,Bridgewalk SL 25 TH
-Orlando,Southwest HUB,26301,Bridgewalk SL 40s
-Orlando,Southwest HUB,26302,Bridgewalk SL 50s
-Orlando,Southwest HUB,26303,Bridgewalk SL 60s
-Orlando,East HUB,11147,Bronson's Ridge 25 TH
-Orlando,East HUB,11149,Bronson's Ridge 60s
-Austin-San Antonio,West HUB,40355,Brookmill-Brookstone
-Austin-San Antonio,West HUB,40354,Brookmill-Classic
-Austin-San Antonio,West HUB,40353,Brookmill-Coastline
-Austin-San Antonio,West HUB,40352,Brookmill-Cottage
-Austin-San Antonio,West HUB,40356,Brookmill-Crestmore
-Austin-San Antonio,Corpus Christi HUB,40509,Calallen-Coastline
-Austin-San Antonio,Corpus Christi HUB,40508,Calallen-Watermill
-Dallas-Fort Worth,Southeast HUB,29146,Caldwell Lakes
-Houston,Rausch HUB,74004,Caney Mills
-Dallas-Fort Worth,SW Fort Worth HUB,15632,Carrell Hills
-Dallas-Fort Worth,Southeast HUB,14635,Cartwright Ranch
-Austin-San Antonio,Lubbock,40787,Centerpointe-Majors
-Houston,Rausch HUB,74005,Chapel Run
-Austin-San Antonio,Far North HUB,41032,Clayton Ranch Classics
-Austin-San Antonio,Far North HUB,41033,Clayton Ranch Classics 3 Car
-Austin-San Antonio,Closeout HUB,14825,Colony Claremont
-Houston,Northwest HUB,22760,Colton 50'
-Austin-San Antonio,North HUB,14837,Cool Water Cottage
-Austin-San Antonio,East HUB,4664,Cotton Brook Claremonts
-Austin-San Antonio,East HUB,4661,Cotton Brook Classics
-Austin-San Antonio,East HUB,14893,Cotton Brook Woodbridge
-Austin-San Antonio,East HUB,4693,Cotton Brook Woodbridge 3 Car
-Austin-San Antonio,South HUB,41017,Cotton Gateway Cottage
-Austin-San Antonio,South HUB,41018,Cotton Gateway Watermill
-Dallas-Fort Worth,Central HUB,15625,Cottonwood Cottage
-Dallas-Fort Worth,380 HUB,29111,Creekview
-Dallas-Fort Worth,380 HUB,29142,Creekview
-Houston,Rausch HUB,74007,Crosby Farms
-Gulf Coast,Florida HUB,21555,Cross Creek
-Houston,West HUB,14763,Cross Creek 50'
-Houston,West HUB,14174,Cross Creek West 60'
-Orlando,Southwest HUB,11175,Crossprairie 25 TH
-Orlando,Southwest HUB,11176,Crossprairie 32s
-Orlando,Southwest HUB,11177,Crossprairie 50s
-Orlando,Northwest HUB,11135,Crosswinds 40s
-Orlando,Northwest HUB,26371,Crosswinds 40s GC
-Orlando,Northwest HUB,11136,Crosswinds 50s
-Orlando,Northwest HUB,26372,Crosswinds 50s GC
-Tampa,HUB 4,24155,Crystal Brook 20' TH's
-Tampa,HUB 8,24169,Curiosity Creek 40's
-Tampa,HUB 6,24170,Curiosity Creek 50's
-Dallas-Fort Worth,Princeton HUB,15626,Cypress Creek West Brookstone
-Houston,Northwest HUB,14774,Cypress Green 40'
-Houston,Northwest HUB,23227,Cypress Green 40' Avante
-Houston,Northwest HUB,22673,Cypress Green 45' WM
-Houston,Northwest HUB,22730,Cypress Green 45'B
-Houston,Northwest HUB,22689,Cypress Green 50' Classic
-Houston,Northwest HUB,23228,Cypress Green 50' Richmond
-Tampa,HUB 4,24146,Cypress Point 40's
-Austin-San Antonio,Corpus Christi HUB,40531,David Estates-Classic
-Austin-San Antonio,Corpus Christi HUB,40533,David Estates-Coastline
-Austin-San Antonio,Corpus Christi HUB,40532,David Estates-Watermill
-Austin-San Antonio,Corpus Christi HUB,40534,David Estates-Woodbridge
-Dallas-Fort Worth,SW Fort Worth HUB,29126,Deer Creek Addition
-Dallas-Fort Worth,SW Fort Worth HUB,29109,Deer Crk Cottage 50
-Dallas-Fort Worth,SW Fort Worth HUB,29182,Deer Crk Cottage 55
-Dallas-Fort Worth,SW Fort Worth HUB,29110,Deer Crk Majors 60
-Dallas-Fort Worth,SW Fort Worth HUB,29183,Deer Crk Majors 65
-Dallas-Fort Worth,SW Fort Worth HUB,15615,Eagles Crossing Broadview
-Dallas-Fort Worth,SW Fort Worth HUB,15614,Eagles Crossing Cottage
-Gulf Coast,Florida HUB,21550,"Eagle's Ridge, Classics"
-Gulf Coast,Florida HUB,21526,"Eagles Ridge, Watermill"
-Dallas-Fort Worth,Southeast HUB,14666,Eastland Classic
-Dallas-Fort Worth,Southeast HUB,14665,Eastland Cottage
-Dallas-Fort Worth,Southeast HUB,14667,Eastland Watermill
-Austin-San Antonio,East HUB,40305,Elizondo-Cottage
-Dallas-Fort Worth,Central HUB,15622,Ellington Woods
-Austin-San Antonio,East HUB,41046,Elm Creek Coastline
-Austin-San Antonio,East HUB,4687,Elm Creek Cottage
-Austin-San Antonio,East HUB,41045,Elm Creek Eventide
-Austin-San Antonio,East HUB,4648,Elm Creek Watermill
-Austin-San Antonio,Rausch HUB,74103,Enclave at Horizon Pointe
-Austin-San Antonio,Southwest HUB,40407,Espada-Belmar
-Austin-San Antonio,Southwest HUB,40404,Espada-Broadview
-Austin-San Antonio,Southwest HUB,40408,Espada-Coastline
-Austin-San Antonio,Southwest HUB,40405,Espada-Crestmore
-Austin-San Antonio,Southwest HUB,40406,Espada-Stonehill
-Houston,Rausch HUB,74011,Esperanza
-Houston,Rausch HUB,74024,Esperanza NEW Avante 40'
-Orlando,East HUB,11146,Everbe 34s
-Dallas-Fort Worth,Southeast HUB,15619,Falcon Heights Cottage
-Austin-San Antonio,East HUB,14861,Firefly Pointe Cottage
-Austin-San Antonio,East HUB,14863,Firefly Pointe Majors
-Austin-San Antonio,East HUB,14859,Firefly Pointe Stonehill
-Austin-San Antonio,East HUB,14862,Firefly Pointe Watermill
-Houston,Northeast HUB,22655,Flagstone 40'
-Austin-San Antonio,North HUB,41036,Flint Ridge Classics 3 Car
-Austin-San Antonio,East HUB,40184,Flora Meadows - Dream
-Austin-San Antonio,East HUB,40185,Flora Meadows - Wellton
-Dallas-Fort Worth,380 HUB,29121,Foree Ranch 3 Car Classic
-Dallas-Fort Worth,380 HUB,15645,Foree Ranch Classic
-Dallas-Fort Worth,380 HUB,15643,Foree Ranch Cottage
-Dallas-Fort Worth,380 HUB,15644,Foree Ranch Watermill
-Dallas-Fort Worth,380 HUB,15642,Foree Ranch Wellton
-Houston,West HUB,22742,Freeman Ranch 50'
-Austin-San Antonio,Hill Country HUB,40289,Friendship Oaks-Coastline
-Austin-San Antonio,Hill Country HUB,40288,Friendship Oaks-Watermill
-Dallas-Fort Worth,SW Fort Worth HUB,15688,Frontier Cottage
-Dallas-Fort Worth,SW Fort Worth HUB,15689,Frontier Watermill
-Austin-San Antonio,North HUB,40327,Gatehouse-Brookstone
-Austin-San Antonio,North HUB,40326,Gatehouse-Classic
-Tampa,HUB 5,24163,Gladesong
-Gulf Coast,Alabama HUB,21506,Glenlakes
-Austin-San Antonio,South HUB,40429,Grace Gardens-Belmar
-Austin-San Antonio,South HUB,40431,Grace Gardens-Coastline
-Austin-San Antonio,South HUB,40427,Grace Gardens-Crestmore
-Austin-San Antonio,South HUB,40426,Grace Gardens-Wellton
-Austin-San Antonio,East HUB,40255,Grace Valley Cottage
-Austin-San Antonio,East HUB,40226,Grace Valley-Coastline
-Austin-San Antonio,East HUB,40254,Grace Valley-Eventide
-Houston,Northwest HUB,23243,Grand Lake Core Classic 70'
-Houston,Northwest HUB,22618,Grand Prairie 40'
-Houston,Northwest HUB,22619,Grand Prairie 45' Bristol
-Houston,Northwest HUB,22620,Grand Prairie 45' Watermill
-Houston,Northwest HUB,22621,Grand Prairie 50' Core Classic
-Houston,Northwest HUB,22783,Grand Prairie 50' Woodbridge
-Houston,Northwest HUB,22731,Grand Prairie Highlands 40'A
-Houston,Northwest HUB,22778,Grand Prairie Highlands 45' B
-Orlando,Polk HUB,26354,Grandview TH
-Gulf Coast,Alabama HUB,21560,Grassland Majors
-Gulf Coast,Alabama HUB,21542,Grasslands
-Gulf Coast,Florida HUB,21538,Grove at Bella Terra
-Orlando,Northwest HUB,26341,Grove at Grenelefe 60s
-Austin-San Antonio,East HUB,40145,Guadalupe Heights-Coastline
-Austin-San Antonio,East HUB,40111,Guadalupe Heights-Watermill
-Austin-San Antonio,Rausch HUB,74104,Guadalupe Ridge
-Orlando,Southwest HUB,11170,Hamilton Bluff 40s
-Orlando,Polk HUB,26320,Hamilton Bluff 50s
-Gulf Coast,Rausch HUB,74206,Harvest Point
-Dallas-Fort Worth,North HUB,15676,Hidden Meadows Watermill
-Austin-San Antonio,Rausch HUB,74106,Hidden Oasis
-Orlando,Northwest HUB,26306,Hidden Ridge 50
-Austin-San Antonio,Rausch HUB,74107,Higdon Crossing
-Austin-San Antonio,Rausch HUB,74126,Higdon Crossing-Eventide
-Dallas-Fort Worth,380 HUB,29186,Highpointe W Majors
-Dallas-Fort Worth,380 HUB,15693,Highpointe West Classic
-Dallas-Fort Worth,380 HUB,15691,Highpointe West Cottage
-Dallas-Fort Worth,380 HUB,15692,Highpointe West Watermill
-Austin-San Antonio,East HUB,40180,Hightop Ridge-Coastline
-Tampa,HUB 2,25520,Hilltop Point 50s
-Gulf Coast,Florida HUB,21527,Horizon's Edge
-Orlando,Polk HUB,26368,Hunt Club 50GC
-Orlando,Polk HUB,11161,Hunt Club Groves 40s
-Orlando,Polk HUB,11162,Hunt Club Groves 50s
-Austin-San Antonio,East HUB,40304,Hunter's Ridge-Cottage
-Houston,East HUB,22695,Indian Springs 25' Welton
-Houston,East HUB,22657,Indian Springs 40'
-Tampa,HUB 4,24176,Ivywood 40s
-Dallas-Fort Worth,<No Hub>,29149,Jackson's Run
-Houston,Southwest HUB,22614,Jones Creek 45'
-Houston,Southwest HUB,22724,Jones Creek 45 B
-Houston,West HUB,14170,Jordan Ranch 45'
-Houston,West HUB,14178,Jordan Ranch 60'
-Austin-San Antonio,North HUB,40416,Juniper Ranch-Coastline
-Austin-San Antonio,North HUB,40417,Juniper Ranch-Eventide
-Austin-San Antonio,East HUB,40437,Kayden Springs-Costline
-Austin-San Antonio,East HUB,40436,Kayden Springs-Watermill
-Austin-San Antonio,Corpus Christi HUB,40524,King's Landing-Coastline
-Austin-San Antonio,Corpus Christi HUB,40523,King's Landing-Watermill
-Orlando,Southwest HUB,11171,Knightsbridge 2
-Houston,Northwest HUB,22704,Kresston
-Austin-San Antonio,North HUB,40272,Kyndwood-Cottage
-Austin-San Antonio,North HUB,40270,Kyndwood-Eventide
-Houston,Southeast HUB,22626,Lago Mar (SW) 55'
-Houston,Southeast HUB,22714,Lago Mar 55'
-Houston,North HUB,22796,Lakes at Crockett Martin 50'CL
-Houston,North HUB,22795,Lakes at Crockett Martin 50'WM
-Dallas-Fort Worth,N Fort Worth HUB,14660,Landing at Creekside
-Austin-San Antonio,West HUB,40300,Landon Ridge-Cottage
-Houston,Southeast HUB,22763,Legacy 50'
-Dallas-Fort Worth,North HUB,15636,Legacy Hills Brookstone 3 Car
-Dallas-Fort Worth,North HUB,15634,Legacy Hills Classic
-Austin-San Antonio,Southwest HUB,40250,Legacy Point-Watermill
-Orlando,Southwest HUB,11179,Lennar at Esplanade Villas
-Austin-San Antonio,Northwest HUB,41025,Lively Ranch Claremont
-Austin-San Antonio,Northwest HUB,41026,Lively Ranch Classics
-Austin-San Antonio,Northwest HUB,41028,Lively Ranch Woodbridge
-Austin-San Antonio,Rausch HUB,74111,Lonesome Dove
-Tampa,HUB 2,15923,Longleaf 20 THs
-Tampa,HUB 2,15924,Longleaf 32 RLs
-Gulf Coast,Florida HUB,21544,Lost Key
-Orlando,East HUB,26327,LPGA 2 40s CORE
-Orlando,East HUB,16482,LPGA 40s
-Orlando,East HUB,16483,LPGA 50s
-Dallas-Fort Worth,North HUB,15677,Luella Crossing Cottage
-Houston,Northwest HUB,22776,Magnolia Forest 40' Avante
-Houston,Northwest HUB,22690,Magnolia Forest 40' Cottage
-Houston,Northwest HUB,22777,Magnolia Forest 45' Bristol
-Houston,Northwest HUB,22691,Magnolia Forest 45' WM
-Gulf Coast,Rausch HUB,74210,Magnolia Ridge (NWFL)
-Houston,Northwest HUB,22605,Magnolia Ridge 40'
-Gulf Coast,Florida HUB,74218,Magnolia Ridge Majors
-Houston,Rausch HUB,74016,Magnolia Springs
-Tampa,HUB 5,24196,Market's Edge 20' THs
-Dallas-Fort Worth,Southeast HUB,29107,McKenzie Trails Cottage
-Dallas-Fort Worth,Southeast HUB,29108,McKenzie Trails Watermill
-Houston,North HUB,14788,Meadow Park 40'
-Orlando,Northwest HUB,26360,Meadow Pointe 50
-Orlando,Northwest HUB,26361,Meadow Pointe 70
-Austin-San Antonio,Corpus Christi HUB,40502,Meadowbrook Estates-Watermill
-Austin-San Antonio,East HUB,14891,Meadowlark Preserve Claremont
-Austin-San Antonio,East HUB,14892,Meadowlark Preserve Highlands
-Austin-San Antonio,East HUB,14890,Meadowlark Preserve Lonestar
-Tampa,HUB 3,50060,Mirada AA 35s
-Tampa,HUB 3,50061,Mirada AA 50s
-Tampa,HUB 3,15988,Mirada AA Villas
-Dallas-Fort Worth,380 HUB,14625,Mobberly Cottage
-Dallas-Fort Worth,380 HUB,14626,Mobberly Watermill
-Houston,Southwest HUB,22779,Monarch Landing 40' Avante
-Houston,Southwest HUB,22684,Monarch Landing 40' Cottage
-Houston,Southwest HUB,22780,Monarch Landing 45' Bristol
-Houston,Southwest HUB,22685,Monarch Landing 45' WM
-Houston,Southwest HUB,22686,Monarch Landing 50' Classic
-Houston,Rausch HUB,74018,Moore Landing
-Houston,Rausch HUB,74025,Moore Landing NEW Avante 40'
-Austin-San Antonio,<No Hub>,40334,Morgan Meadows-Cottage
-Austin-San Antonio,West HUB,40331,Morgans Heights-Cottage
-Austin-San Antonio,West HUB,40332,Morgans Meadows-Eventide
-Tampa,HUB 4,15998,N Park 2C3B&4 50
-Austin-San Antonio,North HUB,40220,Navarro Ranch - Brookstone
-Austin-San Antonio,North HUB,40219,Navarro Ranch-Belmar
-Austin-San Antonio,North HUB,40124,Navarro Ranch-Classic
-Austin-San Antonio,North HUB,40123,Navarro Ranch-Coastline
-Austin-San Antonio,North HUB,40218,Navarro Ranch-Eventide
-Tampa,HUB 1,15974,New Port Corners 25 RL TH
-Tampa,HUB 1,15975,New Port Corners 32 RL
-Tampa,HUB 1,15976,New Port Corners 40's
-Tampa,HUB 1,15971,New Port Corners AA 50's
-Tampa,HUB 1,15972,New Port Corners AA 60's
-Tampa,HUB 1,15970,New Port Corners AA Villas
-Dallas-Fort Worth,North HUB,29119,Noble Ridge Cottage
-Dallas-Fort Worth,North HUB,29175,Noble Ridge Majors
-Dallas-Fort Worth,N Fort Worth HUB,14646,Northpointe Brookstone
-Dallas-Fort Worth,N Fort Worth HUB,29101,Northpointe Brookstone 3 Car
-Dallas-Fort Worth,N Fort Worth HUB,14976,Northpointe Classic
-Dallas-Fort Worth,N Fort Worth HUB,29174,Northpointe Classic 3 Car
-Dallas-Fort Worth,N Fort Worth HUB,29179,Northpointe Coastline
-Dallas-Fort Worth,N Fort Worth HUB,14647,Northpointe Lonestar
-Dallas-Fort Worth,N Fort Worth HUB,29180,Northpointe Majors
-Dallas-Fort Worth,N Fort Worth HUB,14974,Northpointe Watermill
-Dallas-Fort Worth,N Fort Worth HUB,15650,Northpointe West Classic
-Dallas-Fort Worth,N Fort Worth HUB,15648,Northpointe West Cottage
-Orlando,<No Hub>,26305,Oak Hammock 60s
-Houston,Northwest HUB,22702,Oakberry Trails 40'
-Houston,Northwest HUB,22703,Oakberry Trails 50'
-Austin-San Antonio,Rausch HUB,74112,Palo Alto Pointe
-Tampa,HUB 4,24151,Park East 3A 40's
-Tampa,HUB 4,24144,Park East 3B 40's
-Tampa,HUB 4,24183,Park East Ph5 60's
-Austin-San Antonio,North HUB,40194,Parkside Coastline
-Austin-San Antonio,North HUB,40193,Parkside Cottage
-Orlando,Polk HUB,26329,Peace Creek 40s CORE
-Orlando,Polk HUB,26330,Peace Creek 50s CORE
-Tampa,HUB 2,15987,Pearl 50s
-Dallas-Fort Worth,SW Fort Worth HUB,15641,Pecan Meadows Classic
-Dallas-Fort Worth,SW Fort Worth HUB,15640,Pecan Meadows Majors
-Houston,East HUB,22674,Pelly Place 40' Cottage
-Houston,East HUB,22732,Pelly Place 40'A
-Orlando,Northwest HUB,26346,Pine Meadows 40s
-Orlando,Northwest HUB,26347,Pine Meadows 50s
-Houston,Northeast HUB,22743,Pinewood Trails 50'
-Houston,Northwest HUB,22782,Pleasant Hill 50' Classic
-Houston,Northwest HUB,22665,Pleasant HIll 50' WM
-Austin-San Antonio,South HUB,40205,Pleasanton Meadows-Cottage
-Austin-San Antonio,South HUB,40206,Pleasanton Meadows-Eventide
-Austin-San Antonio,South HUB,40204,Pleasanton Meadows-Stonehill
-Austin-San Antonio,South HUB,4683,Plum Creek Claremont
-Austin-San Antonio,South HUB,4690,Plum Creek Stonehill
-Austin-San Antonio,South HUB,14833,Pradera Belmar
-Austin-San Antonio,South HUB,14834,Pradera Cottage
-Austin-San Antonio,South HUB,14835,Pradera Watermill
-Dallas-Fort Worth,Central HUB,15629,Prairie View Classic
-Dallas-Fort Worth,Central HUB,15627,Prairie View Cottage
-Dallas-Fort Worth,Central HUB,15628,Prairie View Watermill
-Dallas-Fort Worth,North HUB,14984,Preserve at Honey Creek Classic
-Dallas-Fort Worth,North HUB,14983,Preserve at Honey Creek Cottage
-Austin-San Antonio,Far North HUB,14876,Preserve at Lions Park Wellton
-Tampa,HUB 5,15199,Prosperity Lakes 60s
-Tampa,HUB 6,15178,Prosperity Lakes AA 50s
-Tampa,HUB 6,15179,Prosperity Lakes AA 60s
-Tampa,HUB 6,15177,Prosperity Lakes AA Villas
-Tampa,HUB 5,15253,Prosperity Lakes TH
-Orlando,Northwest HUB,11144,Providence Garden Hills 60s
-Orlando,Northwest HUB,65219,Providence Grdn Hills 50s GC
-Orlando,Polk HUB,26331,Ranches 40s CORE
-Orlando,Polk HUB,26369,Ranches 50GC
-Orlando,Polk HUB,26332,Ranches 50s CORE
-Orlando,Polk HUB,26370,Ranches 60GC
-Orlando,Polk HUB,11129,Ranches at Lake Mcleod 60s
-Orlando,Polk HUB,11197,Ranches at McLeod 40s GC
-Dallas-Fort Worth,N Fort Worth HUB,14657,Rancho Canyon Brookstone
-Dallas-Fort Worth,N Fort Worth HUB,29135,Rancho Canyon Classic
-Dallas-Fort Worth,N Fort Worth HUB,14656,Rancho Canyon Cottage
-Dallas-Fort Worth,N Fort Worth HUB,14655,Rancho Canyon Watermill
-Austin-San Antonio,North HUB,14880,Rancho Del Cielo Belmar
-Austin-San Antonio,North HUB,14881,Rancho Del Cielo Cottage II
-Dallas-Fort Worth,N Fort Worth HUB,29185,Rancho Majors
-Austin-San Antonio,Rausch HUB,74113,Randolph Crossing
-Austin-San Antonio,Rausch HUB,74123,Randolph Crossing-Eventide
-Dallas-Fort Worth,N Fort Worth HUB,29138,Reatta Ridge Brookstone
-Dallas-Fort Worth,N Fort Worth HUB,15646,Reatta Ridge Classic
-Dallas-Fort Worth,N Fort Worth HUB,15647,Reatta Ridge Classic 3 Car
-Austin-San Antonio,Rausch HUB,74114,Red Hawk Landing
-Orlando,Polk HUB,26336,Reedy Isle 50s
-Orlando,Southwest HUB,26359,Reunion Village 40s
-Austin-San Antonio,Rausch HUB,74115,Ridge View
-Austin-San Antonio,South HUB,14888,River Bridge Ranch Classic
-Austin-San Antonio,South HUB,14887,River Bridge Ranch Coastline
-Austin-San Antonio,South HUB,14889,River Bridge Ranch Majors
-Austin-San Antonio,South HUB,14885,River Bridge Ranch Stonehill
-Austin-San Antonio,South HUB,14886,River Bridge Ranch Watermill
-Orlando,East HUB,26311,Rivington 34s
-Orlando,East HUB,26312,Rivington 50s
-Austin-San Antonio,Rausch HUB,74116,Roosevelt Landing
-Austin-San Antonio,Rausch HUB,74132,Roosevelt Landing-Eventide
-Austin-San Antonio,East HUB,40275,Rose Valley-Belmar
-Austin-San Antonio,East HUB,40277,Rose Valley-Coastline
-Austin-San Antonio,East HUB,40274,Rose Valley-Cottage
-Austin-San Antonio,East HUB,40276,Rose Valley-Eventide
-Austin-San Antonio,East HUB,40273,Rose Valley-Stonehill
-Dallas-Fort Worth,SW Fort Worth HUB,14668,Rosemary Ridge
-Austin-San Antonio,Corpus Christi HUB,40536,Royal Oaks-Coastline
-Austin-San Antonio,Corpus Christi HUB,40535,Royal Oaks-Watermill
-Austin-San Antonio,South HUB,40236,Ruby Crossing 25 Wellton
-Austin-San Antonio,South HUB,40128,Ruby Crossing-Cottage
-Austin-San Antonio,South HUB,40127,Ruby Crossing-Stonehill
-Houston,Southeast HUB,14795,Samara 50'
-Houston,Southeast HUB,22725,Samara 50'B
-Houston,Southeast HUB,14798,Samara 60'
-Orlando,Northwest HUB,11151,Sanctuary at Wellness Way 50s
-Orlando,Northwest HUB,11152,Sanctuary at Wellness Way 60s
-Orlando,Northwest HUB,11150,Sanctuary at Wellness Way Villas
-Tampa,HUB 3,15967,Sandhill 40
-Tampa,HUB 3,15968,Sandhill 50
-Houston,Northeast HUB,23237,Santa Fe Village Broadview 30'
-Houston,Northeast HUB,23239,Santa Fe Village CoreCottage40
-Houston,Northeast HUB,23238,Santa Fe Village Crestmore 30'
-Austin-San Antonio,South HUB,40242,Sapphire Grove-Belmar
-Austin-San Antonio,South HUB,40243,Sapphire Grove-Broadview
-Austin-San Antonio,South HUB,40240,Sapphire Grove-Coastline
-Austin-San Antonio,South HUB,40245,Sapphire Grove-Crestmore
-Austin-San Antonio,South HUB,40241,Sapphire Grove-Watermill
-Austin-San Antonio,South HUB,40380,Sapphire Meadows-Wellton
-Gulf Coast,Rausch HUB,74214,Sarah Farms
-Austin-San Antonio,East HUB,40174,Savannah Place - Watermill
-Houston,East HUB,22675,Scotts Bend 45' WM
-Houston,East HUB,22733,Scotts Bend 45'B
-Houston,East HUB,22676,Scotts Bend 50' Classic
-Houston,East HUB,22677,Scotts Bend 60' FW
-Houston,East HUB,22678,Scotts Bend 70'
-Tampa,HUB 6,24134,Seaire 40s
-Tampa,HUB 6,24135,Seaire 50s
-Dallas-Fort Worth,North HUB,15652,Shaded Tree Classic
-Houston,South HUB,22707,Sierra Vista 26'
-Houston,East HUB,22635,Sila 25'
-Houston,East HUB,22636,Sila 40'
-Houston,East HUB,22774,Sila 40' Avante
-Houston,East HUB,22637,Sila 45'
-Houston,East HUB,22775,Sila 45' Bristol
-Austin-San Antonio,North HUB,40391,Sky Ranch-Coastline
-Austin-San Antonio,North HUB,40390,Sky Ranch-Watermill
-Austin-San Antonio,Southwest HUB,40455,Smiley Ranch-Coastline
-Austin-San Antonio,Southwest HUB,40454,Smiley Ranch-Watermill
-Dallas-Fort Worth,Southeast HUB,14661,Solterra Brookstone
-Dallas-Fort Worth,Southeast HUB,14662,Solterra Classic
-Dallas-Fort Worth,Southeast HUB,14663,Solterra Lonestar
-Austin-San Antonio,Southwest HUB,40169,Somerset Grove-Belmar
-Austin-San Antonio,Southwest HUB,40168,Somerset Grove-Cottage
-Tampa,HUB 4,24179,Southshore Bay Ph6 20' THs
-Gulf Coast,Alabama HUB,21551,Southwood at Arbor Walk
-Dallas-Fort Worth,380 HUB,15616,Spiritas Ranch Cottage
-Houston,Northeast HUB,23216,Spring Branch Crossing 80' WM
-Austin-San Antonio,East HUB,40211,Spring Grove Belmar
-Austin-San Antonio,East HUB,40212,Spring Grove-Stonehill
-Austin-San Antonio,Corpus Christi HUB,40519,Starlight Estates-Coastline
-Austin-San Antonio,Corpus Christi HUB,40520,Starlight Estates-Watermill
-Austin-San Antonio,North HUB,40286,Steelwood Trails - Belmar
-Houston,South HUB,22659,Sterling Lakes North 50'
-Houston,South HUB,22713,Sterling Lakes North 60'
-Houston,South HUB,22660,Sterling Lakes North 60' FW
-Houston,Southwest HUB,14726,Still Creek Ranch 55'
-Houston,Southwest HUB,22670,Still Creek Ranch 55' FW
-Austin-San Antonio,South HUB,40340,Stone Garden-Belmar
-Austin-San Antonio,South HUB,40338,Stone Garden-Broadview
-Austin-San Antonio,South HUB,40342,Stone Garden-Coastline
-Austin-San Antonio,South HUB,40341,Stone Garden-Cottage
-Austin-San Antonio,South HUB,40344,Stone Garden-Eventide
-Austin-San Antonio,South HUB,40343,Stone Garden-Wellton
-Gulf Coast,Florida HUB,21525,Stonechase
-Tampa,HUB 6,24119,Stonegate 50s
-Tampa,HUB 6,24120,Stonegate 55s
-Tampa,HUB 6,24122,Stonegate 65s
-Orlando,Northwest HUB,11183,Sugarloaf 45s
-Orlando,Northwest HUB,11184,Sugarloaf 55s
-Austin-San Antonio,West HUB,40153,Summerlin-Eventide
-Austin-San Antonio,Southeast HUB,14840,Summerside Watermill
-Houston,West HUB,22603,Sunterra 40'
-Houston,West HUB,22717,Sunterra 40'
-Houston,West HUB,22748,Sunterra 45'
-Houston,West HUB,22716,Sunterra 50'
-Houston,West HUB,22793,Sunterra 50' POD 8 Richmond
-Houston,West HUB,22604,Sunterra Bristol 45'
-Houston,West HUB,23232,Sunterra Lakes 45' Bristol
-Houston,West HUB,22706,Sunterra Lakes 45' WM
-Houston,West HUB,22627,Sunterra WM 45'
-Houston,South HUB,22729,Sur 30'
-Houston,East HUB,22744,Sweetgrass Village 40'
-Houston,East HUB,22745,Sweetgrass Village 50'
-Houston,East HUB,23217,Sweetgrass Village 50' WM
-Houston,North HUB,22741,Sweetwater Ridge 45'
-Houston,East HUB,22615,Synova 40'
-Houston,East HUB,22772,Synova 40' Avante
-Houston,East HUB,22616,Synova 45'
-Houston,East HUB,22773,Synova 45' Bristol
-Houston,East HUB,22617,Synova 50'
-Houston,Northeast HUB,22631,Tavola West 45'
-Dallas-Fort Worth,Princeton HUB,29114,The Alcove @ Tillage Farms
-Gulf Coast,Florida HUB,21539,The Enclave at Bella Terra
-Houston,Northeast HUB,22752,The Enclave at Spring Branch 40'
-Dallas-Fort Worth,Princeton HUB,15621,The Haven at Tillage Farms
-Houston,Northeast HUB,14781,The Highlands 50'
-Austin-San Antonio,Lubbock,40771,The Overlook-Cottage
-Houston,Southwest HUB,22663,The Preserve at Rosenberg
-Houston,Southwest HUB,23231,The Preserve at Rosenberg 60'
-Houston,Southwest HUB,22664,The Preserve at Rosenberg FW
-Houston,North HUB,23244,The Reserve at Huntsville WM50
-Austin-San Antonio,Far North HUB,41050,The Ridge at Knob Creek Majors
 Austin-San Antonio,<No Hub>,14877,Thunder Rock Classic
 Austin-San Antonio,<No Hub>,14878,Thunder Rock Watermill CORE
-Dallas-Fort Worth,Princeton HUB,29136,Tillage Farms West Coastline
-Dallas-Fort Worth,Princeton HUB,14649,Tillage Farms West Cottage
-Houston,Northeast HUB,22692,Timbers Edge 40'
-Houston,Northeast HUB,23230,Timbers Edge 40' New Avante
-Houston,Northeast HUB,22693,Timbers Edge 45'
-Houston,Northeast HUB,23229,Timbers Edge 45' Bristol
-Austin-San Antonio,South HUB,40280,Tobey Ridge-Watermill
-Orlando,Southwest HUB,16436,Tohoqua 50s
-Orlando,Southwest HUB,16499,Tohoqua II 50s
-Austin-San Antonio,Southwest HUB,40320,Torian Village-Belmar
-Houston,Northeast HUB,22679,Trails 40' Avante
-Houston,Northeast HUB,22680,Trails 45' Bristol
-Houston,South HUB,23233,Trails at Woodhaven Lakes WM
-Austin-San Antonio,West HUB,40448,Tres Laurels-Belmar
-Austin-San Antonio,West HUB,40450,Tres Laurels-Coastline
-Austin-San Antonio,West HUB,40446,Tres Laurels-Wellton
-Tampa,HUB 4,24104,Two Rivers X 50s
-Tampa,HUB 4,24105,Two Rivers X 60s
-Austin-San Antonio,Southwest HUB,40265,Valle Sol-Belmar
-Austin-San Antonio,Southwest HUB,40264,Valle Sol-Cottage
-Austin-San Antonio,Southwest HUB,40266,Valle Sol-Eventide
-Houston,South HUB,23211,Valor Park 50'/70' WM
-Houston,South HUB,22700,Valor Park Cottage
-Austin-San Antonio,West HUB,40303,Veranda-Cottage
-Austin-San Antonio,Southwest HUB,40135,Vida-Cottage
-Austin-San Antonio,Southwest HUB,40134,Vida-Eventide
-Orlando,Polk HUB,26362,Villa Mar 40s
-Houston,North HUB,22656,Villages of Greystone 30'
-Dallas-Fort Worth,SW Fort Worth HUB,29159,Vista Point
-Tampa,HUB 3,24161,Vista Walk 50/55s
-Austin-San Antonio,North HUB,40224,Voss Farms Cottage
+Austin-San Antonio,<No Hub>,40334,Morgan Meadows-Cottage
+Austin-San Antonio,<No Hub>,AUS-FCO002,(Blank)
+Austin-San Antonio,<No Hub>,AUS-FCO003,(Blank)
+Austin-San Antonio,<No Hub>,AUS-FCO004,(Blank)
+Austin-San Antonio,<No Hub>,AUS-FCO005,(Blank)
+Austin-San Antonio,<No Hub>,AUS-FCO038,(Blank)
+Austin-San Antonio,<No Hub>,SAN-FCO047,(Blank)
+Austin-San Antonio,<No Hub>,SAN-FCO048,(Blank)
+Austin-San Antonio,<No Hub>,SAN-FCO145,(Blank)
+Austin-San Antonio,<No Hub>,SAN-FCO162,(Blank)
+Austin-San Antonio,<No Hub>,TE_HB San Antonio,(Blank)
+Austin-San Antonio,Austin Div OH,41023,Community First Townhome
+Austin-San Antonio,Closeout HUB,14812,Bradshaw Crossing                   9000
+Austin-San Antonio,Closeout HUB,14825,Colony Claremont
+Austin-San Antonio,Closeout HUB,14830,Bastrop Grove 35s
+Austin-San Antonio,Closeout HUB,14831,Bastrop Grove 40s & 50s
+Austin-San Antonio,Closeout HUB,41024,Community First Village
+Austin-San Antonio,Corpus Christi HUB,40502,Meadowbrook Estates-Watermill
+Austin-San Antonio,Corpus Christi HUB,40508,Calallen-Watermill
+Austin-San Antonio,Corpus Christi HUB,40509,Calallen-Coastline
+Austin-San Antonio,Corpus Christi HUB,40519,Starlight Estates-Coastline
+Austin-San Antonio,Corpus Christi HUB,40520,Starlight Estates-Watermill
+Austin-San Antonio,Corpus Christi HUB,40523,King's Landing-Watermill
+Austin-San Antonio,Corpus Christi HUB,40524,King's Landing-Coastline
+Austin-San Antonio,Corpus Christi HUB,40526,Sinton Ranch-Crestmore
+Austin-San Antonio,Corpus Christi HUB,40527,Sinton Ranch-Cottage
+Austin-San Antonio,Corpus Christi HUB,40528,Sinton Ranch-Coastline
+Austin-San Antonio,Corpus Christi HUB,40529,Sinton Ranch-Watermill
+Austin-San Antonio,Corpus Christi HUB,40531,David Estates-Classic
+Austin-San Antonio,Corpus Christi HUB,40532,David Estates-Watermill
+Austin-San Antonio,Corpus Christi HUB,40533,David Estates-Coastline
+Austin-San Antonio,Corpus Christi HUB,40534,David Estates-Woodbridge
+Austin-San Antonio,Corpus Christi HUB,40535,Royal Oaks-Watermill
+Austin-San Antonio,Corpus Christi HUB,40536,Royal Oaks-Coastline
+Austin-San Antonio,Corpus Christi HUB,40537,Royal Oaks-Classic
+Austin-San Antonio,East HUB,4647,Elm Creek Stonehill
+Austin-San Antonio,East HUB,4648,Elm Creek Watermill
+Austin-San Antonio,East HUB,4649,Elm Creek Majors
+Austin-San Antonio,East HUB,4661,Cotton Brook Classics
+Austin-San Antonio,East HUB,4662,Cotton Brook Highlands
+Austin-San Antonio,East HUB,4664,Cotton Brook Claremonts
+Austin-San Antonio,East HUB,4670,Greenwood Cottage
+Austin-San Antonio,East HUB,4671,Greenwood Majors
+Austin-San Antonio,East HUB,4687,Elm Creek Cottage
+Austin-San Antonio,East HUB,4693,Cotton Brook Woodbridge 3 Car
+Austin-San Antonio,East HUB,14856,Winfield Park Belmar
+Austin-San Antonio,East HUB,14857,Winfield Park Eventide
+Austin-San Antonio,East HUB,14858,Winfield Park Coastline
+Austin-San Antonio,East HUB,14859,Firefly Pointe Stonehill
+Austin-San Antonio,East HUB,14860,Firefly Pointe Bel Mar
+Austin-San Antonio,East HUB,14861,Firefly Pointe Cottage
+Austin-San Antonio,East HUB,14862,Firefly Pointe Watermill
+Austin-San Antonio,East HUB,14863,Firefly Pointe Majors
+Austin-San Antonio,East HUB,14864,Winfield Park Cottage
+Austin-San Antonio,East HUB,14890,Meadowlark Preserve Lonestar
+Austin-San Antonio,East HUB,14891,Meadowlark Preserve Claremont
+Austin-San Antonio,East HUB,14892,Meadowlark Preserve Highlands
+Austin-San Antonio,East HUB,14893,Cotton Brook Woodbridge
+Austin-San Antonio,East HUB,40105,Knox Ridge-Cottage
+Austin-San Antonio,East HUB,40106,Sage Meadows-Watermill
+Austin-San Antonio,East HUB,40111,Guadalupe Heights-Watermill
+Austin-San Antonio,East HUB,40132,Willow View
+Austin-San Antonio,East HUB,40136,Sage Meadows-Coastline
+Austin-San Antonio,East HUB,40145,Guadalupe Heights-Coastline
+Austin-San Antonio,East HUB,40172,Elm Trails Dream
+Austin-San Antonio,East HUB,40174,Savannah Place - Watermill
+Austin-San Antonio,East HUB,40180,Hightop Ridge-Coastline
+Austin-San Antonio,East HUB,40184,Flora Meadows - Dream
+Austin-San Antonio,East HUB,40185,Flora Meadows - Wellton
+Austin-San Antonio,East HUB,40211,Spring Grove Belmar
+Austin-San Antonio,East HUB,40212,Spring Grove-Stonehill
+Austin-San Antonio,East HUB,40225,Grace Valley-Watermill
+Austin-San Antonio,East HUB,40226,Grace Valley-Coastline
+Austin-San Antonio,East HUB,40254,Grace Valley-Eventide
+Austin-San Antonio,East HUB,40255,Grace Valley Cottage
+Austin-San Antonio,East HUB,40273,Rose Valley-Stonehill
+Austin-San Antonio,East HUB,40274,Rose Valley-Cottage
+Austin-San Antonio,East HUB,40275,Rose Valley-Belmar
+Austin-San Antonio,East HUB,40276,Rose Valley-Eventide
+Austin-San Antonio,East HUB,40277,Rose Valley-Coastline
+Austin-San Antonio,East HUB,40293,Clearwater - Cottage
+Austin-San Antonio,East HUB,40295,Clearwater-Eventide
+Austin-San Antonio,East HUB,40304,Hunter's Ridge-Cottage
+Austin-San Antonio,East HUB,40305,Elizondo-Cottage
+Austin-San Antonio,East HUB,40423,Fischer Gardens-Coastline
+Austin-San Antonio,East HUB,40434,Kayden Springs-Wellton
+Austin-San Antonio,East HUB,40436,Kayden Springs-Watermill
+Austin-San Antonio,East HUB,40437,Kayden Springs-Costline
+Austin-San Antonio,East HUB,40440,Lily Trails-Wellton
+Austin-San Antonio,East HUB,40441,Lily Trails-Crestmore
+Austin-San Antonio,East HUB,41045,Elm Creek Eventide
+Austin-San Antonio,East HUB,41046,Elm Creek Coastline
+Austin-San Antonio,Far North HUB,14876,Preserve at Lions Park Wellton
+Austin-San Antonio,Far North HUB,41029,The Enclave at Troy Classics
+Austin-San Antonio,Far North HUB,41030,The Enclave at Troy Watermill
+Austin-San Antonio,Far North HUB,41032,Clayton Ranch Classics
+Austin-San Antonio,Far North HUB,41033,Clayton Ranch Classics 3 Car
+Austin-San Antonio,Far North HUB,41037,Atascosa Watermill
+Austin-San Antonio,Far North HUB,41038,Atascosa Watermill
+Austin-San Antonio,Far North HUB,41039,Atascosa Watermill
+Austin-San Antonio,Far North HUB,41040,Monte Verde Watermill CORE
+Austin-San Antonio,Far North HUB,41047,Freedom Crossing Majors
+Austin-San Antonio,Far North HUB,41048,Freedom Crossing Classics
+Austin-San Antonio,Far North HUB,41049,Freedom Crossing Classics 3Car
+Austin-San Antonio,Far North HUB,41050,The Ridge at Knob Creek Majors
+Austin-San Antonio,Hill Country HUB,40230,Ridgeland Watermill
+Austin-San Antonio,Hill Country HUB,40288,Friendship Oaks-Watermill
+Austin-San Antonio,Hill Country HUB,40289,Friendship Oaks-Coastline
+Austin-San Antonio,Hill Country HUB,40362,Windridge-Belmar
+Austin-San Antonio,Hill Country HUB,40364,Windridge-Watermill
+Austin-San Antonio,Lubbock,40753,Copper Creek-Cottage
+Austin-San Antonio,Lubbock,40771,The Overlook-Cottage
+Austin-San Antonio,Lubbock,40778,Cove At Cooper-Cottage
+Austin-San Antonio,Lubbock,40786,Centerpointe-Cottage
+Austin-San Antonio,Lubbock,40787,Centerpointe-Majors
+Austin-San Antonio,North HUB,14832,Eastwood Watermill
+Austin-San Antonio,North HUB,14836,Eastwood Cottage II
+Austin-San Antonio,North HUB,14837,Cool Water Cottage
+Austin-San Antonio,North HUB,14865,Eastwood Ridgepointe
+Austin-San Antonio,North HUB,14880,Rancho Del Cielo Belmar
+Austin-San Antonio,North HUB,14881,Rancho Del Cielo Cottage II
+Austin-San Antonio,North HUB,14882,Cielo Gardens Belmar
+Austin-San Antonio,North HUB,14883,Cielo Gardens Cottage 2.0
+Austin-San Antonio,North HUB,14884,Cielo Gardens Welton
+Austin-San Antonio,North HUB,40059,Johnson Ranch - Brookstone II
+Austin-San Antonio,North HUB,40061,Johnson Ranch-Texas Reserve
+Austin-San Antonio,North HUB,40070,Hidden Trails Watermill & Barrington
+Austin-San Antonio,North HUB,40071,Hidden Trails Westfield
+Austin-San Antonio,North HUB,40072,Hidden Trails Brookstone II
+Austin-San Antonio,North HUB,40073,Hidden Trails 45s-Watermill
+Austin-San Antonio,North HUB,40090,Heather Glen
+Austin-San Antonio,North HUB,40091,Heather Glen Watermill
+Austin-San Antonio,North HUB,40122,Navarro Ranch-Cottage
+Austin-San Antonio,North HUB,40123,Navarro Ranch-Coastline
+Austin-San Antonio,North HUB,40124,Navarro Ranch-Classic
+Austin-San Antonio,North HUB,40131,Cordova Crossing
+Austin-San Antonio,North HUB,40159,Grace Meadows-Watermill
 Austin-San Antonio,North HUB,40161,Voss Farms-Brookstone
 Austin-San Antonio,North HUB,40162,Voss Farms-Classic
 Austin-San Antonio,North HUB,40163,Voss Farms-Coastline
 Austin-San Antonio,North HUB,40164,Voss Farms-Watermill
-Dallas-Fort Worth,Southeast HUB,15667,Walden Pond West Classic
-Orlando,Southwest HUB,11168,Waterlin 60s
-Orlando,Northwest HUB,26351,Waterstone 40MU
-Orlando,Northwest HUB,26352,Waterstone 50MU
-Austin-San Antonio,South HUB,14853,Waterstone Claremont
-Austin-San Antonio,South HUB,14855,Waterstone Classics
+Austin-San Antonio,North HUB,40193,Parkside Cottage
+Austin-San Antonio,North HUB,40194,Parkside Coastline
+Austin-San Antonio,North HUB,40195,Parkside Watermill
+Austin-San Antonio,North HUB,40218,Navarro Ranch-Eventide
+Austin-San Antonio,North HUB,40219,Navarro Ranch-Belmar
+Austin-San Antonio,North HUB,40220,Navarro Ranch - Brookstone
+Austin-San Antonio,North HUB,40221,Navarro Ranch-Watermill
+Austin-San Antonio,North HUB,40224,Voss Farms Cottage
+Austin-San Antonio,North HUB,40270,Kyndwood-Eventide
+Austin-San Antonio,North HUB,40271,Kyndwood-Stonehill
+Austin-San Antonio,North HUB,40272,Kyndwood-Cottage
+Austin-San Antonio,North HUB,40279,Waters Edge-Watermill
+Austin-San Antonio,North HUB,40282,Steelwood Trails - Stonehill
+Austin-San Antonio,North HUB,40283,Steelwood Trails - Cottage
+Austin-San Antonio,North HUB,40284,Steelwood Trails-Coastline
+Austin-San Antonio,North HUB,40285,Steelwood Trails - Watermill
+Austin-San Antonio,North HUB,40286,Steelwood Trails - Belmar
+Austin-San Antonio,North HUB,40287,Steelwood Trails-Eventide
+Austin-San Antonio,North HUB,40309,Simmons Valley-Coastline
+Austin-San Antonio,North HUB,40310,Simmons Valley-Classic
+Austin-San Antonio,North HUB,40311,Simmons Valley-Brookstone
+Austin-San Antonio,North HUB,40326,Gatehouse-Classic
+Austin-San Antonio,North HUB,40327,Gatehouse-Brookstone
+Austin-San Antonio,North HUB,40347,Navarro Ranch-Stonehill
+Austin-San Antonio,North HUB,40388,Sky Ranch-Stonehill
+Austin-San Antonio,North HUB,40389,Sky Ranch-Belmar
+Austin-San Antonio,North HUB,40390,Sky Ranch-Watermill
+Austin-San Antonio,North HUB,40391,Sky Ranch-Coastline
+Austin-San Antonio,North HUB,40414,Juniper Ranch-Cottage
+Austin-San Antonio,North HUB,40415,Juniper Ranch-Watermill
+Austin-San Antonio,North HUB,40416,Juniper Ranch-Coastline
+Austin-San Antonio,North HUB,40417,Juniper Ranch-Eventide
+Austin-San Antonio,North HUB,41035,Flint Ridge Classics 2 Car
+Austin-San Antonio,North HUB,41036,Flint Ridge Classics 3 Car
+Austin-San Antonio,North HUB,41042,Holland Estates Watermill CORE
+Austin-San Antonio,Northwest HUB,4680,Wolf Ranch Claremont
+Austin-San Antonio,Northwest HUB,4691,Wolf Ranch Genesis
+Austin-San Antonio,Northwest HUB,14867,Woodfield Preserve Ridgepoint
+Austin-San Antonio,Northwest HUB,14868,Woodfield Preserve Highlands
+Austin-San Antonio,Northwest HUB,14869,Woodfield Preserve Coastlines
+Austin-San Antonio,Northwest HUB,14870,Woodfield Preserve Woodbridge
+Austin-San Antonio,Northwest HUB,14871,Woodfield Preserve Woodbridge3
+Austin-San Antonio,Northwest HUB,41025,Lively Ranch Claremont
+Austin-San Antonio,Northwest HUB,41026,Lively Ranch Classics
+Austin-San Antonio,Northwest HUB,41027,Lively Ranch Woodbridge 3C
+Austin-San Antonio,Northwest HUB,41028,Lively Ranch Woodbridge
+Austin-San Antonio,Rausch HUB,74103,Enclave at Horizon Pointe
+Austin-San Antonio,Rausch HUB,74104,Guadalupe Ridge
+Austin-San Antonio,Rausch HUB,74105,Heritage Oaks
+Austin-San Antonio,Rausch HUB,74106,Hidden Oasis
+Austin-San Antonio,Rausch HUB,74107,Higdon Crossing
+Austin-San Antonio,Rausch HUB,74109,Hunters Ranch
+Austin-San Antonio,Rausch HUB,74111,Lonesome Dove
+Austin-San Antonio,Rausch HUB,74112,Palo Alto Pointe
+Austin-San Antonio,Rausch HUB,74113,Randolph Crossing
+Austin-San Antonio,Rausch HUB,74114,Red Hawk Landing
+Austin-San Antonio,Rausch HUB,74115,Ridge View
+Austin-San Antonio,Rausch HUB,74116,Roosevelt Landing
+Austin-San Antonio,Rausch HUB,74117,Row at Zarzamora
+Austin-San Antonio,Rausch HUB,74118,Spring Valley
+Austin-San Antonio,Rausch HUB,74119,Saddle Ridge
+Austin-San Antonio,Rausch HUB,74123,Randolph Crossing-Eventide
+Austin-San Antonio,Rausch HUB,74126,Higdon Crossing-Eventide
+Austin-San Antonio,Rausch HUB,74132,Roosevelt Landing-Eventide
+Austin-San Antonio,South HUB,4673,Sunset Oaks Welton
+Austin-San Antonio,South HUB,4675,Sunset Oaks Stonehill
+Austin-San Antonio,South HUB,4676,Sunset Oaks
+Austin-San Antonio,South HUB,4683,Plum Creek Claremont
+Austin-San Antonio,South HUB,4690,Plum Creek Stonehill
+Austin-San Antonio,South HUB,4792,Plum Creek Highland
+Austin-San Antonio,South HUB,4794,Whisper
+Austin-San Antonio,South HUB,4795,Whisper Highlands Claremont
+Austin-San Antonio,South HUB,14833,Pradera Belmar
+Austin-San Antonio,South HUB,14834,Pradera Cottage
+Austin-San Antonio,South HUB,14835,Pradera Watermill
+Austin-San Antonio,South HUB,14842,Sunset Oaks Ridgepointe
 Austin-San Antonio,South HUB,14852,Waterstone Stonehill 2.0
-Austin-San Antonio,West HUB,40097,Waterwheel-Coastline
+Austin-San Antonio,South HUB,14853,Waterstone Claremont
+Austin-San Antonio,South HUB,14854,Waterstone Highlands
+Austin-San Antonio,South HUB,14855,Waterstone Classics
+Austin-San Antonio,South HUB,14885,River Bridge Ranch Stonehill
+Austin-San Antonio,South HUB,14886,River Bridge Ranch Watermill
+Austin-San Antonio,South HUB,14887,River Bridge Ranch Coastline
+Austin-San Antonio,South HUB,14888,River Bridge Ranch Classic
+Austin-San Antonio,South HUB,14889,River Bridge Ranch Majors
+Austin-San Antonio,South HUB,40126,Ruby Crossing-Broadview
+Austin-San Antonio,South HUB,40127,Ruby Crossing-Stonehill
+Austin-San Antonio,South HUB,40128,Ruby Crossing-Cottage
+Austin-San Antonio,South HUB,40138,Southton Meadows 35s
+Austin-San Antonio,South HUB,40154,Southton Meadows Belmar
+Austin-San Antonio,South HUB,40157,Southton Meadows-Crestmore
+Austin-San Antonio,South HUB,40158,Southton Meadows-Watermill
+Austin-San Antonio,South HUB,40175,Thea Meadows 35
+Austin-San Antonio,South HUB,40177,Thea Meadows 45
+Austin-San Antonio,South HUB,40182,Willow Point-Cottage
+Austin-San Antonio,South HUB,40204,Pleasanton Meadows-Stonehill
+Austin-San Antonio,South HUB,40205,Pleasanton Meadows-Cottage
+Austin-San Antonio,South HUB,40206,Pleasanton Meadows-Eventide
+Austin-San Antonio,South HUB,40234,Greensfield Stonehill
+Austin-San Antonio,South HUB,40235,Greensfield Watermill
+Austin-San Antonio,South HUB,40236,Ruby Crossing 25 Wellton
+Austin-San Antonio,South HUB,40237,Ruby Crossing 35 Belmar
+Austin-San Antonio,South HUB,40238,Sapphire Grove-Stonehill
+Austin-San Antonio,South HUB,40239,Sapphire Grove-Cottage
+Austin-San Antonio,South HUB,40240,Sapphire Grove-Coastline
+Austin-San Antonio,South HUB,40241,Sapphire Grove-Watermill
+Austin-San Antonio,South HUB,40242,Sapphire Grove-Belmar
+Austin-San Antonio,South HUB,40243,Sapphire Grove-Broadview
+Austin-San Antonio,South HUB,40244,Sapphire Grove-Wellton
+Austin-San Antonio,South HUB,40245,Sapphire Grove-Crestmore
+Austin-San Antonio,South HUB,40248,Lodi Grove-Watermill
+Austin-San Antonio,South HUB,40280,Tobey Ridge-Watermill
+Austin-San Antonio,South HUB,40338,Stone Garden-Broadview
+Austin-San Antonio,South HUB,40339,Stone Garden-Stonehill
+Austin-San Antonio,South HUB,40340,Stone Garden-Belmar
+Austin-San Antonio,South HUB,40341,Stone Garden-Cottage
+Austin-San Antonio,South HUB,40342,Stone Garden-Coastline
+Austin-San Antonio,South HUB,40343,Stone Garden-Wellton
+Austin-San Antonio,South HUB,40344,Stone Garden-Eventide
+Austin-San Antonio,South HUB,40380,Sapphire Meadows-Wellton
+Austin-San Antonio,South HUB,40426,Grace Gardens-Wellton
+Austin-San Antonio,South HUB,40427,Grace Gardens-Crestmore
+Austin-San Antonio,South HUB,40429,Grace Gardens-Belmar
+Austin-San Antonio,South HUB,40430,Grace Gardens-Watermill
+Austin-San Antonio,South HUB,40431,Grace Gardens-Coastline
+Austin-San Antonio,South HUB,40464,Northlake-Cottage
+Austin-San Antonio,South HUB,40465,Northlake-Coastline
+Austin-San Antonio,South HUB,40466,Northlake-Classic
+Austin-San Antonio,South HUB,41017,Cotton Gateway Cottage
+Austin-San Antonio,South HUB,41018,Cotton Gateway Watermill
+Austin-San Antonio,Southeast HUB,4678,Mirador Clssics
+Austin-San Antonio,Southeast HUB,4679,Mirador Highlands
+Austin-San Antonio,Southeast HUB,4768,Sun Chase 50s and 60s
+Austin-San Antonio,Southeast HUB,14827,Schriber Ranch Watermill
+Austin-San Antonio,Southeast HUB,14828,Trinity Square Wellton
+Austin-San Antonio,Southeast HUB,14840,Summerside Watermill
+Austin-San Antonio,Southeast HUB,14841,Summerside Stonehill
+Austin-San Antonio,Southwest HUB,40040,Mission Del Lago-Coastline
+Austin-San Antonio,Southwest HUB,40057,Mission Del Lago-Cottage
+Austin-San Antonio,Southwest HUB,40075,Mission del Lago-Stonehill
+Austin-San Antonio,Southwest HUB,40076,Mission del Lago Watermill
+Austin-San Antonio,Southwest HUB,40134,Vida-Eventide
+Austin-San Antonio,Southwest HUB,40135,Vida-Cottage
+Austin-San Antonio,Southwest HUB,40142,Mission del Lago-Belmar
+Austin-San Antonio,Southwest HUB,40146,Crescent Hills 35
+Austin-San Antonio,Southwest HUB,40147,Crescent Hills-Cottage
+Austin-San Antonio,Southwest HUB,40148,Crescent Hills-Watermill
+Austin-San Antonio,Southwest HUB,40149,Crescent Hills-Belmar
+Austin-San Antonio,Southwest HUB,40167,Somerset Grove-Stonehill
+Austin-San Antonio,Southwest HUB,40168,Somerset Grove-Cottage
+Austin-San Antonio,Southwest HUB,40169,Somerset Grove-Belmar
+Austin-San Antonio,Southwest HUB,40200,Camino Real-Watermill
+Austin-San Antonio,Southwest HUB,40201,Camino Real Cottage
+Austin-San Antonio,Southwest HUB,40250,Legacy Point-Watermill
+Austin-San Antonio,Southwest HUB,40251,Legacy Point-Coastline
+Austin-San Antonio,Southwest HUB,40263,Valle Sol-Stonehill
+Austin-San Antonio,Southwest HUB,40264,Valle Sol-Cottage
+Austin-San Antonio,Southwest HUB,40265,Valle Sol-Belmar
+Austin-San Antonio,Southwest HUB,40266,Valle Sol-Eventide
+Austin-San Antonio,Southwest HUB,40319,Torian Village-Stonehill
+Austin-San Antonio,Southwest HUB,40320,Torian Village-Belmar
+Austin-San Antonio,Southwest HUB,40321,Torian Village-Cottage
+Austin-San Antonio,Southwest HUB,40322,Torian Village-Watermill
+Austin-San Antonio,Southwest HUB,40368,Sunshine Trails-Wellton
+Austin-San Antonio,Southwest HUB,40369,Sunshine Trails-Crestmore
+Austin-San Antonio,Southwest HUB,40370,Sunshine Trails-Belmar
+Austin-San Antonio,Southwest HUB,40371,Sunshine Trails-Stonehill
+Austin-San Antonio,Southwest HUB,40404,Espada-Broadview
+Austin-San Antonio,Southwest HUB,40405,Espada-Crestmore
+Austin-San Antonio,Southwest HUB,40406,Espada-Stonehill
+Austin-San Antonio,Southwest HUB,40407,Espada-Belmar
+Austin-San Antonio,Southwest HUB,40408,Espada-Coastline
+Austin-San Antonio,Southwest HUB,40453,Tarasco Gardens-Watermill
+Austin-San Antonio,Southwest HUB,40454,Smiley Ranch-Watermill
+Austin-San Antonio,Southwest HUB,40455,Smiley Ranch-Coastline
+Austin-San Antonio,Southwest HUB,40477,Blossom Ranch-Eventide
+Austin-San Antonio,West HUB,4666,Devine Lake Highlands
+Austin-San Antonio,West HUB,4667,Devine Lake Highlands 3C
+Austin-San Antonio,West HUB,40026,Silos 40
+Austin-San Antonio,West HUB,40032,Silos
 Austin-San Antonio,West HUB,40096,Waterwheel-Cottage
+Austin-San Antonio,West HUB,40097,Waterwheel-Coastline
+Austin-San Antonio,West HUB,40098,Waterwheel 50s
+Austin-San Antonio,West HUB,40144,Silos-Watermill
+Austin-San Antonio,West HUB,40153,Summerlin-Eventide
+Austin-San Antonio,West HUB,40216,Aston Park Welton
+Austin-San Antonio,West HUB,40217,Aston Park Belmar
+Austin-San Antonio,West HUB,40300,Landon Ridge-Cottage
+Austin-San Antonio,West HUB,40302,Applewood-Cottage
+Austin-San Antonio,West HUB,40303,Veranda-Cottage
+Austin-San Antonio,West HUB,40330,Morgans Heights-Eventide
+Austin-San Antonio,West HUB,40331,Morgans Heights-Cottage
+Austin-San Antonio,West HUB,40332,Morgans Meadows-Eventide
+Austin-San Antonio,West HUB,40350,Brookmill-Broadview
+Austin-San Antonio,West HUB,40351,Brookmill-Stonehill
+Austin-San Antonio,West HUB,40352,Brookmill-Cottage
+Austin-San Antonio,West HUB,40353,Brookmill-Coastline
+Austin-San Antonio,West HUB,40354,Brookmill-Classic
+Austin-San Antonio,West HUB,40355,Brookmill-Brookstone
+Austin-San Antonio,West HUB,40356,Brookmill-Crestmore
+Austin-San Antonio,West HUB,40357,Brookmill-Belmar
+Austin-San Antonio,West HUB,40358,Brookmill
+Austin-San Antonio,West HUB,40446,Tres Laurels-Wellton
+Austin-San Antonio,West HUB,40448,Tres Laurels-Belmar
+Austin-San Antonio,West HUB,40449,Tres Laurels-Coastline
+Austin-San Antonio,West HUB,40450,Tres Laurels-Coastline
+Austin-San Antonio,West HUB,41009,Bertram Oaks Majors
+Austin-San Antonio,West HUB,41010,Bertram Oaks Classics
+Dallas-Fort Worth,<No Hub>,14926,Gean Estates
+Dallas-Fort Worth,<No Hub>,14928,Lakewood Hills East & West
+Dallas-Fort Worth,<No Hub>,14943,Reserve at Chamberlain Crossing
+Dallas-Fort Worth,<No Hub>,14961,Verandah Watermill
+Dallas-Fort Worth,<No Hub>,14963,Verandah Classic
+Dallas-Fort Worth,<No Hub>,14969,Sendera Watermill
+Dallas-Fort Worth,<No Hub>,14971,Woodcreek
+Dallas-Fort Worth,<No Hub>,14999,Kings Ridge
+Dallas-Fort Worth,<No Hub>,29106,Wildcat BFR
+Dallas-Fort Worth,<No Hub>,29149,Jackson's Run
+Dallas-Fort Worth,<No Hub>,66969,Waterbrook 50'
+Dallas-Fort Worth,380 HUB,14625,Mobberly Cottage
+Dallas-Fort Worth,380 HUB,14626,Mobberly Watermill
+Dallas-Fort Worth,380 HUB,14648,Spiritas Brookstone
+Dallas-Fort Worth,380 HUB,14658,Linden Hills Watermill
+Dallas-Fort Worth,380 HUB,14941,Northlake Estates
+Dallas-Fort Worth,380 HUB,14950,Northlake Estates
+Dallas-Fort Worth,380 HUB,14993,Linden Hills Cottage
+Dallas-Fort Worth,380 HUB,14994,Linden Hills Classic
+Dallas-Fort Worth,380 HUB,15616,Spiritas Ranch Cottage
+Dallas-Fort Worth,380 HUB,15617,Spiritas West Brookstone
+Dallas-Fort Worth,380 HUB,15642,Foree Ranch Wellton
+Dallas-Fort Worth,380 HUB,15643,Foree Ranch Cottage
+Dallas-Fort Worth,380 HUB,15644,Foree Ranch Watermill
+Dallas-Fort Worth,380 HUB,15645,Foree Ranch Classic
+Dallas-Fort Worth,380 HUB,15691,Highpointe West Cottage
+Dallas-Fort Worth,380 HUB,15692,Highpointe West Watermill
+Dallas-Fort Worth,380 HUB,15693,Highpointe West Classic
+Dallas-Fort Worth,380 HUB,29111,Creekview
+Dallas-Fort Worth,380 HUB,29121,Foree Ranch 3 Car Classic
+Dallas-Fort Worth,380 HUB,29127,Foree RH Addition
+Dallas-Fort Worth,380 HUB,29134,Mobberly Classic
+Dallas-Fort Worth,380 HUB,29142,Creekview
+Dallas-Fort Worth,380 HUB,29186,Highpointe W Majors
+Dallas-Fort Worth,Central HUB,14639,Ferris Springs
+Dallas-Fort Worth,Central HUB,14664,Prairie Creek North
+Dallas-Fort Worth,Central HUB,14988,Bluebonnet Estates
+Dallas-Fort Worth,Central HUB,14995,Trinity West
+Dallas-Fort Worth,Central HUB,15622,Ellington Woods
+Dallas-Fort Worth,Central HUB,15625,Cottonwood Cottage
+Dallas-Fort Worth,Central HUB,15627,Prairie View Cottage
+Dallas-Fort Worth,Central HUB,15628,Prairie View Watermill
+Dallas-Fort Worth,Central HUB,15629,Prairie View Classic
+Dallas-Fort Worth,Central HUB,15658,Addison Hills Classic
+Dallas-Fort Worth,Central HUB,15659,Addison Hills Classic 3 Car
+Dallas-Fort Worth,Central HUB,66967,Elements at Viridian
+Dallas-Fort Worth,N Fort Worth HUB,4236,Sendera Ranch Brookstone
+Dallas-Fort Worth,N Fort Worth HUB,14603,Sendera Ranch
+Dallas-Fort Worth,N Fort Worth HUB,14629,Azle Grove
+Dallas-Fort Worth,N Fort Worth HUB,14638,Shale Creek Cottage
+Dallas-Fort Worth,N Fort Worth HUB,14646,Northpointe Brookstone
+Dallas-Fort Worth,N Fort Worth HUB,14647,Northpointe Lonestar
+Dallas-Fort Worth,N Fort Worth HUB,14655,Rancho Canyon Watermill
+Dallas-Fort Worth,N Fort Worth HUB,14656,Rancho Canyon Cottage
+Dallas-Fort Worth,N Fort Worth HUB,14657,Rancho Canyon Brookstone
+Dallas-Fort Worth,N Fort Worth HUB,14660,Landing at Creekside
+Dallas-Fort Worth,N Fort Worth HUB,14959,Wildflower Lonestar
+Dallas-Fort Worth,N Fort Worth HUB,14960,Wildflower Brookstone
+Dallas-Fort Worth,N Fort Worth HUB,14974,Northpointe Watermill
+Dallas-Fort Worth,N Fort Worth HUB,14975,Northpointe Cottage
+Dallas-Fort Worth,N Fort Worth HUB,14976,Northpointe Classic
+Dallas-Fort Worth,N Fort Worth HUB,15646,Reatta Ridge Classic
+Dallas-Fort Worth,N Fort Worth HUB,15647,Reatta Ridge Classic 3 Car
+Dallas-Fort Worth,N Fort Worth HUB,15648,Northpointe West Cottage
+Dallas-Fort Worth,N Fort Worth HUB,15650,Northpointe West Classic
+Dallas-Fort Worth,N Fort Worth HUB,15651,Northpointe West Brookstone
+Dallas-Fort Worth,N Fort Worth HUB,15698,Shale Creek Watermill
+Dallas-Fort Worth,N Fort Worth HUB,29101,Northpointe Brookstone 3 Car
+Dallas-Fort Worth,N Fort Worth HUB,29135,Rancho Canyon Classic
+Dallas-Fort Worth,N Fort Worth HUB,29138,Reatta Ridge Brookstone
+Dallas-Fort Worth,N Fort Worth HUB,29174,Northpointe Classic 3 Car
+Dallas-Fort Worth,N Fort Worth HUB,29176,Rancho Watermill BFR
+Dallas-Fort Worth,N Fort Worth HUB,29177,Rancho Cottage BFR
+Dallas-Fort Worth,N Fort Worth HUB,29179,Northpointe Coastline
+Dallas-Fort Worth,N Fort Worth HUB,29180,Northpointe Majors
+Dallas-Fort Worth,N Fort Worth HUB,29184,Northpointe Woodbridge
+Dallas-Fort Worth,N Fort Worth HUB,29185,Rancho Majors
+Dallas-Fort Worth,North HUB,14643,Preserve at Honey Creek Brookstone
+Dallas-Fort Worth,North HUB,14983,Preserve at Honey Creek Cottage
+Dallas-Fort Worth,North HUB,14984,Preserve at Honey Creek Classic
+Dallas-Fort Worth,North HUB,14991,Preserve at Honey Creek
+Dallas-Fort Worth,North HUB,15630,Hurricane Creek North Cottage
+Dallas-Fort Worth,North HUB,15631,Hurricane Creek North Classic
+Dallas-Fort Worth,North HUB,15633,Hurricane Creek North Classic 60s
+Dallas-Fort Worth,North HUB,15634,Legacy Hills Classic
+Dallas-Fort Worth,North HUB,15635,Legacy Hills Brookstone
+Dallas-Fort Worth,North HUB,15636,Legacy Hills Brookstone 3 Car
+Dallas-Fort Worth,North HUB,15652,Shaded Tree Classic
+Dallas-Fort Worth,North HUB,15660,Shaded Tree Brookstone
+Dallas-Fort Worth,North HUB,15661,Travis Heights Watermill
+Dallas-Fort Worth,North HUB,15676,Hidden Meadows Watermill
+Dallas-Fort Worth,North HUB,15677,Luella Crossing Cottage
+Dallas-Fort Worth,North HUB,29102,Hurricane Creek South Cottage
+Dallas-Fort Worth,North HUB,29103,Hurricane Creek South Classic
+Dallas-Fort Worth,North HUB,29119,Noble Ridge Cottage
+Dallas-Fort Worth,North HUB,29120,Marilee Classic
+Dallas-Fort Worth,North HUB,29130,Songhill Cottage
+Dallas-Fort Worth,North HUB,29131,Songhill Watermill
+Dallas-Fort Worth,North HUB,29137,Shaded Tree Lakeside
+Dallas-Fort Worth,North HUB,29175,Noble Ridge Majors
+Dallas-Fort Worth,Princeton HUB,14633,Tillage Farms East
+Dallas-Fort Worth,Princeton HUB,14640,Cypress Creek Cottage
+Dallas-Fort Worth,Princeton HUB,14641,Cypress Creek Watermill
+Dallas-Fort Worth,Princeton HUB,14642,Cypress Creek Classic
+Dallas-Fort Worth,Princeton HUB,14649,Tillage Farms West Cottage
+Dallas-Fort Worth,Princeton HUB,14650,Tillage Farms West Watermill
+Dallas-Fort Worth,Princeton HUB,14966,Bridgewater Cottage
+Dallas-Fort Worth,Princeton HUB,14967,Bridgewater Watermill
+Dallas-Fort Worth,Princeton HUB,14968,Bridgewater Classic
+Dallas-Fort Worth,Princeton HUB,15621,The Haven at Tillage Farms
+Dallas-Fort Worth,Princeton HUB,15626,Cypress Creek West Brookstone
+Dallas-Fort Worth,Princeton HUB,15637,Bridgewater Brookstone
+Dallas-Fort Worth,Princeton HUB,15657,Tillage Farms South
+Dallas-Fort Worth,Princeton HUB,15663,Tillage Farms East
+Dallas-Fort Worth,Princeton HUB,29114,The Alcove @ Tillage Farms
+Dallas-Fort Worth,Princeton HUB,29122,Acorn North
+Dallas-Fort Worth,Princeton HUB,29123,Acorn South
+Dallas-Fort Worth,Princeton HUB,29125,Daybreak
+Dallas-Fort Worth,Princeton HUB,29129,Serenity
+Dallas-Fort Worth,Princeton HUB,29136,Tillage Farms West Coastline
+Dallas-Fort Worth,Princeton HUB,29143,The Hollow
+Dallas-Fort Worth,Princeton HUB,29154,Daybreak Addition
+Dallas-Fort Worth,Rausch HUB,29168,Field of Dreams
+Dallas-Fort Worth,Southeast HUB,14627,Wright Farms Watermill
+Dallas-Fort Worth,Southeast HUB,14634,Wildcat Ranch
+Dallas-Fort Worth,Southeast HUB,14635,Cartwright Ranch
+Dallas-Fort Worth,Southeast HUB,14661,Solterra Brookstone
+Dallas-Fort Worth,Southeast HUB,14662,Solterra Classic
+Dallas-Fort Worth,Southeast HUB,14663,Solterra Lonestar
+Dallas-Fort Worth,Southeast HUB,14665,Eastland Cottage
+Dallas-Fort Worth,Southeast HUB,14666,Eastland Classic
+Dallas-Fort Worth,Southeast HUB,14667,Eastland Watermill
+Dallas-Fort Worth,Southeast HUB,14937,Heartland
+Dallas-Fort Worth,Southeast HUB,14964,Trinity Crossing
+Dallas-Fort Worth,Southeast HUB,14982,Highbridge
+Dallas-Fort Worth,Southeast HUB,14992,Heartland Watermill
+Dallas-Fort Worth,Southeast HUB,14996,Walden Pond Cottage
+Dallas-Fort Worth,Southeast HUB,14997,Walden Pond Watermill
+Dallas-Fort Worth,Southeast HUB,14998,Walden Pond Classic
+Dallas-Fort Worth,Southeast HUB,15619,Falcon Heights Cottage
+Dallas-Fort Worth,Southeast HUB,15620,Falcon Heights Watermill
+Dallas-Fort Worth,Southeast HUB,15655,Arbors at Eastland Classic
+Dallas-Fort Worth,Southeast HUB,15656,Arbors at Eastland Classic 60s
+Dallas-Fort Worth,Southeast HUB,15666,Walden Pond West Cottage
+Dallas-Fort Worth,Southeast HUB,15667,Walden Pond West Classic
+Dallas-Fort Worth,Southeast HUB,29100,Wright Farms Cottage
+Dallas-Fort Worth,Southeast HUB,29107,McKenzie Trails Cottage
+Dallas-Fort Worth,Southeast HUB,29108,McKenzie Trails Watermill
+Dallas-Fort Worth,Southeast HUB,29146,Caldwell Lakes
+Dallas-Fort Worth,Southeast HUB,29147,Eastland Watermill BFR
+Dallas-Fort Worth,SW Fort Worth HUB,14645,Risinger Court
+Dallas-Fort Worth,SW Fort Worth HUB,14651,Sierra Vista Cottage
+Dallas-Fort Worth,SW Fort Worth HUB,14652,Sierra Vista Watermill
+Dallas-Fort Worth,SW Fort Worth HUB,14668,Rosemary Ridge
+Dallas-Fort Worth,SW Fort Worth HUB,14669,South Oak Grove Wellton
+Dallas-Fort Worth,SW Fort Worth HUB,14989,South Oak Grove Cottage
+Dallas-Fort Worth,SW Fort Worth HUB,15614,Eagles Crossing Cottage
+Dallas-Fort Worth,SW Fort Worth HUB,15615,Eagles Crossing Broadview
+Dallas-Fort Worth,SW Fort Worth HUB,15623,Ashton Homeplace
+Dallas-Fort Worth,SW Fort Worth HUB,15632,Carrell Hills
+Dallas-Fort Worth,SW Fort Worth HUB,15640,Pecan Meadows Majors
+Dallas-Fort Worth,SW Fort Worth HUB,15641,Pecan Meadows Classic
+Dallas-Fort Worth,SW Fort Worth HUB,15653,Valor Watermill
+Dallas-Fort Worth,SW Fort Worth HUB,15664,West Square BFR
+Dallas-Fort Worth,SW Fort Worth HUB,15665,West Square Classic
+Dallas-Fort Worth,SW Fort Worth HUB,15688,Frontier Cottage
+Dallas-Fort Worth,SW Fort Worth HUB,15689,Frontier Watermill
+Dallas-Fort Worth,SW Fort Worth HUB,15699,Valor Cottage
+Dallas-Fort Worth,SW Fort Worth HUB,29109,Deer Crk Cottage 50
+Dallas-Fort Worth,SW Fort Worth HUB,29110,Deer Crk Majors 60
+Dallas-Fort Worth,SW Fort Worth HUB,29126,Deer Creek Addition
+Dallas-Fort Worth,SW Fort Worth HUB,29128,Miraverde
+Dallas-Fort Worth,SW Fort Worth HUB,29159,Vista Point
+Dallas-Fort Worth,SW Fort Worth HUB,29173,West Square Watermill
+Dallas-Fort Worth,SW Fort Worth HUB,29182,Deer Crk Cottage 55
+Dallas-Fort Worth,SW Fort Worth HUB,29183,Deer Crk Majors 65
+Gulf Coast,<No Hub>,GFC-FCO017,(Blank)
+Gulf Coast,<No Hub>,GFC-FCO020,(Blank)
+Gulf Coast,<No Hub>,GFC-FCO023,(Blank)
+Gulf Coast,<No Hub>,GFC-FCO030,(Blank)
+Gulf Coast,Alabama HUB,21505,Cottages of Aventura
+Gulf Coast,Alabama HUB,21506,Glenlakes
+Gulf Coast,Alabama HUB,21518,Lakeland
+Gulf Coast,Alabama HUB,21523,Greenbrier
+Gulf Coast,Alabama HUB,21524,Aberdeen
+Gulf Coast,Alabama HUB,21528,Bayou Ridge
+Gulf Coast,Alabama HUB,21529,Pecan Grove
+Gulf Coast,Alabama HUB,21532,Greenfield
+Gulf Coast,Alabama HUB,21542,Grasslands
+Gulf Coast,Alabama HUB,21547,The Retreat
+Gulf Coast,Alabama HUB,21548,The Branch
+Gulf Coast,Alabama HUB,21551,Southwood at Arbor Walk
+Gulf Coast,Alabama HUB,21557,Hawthorn
+Gulf Coast,Alabama HUB,21560,Grassland Majors
+Gulf Coast,Alabama HUB,21561,Autumn Fields
+Gulf Coast,Florida HUB,21503,Carrington
+Gulf Coast,Florida HUB,21517,McKenzie Ridge
+Gulf Coast,Florida HUB,21520,Saddle Ridge
+Gulf Coast,Florida HUB,21522,Windsor Ridge
+Gulf Coast,Florida HUB,21525,Stonechase
+Gulf Coast,Florida HUB,21526,"Eagles Ridge, Watermill"
+Gulf Coast,Florida HUB,21527,Horizon's Edge
+Gulf Coast,Florida HUB,21531,Sagewood
+Gulf Coast,Florida HUB,21535,Mallard Landing
+Gulf Coast,Florida HUB,21536,McKinnon Townhomes
+Gulf Coast,Florida HUB,21538,Grove at Bella Terra
+Gulf Coast,Florida HUB,21539,The Enclave at Bella Terra
+Gulf Coast,Florida HUB,21544,Lost Key
+Gulf Coast,Florida HUB,21545,Yellow River Plantation
+Gulf Coast,Florida HUB,21546,Myrtle Wood
+Gulf Coast,Florida HUB,21549,Piper's Landing
+Gulf Coast,Florida HUB,21550,"Eagle's Ridge, Classics"
+Gulf Coast,Florida HUB,21552,Longleaf at Owls Head Classics
+Gulf Coast,Florida HUB,21553,Longleaf Owls Head Watermill
+Gulf Coast,Florida HUB,21554,Bennington Park
+Gulf Coast,Florida HUB,21555,Cross Creek
+Gulf Coast,Florida HUB,21558,The Crossings Classics
+Gulf Coast,Florida HUB,74218,Magnolia Ridge Majors
+Gulf Coast,Rausch HUB,74201,Bay Springs Majors
+Gulf Coast,Rausch HUB,74202,Bay Springs TH's
+Gulf Coast,Rausch HUB,74203,Riverbend Run Majors
+Gulf Coast,Rausch HUB,74204,Riverbend Run Classics
+Gulf Coast,Rausch HUB,74206,Harvest Point
+Gulf Coast,Rausch HUB,74210,Magnolia Ridge (NWFL)
+Gulf Coast,Rausch HUB,74214,Sarah Farms
+Gulf Coast,Rausch HUB,74217,White Oak Estates
+Houston,<No Hub>,14749,Winward 40'
+Houston,<No Hub>,14750,Winward 50'
+Houston,<No Hub>,14776,Magnolia Ridge 50'
+Houston,<No Hub>,14793,Moran Ranch 40'
+Houston,<No Hub>,14794,Moran Ranch 50'
+Houston,<No Hub>,22642,Pecan Lakes Estates 50' WM
+Houston,<No Hub>,HOU-FCO254,(Blank)
+Houston,<No Hub>,HOU-FCO255,(Blank)
+Houston,East HUB,14755,Sterling Point 45'
+Houston,East HUB,22609,Sterling Point 50'
+Houston,East HUB,22615,Synova 40'
+Houston,East HUB,22616,Synova 45'
+Houston,East HUB,22617,Synova 50'
+Houston,East HUB,22635,Sila 25'
+Houston,East HUB,22636,Sila 40'
+Houston,East HUB,22637,Sila 45'
+Houston,East HUB,22640,Sterling Point 60' FW
+Houston,East HUB,22657,Indian Springs 40'
+Houston,East HUB,22674,Pelly Place 40' Cottage
+Houston,East HUB,22675,Scotts Bend 45' WM
+Houston,East HUB,22676,Scotts Bend 50' Classic
+Houston,East HUB,22677,Scotts Bend 60' FW
+Houston,East HUB,22678,Scotts Bend 70'
+Houston,East HUB,22695,Indian Springs 25' Welton
+Houston,East HUB,22732,Pelly Place 40'A
+Houston,East HUB,22733,Scotts Bend 45'B
+Houston,East HUB,22744,Sweetgrass Village 40'
+Houston,East HUB,22745,Sweetgrass Village 50'
+Houston,East HUB,22772,Synova 40' Avante
+Houston,East HUB,22773,Synova 45' Bristol
+Houston,East HUB,22774,Sila 40' Avante
+Houston,East HUB,22775,Sila 45' Bristol
+Houston,East HUB,23206,Sila 30' Crestmore
+Houston,East HUB,23208,Sila 35' Belmar
+Houston,East HUB,23217,Sweetgrass Village 50' WM
+Houston,East HUB,23234,Sila 50' Classic
+Houston,North HUB,14599,Ladera Creek 50'
+Houston,North HUB,14739,Artavia 55'
+Houston,North HUB,14747,Ladera Trails
+Houston,North HUB,14788,Meadow Park 40'
+Houston,North HUB,22643,Moran Ranch 60' WF
+Houston,North HUB,22656,Villages of Greystone 30'
+Houston,North HUB,22699,Artavia 40' Avante
+Houston,North HUB,22741,Sweetwater Ridge 45'
+Houston,North HUB,22754,Woodhaven Estates 40' Cottage
+Houston,North HUB,22755,Woodhaven Estates 40' WM
+Houston,North HUB,22756,Woodhaven Estates 55' Fairway
+Houston,North HUB,22757,Willis Tract 40'
+Houston,North HUB,22758,Willis Tract 45'
+Houston,North HUB,22759,Willis Tract 50'
+Houston,North HUB,22795,Lakes at Crockett Martin 50'WM
+Houston,North HUB,22796,Lakes at Crockett Martin 50'CL
+Houston,North HUB,23215,Fairwaters 40' Cottage
+Houston,North HUB,23244,The Reserve at Huntsville WM50
+Houston,Northeast HUB,14176,The Highlands 60' Pinnacle
+Houston,Northeast HUB,14576,Tavola 50'
+Houston,Northeast HUB,14781,The Highlands 50'
+Houston,Northeast HUB,14786,Pinewood at Grand Texas 45'
+Houston,Northeast HUB,14787,Pinewood at Grand Texas 50'
+Houston,Northeast HUB,22631,Tavola West 45'
+Houston,Northeast HUB,22632,Tavola West 25'
+Houston,Northeast HUB,22634,Tavola West 40' Cottage
+Houston,Northeast HUB,22650,Townsend Reserve 40' Cottage
+Houston,Northeast HUB,22651,Townsend Reserve 45' WM
+Houston,Northeast HUB,22655,Flagstone 40'
+Houston,Northeast HUB,22679,Trails 40' Avante
+Houston,Northeast HUB,22680,Trails 45' Bristol
+Houston,Northeast HUB,22681,Trails 60' Fairway
+Houston,Northeast HUB,22692,Timbers Edge 40'
+Houston,Northeast HUB,22693,Timbers Edge 45'
+Houston,Northeast HUB,22712,Spring Branch Crossing
+Houston,Northeast HUB,22721,Grand Oaks Reserve
+Houston,Northeast HUB,22726,Tavola West 40'A
+Houston,Northeast HUB,22727,Tavola West 45 B
+Houston,Northeast HUB,22734,Venado Lakes 105'
+Houston,Northeast HUB,22743,Pinewood Trails 50'
+Houston,Northeast HUB,22746,Hill and Dale Ranch 50'Cottage
+Houston,Northeast HUB,22749,Hill and Dale Ranch 50'WM
+Houston,Northeast HUB,22752,The Enclave at Spring Branch 40'
+Houston,Northeast HUB,22766,The Branches 40'
+Houston,Northeast HUB,22767,The Branches 45'
+Houston,Northeast HUB,22768,The Branches 50'
+Houston,Northeast HUB,22785,Grand Oak Reserve 50' WM
+Houston,Northeast HUB,23210,Enclave at Northpark TX Villas
+Houston,Northeast HUB,23212,River Ranch 50' Classic
+Houston,Northeast HUB,23213,River Ranch 55' Fairway
+Houston,Northeast HUB,23214,Harrington Trails 40' Cottage
+Houston,Northeast HUB,23216,Spring Branch Crossing 80' WM
+Houston,Northeast HUB,23229,Timbers Edge 45' Bristol
+Houston,Northeast HUB,23230,Timbers Edge 40' New Avante
+Houston,Northeast HUB,23237,Santa Fe Village Broadview 30'
+Houston,Northeast HUB,23238,Santa Fe Village Crestmore 30'
+Houston,Northeast HUB,23239,Santa Fe Village CoreCottage40
+Houston,Northwest HUB,4497,Bridgeland 65'
+Houston,Northwest HUB,14173,Bridgeland 28'
+Houston,Northwest HUB,14542,Bridgeland Brookstone
+Houston,Northwest HUB,14724,Dellrose 50
+Houston,Northwest HUB,14774,Cypress Green 40'
+Houston,Northwest HUB,14785,Becker Landing 40'
+Houston,Northwest HUB,22605,Magnolia Ridge 40'
+Houston,Northwest HUB,22618,Grand Prairie 40'
+Houston,Northwest HUB,22619,Grand Prairie 45' Bristol
+Houston,Northwest HUB,22620,Grand Prairie 45' Watermill
+Houston,Northwest HUB,22621,Grand Prairie 50' Core Classic
+Houston,Northwest HUB,22646,Cypress Green 50' WF
+Houston,Northwest HUB,22647,Stone Creek Ranch 50' WF
+Houston,Northwest HUB,22665,Pleasant HIll 50' WM
+Houston,Northwest HUB,22673,Cypress Green 45' WM
+Houston,Northwest HUB,22689,Cypress Green 50' Classic
+Houston,Northwest HUB,22690,Magnolia Forest 40' Cottage
+Houston,Northwest HUB,22691,Magnolia Forest 45' WM
+Houston,Northwest HUB,22701,Trails at Cochran Ranch 50'
+Houston,Northwest HUB,22702,Oakberry Trails 40'
+Houston,Northwest HUB,22703,Oakberry Trails 50'
+Houston,Northwest HUB,22704,Kresston
+Houston,Northwest HUB,22705,Avalon Ridge
+Houston,Northwest HUB,22723,Forestwood
+Houston,Northwest HUB,22730,Cypress Green 45'B
+Houston,Northwest HUB,22731,Grand Prairie Highlands 40'A
+Houston,Northwest HUB,22760,Colton 50'
+Houston,Northwest HUB,22776,Magnolia Forest 40' Avante
+Houston,Northwest HUB,22777,Magnolia Forest 45' Bristol
+Houston,Northwest HUB,22778,Grand Prairie Highlands 45' B
+Houston,Northwest HUB,22782,Pleasant Hill 50' Classic
+Houston,Northwest HUB,22783,Grand Prairie 50' Woodbridge
+Houston,Northwest HUB,22784,Trails at Cochran Ranch 50' Cl
+Houston,Northwest HUB,22797,Southern Pointe 50' WM
+Houston,Northwest HUB,22798,Southern Pointe 50' Bristol
+Houston,Northwest HUB,22799,Southern Pointe 50' Richmond
+Houston,Northwest HUB,23202,Cameron Cove 55' Classic
+Houston,Northwest HUB,23203,Cameron Cove 55' Fairway
+Houston,Northwest HUB,23204,Southern Pointe 50' Classic
+Houston,Northwest HUB,23227,Cypress Green 40' Avante
+Houston,Northwest HUB,23228,Cypress Green 50' Richmond
+Houston,Northwest HUB,23240,Whitetail Run Core Classic 50'
+Houston,Northwest HUB,23243,Grand Lake Core Classic 70'
+Houston,Northwest HUB,67201,Dellrose 60'
+Houston,Rausch HUB,74001,Binford Creek '40
+Houston,Rausch HUB,74002,Binford Creek '50
+Houston,Rausch HUB,74003,Black Oak
+Houston,Rausch HUB,74004,Caney Mills
+Houston,Rausch HUB,74005,Chapel Run
+Houston,Rausch HUB,74006,Cielo
+Houston,Rausch HUB,74007,Crosby Farms
+Houston,Rausch HUB,74008,Coe Ranch
+Houston,Rausch HUB,74011,Esperanza
+Houston,Rausch HUB,74013,Dyer Lakes
+Houston,Rausch HUB,74014,Hidden Creek
+Houston,Rausch HUB,74015,Magnolia Ridge (HOU)
+Houston,Rausch HUB,74016,Magnolia Springs
+Houston,Rausch HUB,74017,Memorial Heights
+Houston,Rausch HUB,74018,Moore Landing
+Houston,Rausch HUB,74019,Wayside Village
+Houston,Rausch HUB,74022,Binford Creek NEW Avante 40'
+Houston,Rausch HUB,74023,Binford Creek Bristol 50'
+Houston,Rausch HUB,74024,Esperanza NEW Avante 40'
+Houston,Rausch HUB,74025,Moore Landing NEW Avante 40'
+Houston,South HUB,22623,Live Oak Ranch 45'
+Houston,South HUB,22639,Riverwood Ranch 45' WM
+Houston,South HUB,22645,Windrose Green 40'
+Houston,South HUB,22652,Pomona 50' Wildflower
+Houston,South HUB,22653,Pomona 55' Fairway
+Houston,South HUB,22659,Sterling Lakes North 50'
+Houston,South HUB,22660,Sterling Lakes North 60' FW
+Houston,South HUB,22668,Sterling Lakes North 45' WM
+Houston,South HUB,22669,Sterling Lakes North-Bristol
+Houston,South HUB,22696,Riverwood Ranch 50' Classic
+Houston,South HUB,22700,Valor Park Cottage
+Houston,South HUB,22707,Sierra Vista 26'
+Houston,South HUB,22708,Sterling Lakes North 45'
+Houston,South HUB,22709,Sandrock Gardens 40'
+Houston,South HUB,22713,Sterling Lakes North 60'
+Houston,South HUB,22715,Kendall Lakes South
+Houston,South HUB,22722,Gifford Meadows 45'
+Houston,South HUB,22729,Sur 30'
+Houston,South HUB,22737,Ashland 50'
+Houston,South HUB,22761,Windrose Green 45'
+Houston,South HUB,22762,Windrose Green 50'
+Houston,South HUB,22781,Windrose Green 45' Bristol
+Houston,South HUB,23211,Valor Park 50'/70' WM
+Houston,South HUB,23233,Trails at Woodhaven Lakes WM
+Houston,South HUB,23235,Bayou Lakes Classic
+Houston,South HUB,23236,Bayou Lakes FW
+Houston,South HUB,23242,Windrose Green New Avante 40'
+Houston,Southeast HUB,14172,Lago Mar 45'
+Houston,Southeast HUB,14549,Westwood
+Houston,Southeast HUB,14795,Samara 50'
+Houston,Southeast HUB,14797,Samara 50'
+Houston,Southeast HUB,14798,Samara 60'
+Houston,Southeast HUB,14799,Samara 65'
+Houston,Southeast HUB,22607,Samara 60'
+Houston,Southeast HUB,22626,Lago Mar (SW) 55'
+Houston,Southeast HUB,22694,Coastal Point 60/70' Pinnacle
+Houston,Southeast HUB,22698,Coastal Point 50' WF
+Houston,Southeast HUB,22714,Lago Mar 55'
+Houston,Southeast HUB,22725,Samara 50'B
+Houston,Southeast HUB,22763,Legacy 50'
+Houston,Southeast HUB,22769,Samara 50' Woodbridge (CCISD)
+Houston,Southeast HUB,22770,Samara 60' Classic (DISD)3car
+Houston,Southwest HUB,4349,Walnut Creek 50'
+Houston,Southwest HUB,14177,Harvest Green 55'
+Houston,Southwest HUB,14581,Walnut Creek 60'
+Houston,Southwest HUB,14726,Still Creek Ranch 55'
+Houston,Southwest HUB,14778,Miller's Pond 50' Watermill
+Houston,Southwest HUB,14779,Miller's Pond 60' Wildflower
+Houston,Southwest HUB,22614,Jones Creek 45'
+Houston,Southwest HUB,22648,Emberly 40' Cottage
+Houston,Southwest HUB,22649,Emberly 45' WM
+Houston,Southwest HUB,22663,The Preserve at Rosenberg
+Houston,Southwest HUB,22664,The Preserve at Rosenberg FW
+Houston,Southwest HUB,22670,Still Creek Ranch 55' FW
+Houston,Southwest HUB,22671,Emberly 50'
+Houston,Southwest HUB,22682,Wharton Lakes 40' Cottage
+Houston,Southwest HUB,22683,Wharton Lakes 45' WM
+Houston,Southwest HUB,22684,Monarch Landing 40' Cottage
+Houston,Southwest HUB,22685,Monarch Landing 45' WM
+Houston,Southwest HUB,22686,Monarch Landing 50' Classic
+Houston,Southwest HUB,22724,Jones Creek 45 B
+Houston,Southwest HUB,22779,Monarch Landing 40' Avante
+Houston,Southwest HUB,22780,Monarch Landing 45' Bristol
+Houston,Southwest HUB,22792,Emberly 55' New Fairway
+Houston,Southwest HUB,22794,Emberly 40' Avante
+Houston,Southwest HUB,23231,The Preserve at Rosenberg 60'
+Houston,West HUB,14168,Anniston 40' Avante
+Houston,West HUB,14169,Anniston 50' Richmond
+Houston,West HUB,14170,Jordan Ranch 45'
+Houston,West HUB,14174,Cross Creek West 60'
+Houston,West HUB,14178,Jordan Ranch 60'
+Houston,West HUB,14763,Cross Creek 50'
+Houston,West HUB,14789,Anniston 40' Cottage
+Houston,West HUB,14790,Anniston 55' Fairway
+Houston,West HUB,14791,Anniston 45' Watermill
+Houston,West HUB,14792,Anniston 50' Classic
+Houston,West HUB,22600,Cross Creek Ranch 28' Villas
+Houston,West HUB,22603,Sunterra 40'
+Houston,West HUB,22604,Sunterra Bristol 45'
+Houston,West HUB,22627,Sunterra WM 45'
+Houston,West HUB,22628,Sunterra WF 50'
+Houston,West HUB,22672,Sunterra 40' Cottage
+Houston,West HUB,22688,Sunterra 55' FW
+Houston,West HUB,22706,Sunterra Lakes 45' WM
+Houston,West HUB,22710,Sofi Lakes 45'
+Houston,West HUB,22711,Sofi Lakes 50'
+Houston,West HUB,22716,Sunterra 50'
+Houston,West HUB,22717,Sunterra 40'
+Houston,West HUB,22718,Anniston 60' Pinnacle
+Houston,West HUB,22719,Winward Cove 45'
+Houston,West HUB,22720,Winward Cove 50'
+Houston,West HUB,22728,Anniston 45 Bristol
+Houston,West HUB,22735,Riverwood Farms 40'
+Houston,West HUB,22736,Riverwood Farms 45'
+Houston,West HUB,22742,Freeman Ranch 50'
+Houston,West HUB,22748,Sunterra 45'
+Houston,West HUB,22793,Sunterra 50' POD 8 Richmond
+Houston,West HUB,23232,Sunterra Lakes 45' Bristol
+Orlando,<No Hub>,11194,Oak Hammock 50s
+Orlando,<No Hub>,11195,Oak Hammock 60s
+Orlando,<No Hub>,26305,Oak Hammock 60s
+Orlando,<No Hub>,26307,Hidden Ridge 70
+Orlando,<No Hub>,OLH-FCO001,(Blank)
+Orlando,<No Hub>,OLH-FCO002,(Blank)
+Orlando,<No Hub>,OLH-FCO083,(Blank)
+Orlando,<No Hub>,OLH-FCO085,(Blank)
+Orlando,<No Hub>,OLH-FCO087,(Blank)
+Orlando,<No Hub>,OLH-FCO093,(Blank)
+Orlando,<No Hub>,OLH-FCO094,(Blank)
+Orlando,East HUB,7098,Storey Park 32
+Orlando,East HUB,7099,Storey Park 40
+Orlando,East HUB,7101,Storey Park 60
+Orlando,East HUB,11116,The Parks at Edgewater MJR
+Orlando,East HUB,11117,The Parks at Edgewater CLS
+Orlando,East HUB,11145,Everbe 20 TH
+Orlando,East HUB,11146,Everbe 34s
+Orlando,East HUB,11147,Bronson's Ridge 25 TH
+Orlando,East HUB,11148,Bronson's Ridge 32s
+Orlando,East HUB,11149,Bronson's Ridge 60s
+Orlando,East HUB,11154,LPGA 2 40s
+Orlando,East HUB,11155,LPGA 2 50s 90
+Orlando,East HUB,11156,LPGA 2 50s 110
+Orlando,East HUB,16462,Storey Drive TH
+Orlando,East HUB,16463,Storey Drive Condos
+Orlando,East HUB,16467,Vineland Reserves 40s
+Orlando,East HUB,16474,Storey Park K TH
+Orlando,East HUB,16478,Storey Park K 60
+Orlando,East HUB,16482,LPGA 40s
+Orlando,East HUB,16483,LPGA 50s
+Orlando,East HUB,16484,Rhetts Ridge Rd
+Orlando,East HUB,16485,Rhetts Ridge 75s
+Orlando,East HUB,16495,Golden Orchard 32s
+Orlando,East HUB,16496,Golden Orchard 50s
+Orlando,East HUB,26304,Oak Hammock 50s
+Orlando,East HUB,26311,Rivington 34s
+Orlando,East HUB,26312,Rivington 50s
+Orlando,East HUB,26313,Rivington 60s
+Orlando,East HUB,26327,LPGA 2 40s CORE
+Orlando,East HUB,26328,LPGA 2 50s CORE
+Orlando,East HUB,26338,Springhead North 40s
+Orlando,East HUB,26339,Springhead North 50s
+Orlando,Northwest HUB,6712,North Ridge Estates
+Orlando,Northwest HUB,7115,Storey Grove Manors
+Orlando,Northwest HUB,7116,Storey Grove Estates
+Orlando,Northwest HUB,11109,Wellness Ridge 25 TH
+Orlando,Northwest HUB,11113,Astonia North 40
+Orlando,Northwest HUB,11114,Astonia North 50
+Orlando,Northwest HUB,11135,Crosswinds 40s
+Orlando,Northwest HUB,11136,Crosswinds 50s
 Orlando,Northwest HUB,11137,Wellness Ridge 22 Th
 Orlando,Northwest HUB,11138,Wellness Ridge 32s
 Orlando,Northwest HUB,11139,Wellness Ridge 40s Rear Loaded
-Orlando,Northwest HUB,26373,Wellness Ridge 4FLGC
-Orlando,Northwest HUB,26358,Wellness Ridge 50s GC
+Orlando,Northwest HUB,11140,Wellness Ridge 40s Front Loaded
+Orlando,Northwest HUB,11141,Wellness Ridge 50s
 Orlando,Northwest HUB,11142,Wellness Ridge 60s
-Tampa,HUB 5,24123,West Lake 18 THs
-Tampa,HUB 5,15957,West Lake 40s
-Tampa,HUB 5,15958,West Lake 50s
-Tampa,HUB 2,15989,West River THs
-Dallas-Fort Worth,SW Fort Worth HUB,15665,West Square Classic
-Dallas-Fort Worth,SW Fort Worth HUB,29173,West Square Watermill
-Orlando,Southwest HUB,11178,Westview 22 TH
-Orlando,Southwest HUB,26374,Westview 40s GC
-Orlando,Southwest HUB,26375,Westview 45s GC
-Orlando,Southwest HUB,11196,Westview 50s GC
-Houston,Southwest HUB,22682,Wharton Lakes 40' Cottage
-Houston,Southwest HUB,22683,Wharton Lakes 45' WM
-Dallas-Fort Worth,Southeast HUB,14634,Wildcat Ranch
-Austin-San Antonio,South HUB,40182,Willow Point-Cottage
-Tampa,HUB 4,15960,Wind Meadows S 50
-Houston,South HUB,22645,Windrose Green 40'
-Houston,South HUB,22761,Windrose Green 45'
-Houston,South HUB,22781,Windrose Green 45' Bristol
-Houston,South HUB,22762,Windrose Green 50'
-Houston,South HUB,23242,Windrose Green New Avante 40'
-Houston,West HUB,22719,Winward Cove 45'
-Houston,West HUB,22720,Winward Cove 50'
-Austin-San Antonio,Northwest HUB,14868,Woodfield Preserve Highlands
-Austin-San Antonio,Northwest HUB,14867,Woodfield Preserve Ridgepoint
+Orlando,Northwest HUB,11143,Provdence Garden Hills 50s
+Orlando,Northwest HUB,11144,Providence Garden Hills 60s
+Orlando,Northwest HUB,11150,Sanctuary at Wellness Way Villas
+Orlando,Northwest HUB,11151,Sanctuary at Wellness Way 50s
+Orlando,Northwest HUB,11152,Sanctuary at Wellness Way 60s
+Orlando,Northwest HUB,11183,Sugarloaf 45s
+Orlando,Northwest HUB,11184,Sugarloaf 55s
+Orlando,Northwest HUB,11185,Sugarloaf 65s
+Orlando,Northwest HUB,11189,Chateau at Astonia
+Orlando,Northwest HUB,11198,Pine Meadows 40s
+Orlando,Northwest HUB,16385,Champions Pointe Townhomes
+Orlando,Northwest HUB,16459,Fox North 40's Resort
+Orlando,Northwest HUB,16461,Lake Wilson Reserve 22T
+Orlando,Northwest HUB,16472,Trinity Lakes 50
+Orlando,Northwest HUB,16473,Trinity Lakes 60
+Orlando,Northwest HUB,26306,Hidden Ridge 50
+Orlando,Northwest HUB,26308,Waterstone 40s
+Orlando,Northwest HUB,26309,Waterstone 50s
+Orlando,Northwest HUB,26314,Brentwood TH
 Orlando,Northwest HUB,26315,Wynnstone 40s
 Orlando,Northwest HUB,26316,Wynnstone 50s
-Gulf Coast,Florida HUB,21545,Yellow River Plantation
+Orlando,Northwest HUB,26321,Cloverleaf
+Orlando,Northwest HUB,26337,Providence Grdn Hills 50s CORE
+Orlando,Northwest HUB,26341,Grove at Grenelefe 60s
+Orlando,Northwest HUB,26346,Pine Meadows 40s
+Orlando,Northwest HUB,26347,Pine Meadows 50s
+Orlando,Northwest HUB,26348,Preservation Place 50s
+Orlando,Northwest HUB,26349,Preservation Place 60s
+Orlando,Northwest HUB,26351,Waterstone 40MU
+Orlando,Northwest HUB,26352,Waterstone 50MU
+Orlando,Northwest HUB,26358,Wellness Ridge 50s GC
+Orlando,Northwest HUB,26360,Meadow Pointe 50
+Orlando,Northwest HUB,26361,Meadow Pointe 70
+Orlando,Northwest HUB,26371,Crosswinds 40s GC
+Orlando,Northwest HUB,26372,Crosswinds 50s GC
+Orlando,Northwest HUB,26373,Wellness Ridge 4FLGC
+Orlando,Northwest HUB,65219,Providence Grdn Hills 50s GC
+Orlando,Orlando Div OH,26326,The Cove
+Orlando,Polk HUB,11118,Cascades 40s
+Orlando,Polk HUB,11119,Cascades 50s
+Orlando,Polk HUB,11120,Leomas Landing 40s
+Orlando,Polk HUB,11122,Leomas Landing 50s
+Orlando,Polk HUB,11127,Ranches at Lake McLeod 40s
+Orlando,Polk HUB,11128,Ranches at Lake McLeod 50s
+Orlando,Polk HUB,11129,Ranches at Lake Mcleod 60s
+Orlando,Polk HUB,11131,Peace Creek Reserve 40s
+Orlando,Polk HUB,11132,Peace Creek Reserve 50s
+Orlando,Polk HUB,11161,Hunt Club Groves 40s
+Orlando,Polk HUB,11162,Hunt Club Groves 50s
+Orlando,Polk HUB,11172,Lawson Dunes 40s
+Orlando,Polk HUB,11173,Lawson Dunes 50s
+Orlando,Polk HUB,11197,Ranches at McLeod 40s GC
+Orlando,Polk HUB,16443,Magnolia Park 50
+Orlando,Polk HUB,16466,Cypress Park 50s
+Orlando,Polk HUB,26320,Hamilton Bluff 50s
+Orlando,Polk HUB,26329,Peace Creek 40s CORE
+Orlando,Polk HUB,26330,Peace Creek 50s CORE
+Orlando,Polk HUB,26331,Ranches 40s CORE
+Orlando,Polk HUB,26332,Ranches 50s CORE
+Orlando,Polk HUB,26336,Reedy Isle 50s
+Orlando,Polk HUB,26350,Sol Vista
+Orlando,Polk HUB,26354,Grandview TH
+Orlando,Polk HUB,26355,Gum Lake 40s
+Orlando,Polk HUB,26356,Gum Lake 50s
+Orlando,Polk HUB,26362,Villa Mar 40s
+Orlando,Polk HUB,26368,Hunt Club 50GC
+Orlando,Polk HUB,26369,Ranches 50GC
+Orlando,Polk HUB,26370,Ranches 60GC
+Orlando,Southwest HUB,11130,Knightsbridge 50s
+Orlando,Southwest HUB,11164,Waterlin 35s RL
+Orlando,Southwest HUB,11165,Waterlin 40s RL
+Orlando,Southwest HUB,11166,Waterlin 45s
+Orlando,Southwest HUB,11167,Waterlin 50s
+Orlando,Southwest HUB,11168,Waterlin 60s
+Orlando,Southwest HUB,11170,Hamilton Bluff 40s
+Orlando,Southwest HUB,11171,Knightsbridge 2
+Orlando,Southwest HUB,11175,Crossprairie 25 TH
+Orlando,Southwest HUB,11176,Crossprairie 32s
+Orlando,Southwest HUB,11177,Crossprairie 50s
+Orlando,Southwest HUB,11178,Westview 22 TH
+Orlando,Southwest HUB,11179,Lennar at Esplanade Villas
+Orlando,Southwest HUB,11180,Westview 40s
+Orlando,Southwest HUB,11181,Westview 50s
+Orlando,Southwest HUB,11182,Lennar at Esplanade 45s
+Orlando,Southwest HUB,11196,Westview 50s GC
+Orlando,Southwest HUB,16428,Pine Glen 50s
+Orlando,Southwest HUB,16429,Pine Glen 60s
+Orlando,Southwest HUB,16436,Tohoqua 50s
+Orlando,Southwest HUB,16437,Storey Creek 40s
+Orlando,Southwest HUB,16438,Storey Creek 50's
+Orlando,Southwest HUB,16439,Storey Creek 60s
+Orlando,Southwest HUB,16497,Tohoqua II 25 TH
+Orlando,Southwest HUB,16498,Tohoqua II 32s
+Orlando,Southwest HUB,16499,Tohoqua II 50s
+Orlando,Southwest HUB,26300,Bridgewalk SL 25 TH
+Orlando,Southwest HUB,26301,Bridgewalk SL 40s
+Orlando,Southwest HUB,26302,Bridgewalk SL 50s
+Orlando,Southwest HUB,26303,Bridgewalk SL 60s
+Orlando,Southwest HUB,26319,Plymouth Harbor 75
+Orlando,Southwest HUB,26323,Kissimmee Park 34
+Orlando,Southwest HUB,26324,Westview 45s
+Orlando,Southwest HUB,26325,Nona Townhomes
+Orlando,Southwest HUB,26333,Westview 40s CORE
+Orlando,Southwest HUB,26334,Westview 45s CORE
+Orlando,Southwest HUB,26335,Westview 50s CORE
+Orlando,Southwest HUB,26359,Reunion Village 40s
+Orlando,Southwest HUB,26374,Westview 40s GC
+Orlando,Southwest HUB,26375,Westview 45s GC
+Orlando,Southwest HUB,65315,Bridgewalk 50s
+Orlando,Southwest HUB,65316,Bridgewalk 60s
+Orlando,Southwest HUB,65319,Bridgewalk 40s
+Tampa,<No Hub>,8205,DD - Tampa
+Tampa,<No Hub>,8221,Land Dev AG LB  Tampa
+Tampa,<No Hub>,8248,Tampa Land DD
+Tampa,<No Hub>,8450,LHI TAMPA LAND
+Tampa,<No Hub>,15922,Krycul 20 THs
+Tampa,<No Hub>,15956,Southshore Bay 20 TH
+Tampa,<No Hub>,TPU-FCO024,(Blank)
+Tampa,HUB 1,15339,Angeline 50
+Tampa,HUB 1,15360,Southern Hills 52
+Tampa,HUB 1,15361,Southern Hills 65
+Tampa,HUB 1,15904,Avalon Ph4 50S
+Tampa,HUB 1,15936,Verano 40s
+Tampa,HUB 1,15937,Verano 50s
+Tampa,HUB 1,15940,Little Lk Thoma 18
+Tampa,HUB 1,15970,New Port Corners AA Villas
+Tampa,HUB 1,15971,New Port Corners AA 50's
+Tampa,HUB 1,15972,New Port Corners AA 60's
+Tampa,HUB 1,15973,New Port Corners 18 TH
+Tampa,HUB 1,15974,New Port Corners 25 RL TH
+Tampa,HUB 1,15975,New Port Corners 32 RL
+Tampa,HUB 1,15976,New Port Corners 40's
+Tampa,HUB 1,15977,New Port Corners 50's
+Tampa,HUB 1,15980,Angeline AA Villas
+Tampa,HUB 1,15981,Angeline AA 50s
+Tampa,HUB 1,15982,Angeline AA 60s
+Tampa,HUB 1,15984,Angeline 20 TH
+Tampa,HUB 1,15985,Angeline 28 TH
+Tampa,HUB 1,15986,Angeline 40
+Tampa,HUB 1,24139,Avalon East 40s
+Tampa,HUB 1,24166,Angeline Villas
+Tampa,HUB 1,24189,Seville 50s Core
+Tampa,HUB 1,24194,Jumper Loop 50s
+Tampa,HUB 1,25504,Sherman Hills 4B 40s CORE 1
+Tampa,HUB 1,25524,Seville 50s Elev
+Tampa,HUB 1,25530,Angeline 2C Villas
+Tampa,HUB 2,7278,SouthShore Yacht Club Interior 50
+Tampa,HUB 2,15034,Big Connerton TH
+Tampa,HUB 2,15035,Big Connerton Villas
+Tampa,HUB 2,15036,Big Connerton 40
+Tampa,HUB 2,15037,Big Connerton 50
+Tampa,HUB 2,15180,Forest Brooke AA Villa
+Tampa,HUB 2,15186,Bryant Square 18 TH
+Tampa,HUB 2,15370,Wiregrass Ranch Condos
+Tampa,HUB 2,15919,Big Connerton 50 PIN
+Tampa,HUB 2,15920,Big Connerton 60 PIN
+Tampa,HUB 2,15923,Longleaf 20 THs
+Tampa,HUB 2,15924,Longleaf 32 RLs
+Tampa,HUB 2,15959,Cross Creek 20 TH
+Tampa,HUB 2,15987,Pearl 50s
+Tampa,HUB 2,15989,West River THs
+Tampa,HUB 2,15997,Manhattan THs
+Tampa,HUB 2,24148,Dusty Lane 50's
+Tampa,HUB 2,24184,Hillcrest East 40's
+Tampa,HUB 2,24185,Hillcrest East 50's PIN
+Tampa,HUB 2,24186,Hillcrest East 60's PIN
+Tampa,HUB 2,25520,Hilltop Point 50s
+Tampa,HUB 2,66534,Cordoba - Estates
+Tampa,HUB 2,66572,Tarramor - Premier
+Tampa,HUB 3,7290,Southfork Ph 2 P1
+Tampa,HUB 3,15933,Mirada 18 THs
+Tampa,HUB 3,15934,Mirada 20 THs
+Tampa,HUB 3,15935,Mirada 28-30 THs
+Tampa,HUB 3,15939,Mirada 50s
+Tampa,HUB 3,15944,Triple Creek 50 NP
+Tampa,HUB 3,15967,Sandhill 40
+Tampa,HUB 3,15968,Sandhill 50
+Tampa,HUB 3,15988,Mirada AA Villas
+Tampa,HUB 3,15994,Palm River 15 THs
+Tampa,HUB 3,24100,Triple Creek 40 QR
+Tampa,HUB 3,24101,Triple Creek 50 QR
+Tampa,HUB 3,24102,Triple Creek 60 QR
+Tampa,HUB 3,24129,Bayou Heights 28 THs
+Tampa,HUB 3,24136,Bellamy 40s
+Tampa,HUB 3,24137,Bellamy 50s
+Tampa,HUB 3,24149,Acacia Fields 40's
+Tampa,HUB 3,24150,Acacia Fields 50's
+Tampa,HUB 3,24152,Twinflowers 20' THs
+Tampa,HUB 3,24153,Twinflowers 40's
+Tampa,HUB 3,24154,Twinflowers 50's
+Tampa,HUB 3,24160,Vista Walk 20' THs
+Tampa,HUB 3,24161,Vista Walk 50/55s
+Tampa,HUB 3,24162,Claire Bay TH
+Tampa,HUB 3,24174,Sagebrush 40's
+Tampa,HUB 3,24175,Sagebrush 50's
+Tampa,HUB 3,24181,Mirada THs PH23 20' THs
+Tampa,HUB 3,25518,Acacia Fields 18THs
+Tampa,HUB 3,25519,Acacia Fields 55s
+Tampa,HUB 3,50060,Mirada AA 35s
+Tampa,HUB 3,50061,Mirada AA 50s
+Tampa,HUB 3,50062,Mirada AA 60s
+Tampa,HUB 4,7277,SouthShore Yacht Club Waterfront 50
+Tampa,HUB 4,15182,Forest Brooke AA 60
+Tampa,HUB 4,15185,North Park Isle 60
+Tampa,HUB 4,15916,Berry Bay 50s
+Tampa,HUB 4,15960,Wind Meadows S 50
+Tampa,HUB 4,15992,Two Rivers 40s
+Tampa,HUB 4,15993,Two Rivers 50s
+Tampa,HUB 4,15998,N Park 2C3B&4 50
+Tampa,HUB 4,24103,Two Rivers X 40s
+Tampa,HUB 4,24104,Two Rivers X 50s
+Tampa,HUB 4,24105,Two Rivers X 60s
+Tampa,HUB 4,24130,Windsong 18 THs
+Tampa,HUB 4,24131,Windsong 28 THs
+Tampa,HUB 4,24141,Berry Bay D&F 40's
+Tampa,HUB 4,24142,Berry Bay D&F 50's
+Tampa,HUB 4,24143,Berry Bay D&F 60's
+Tampa,HUB 4,24144,Park East 3B 40's
+Tampa,HUB 4,24146,Cypress Point 40's
+Tampa,HUB 4,24147,Cypress Point 50's
+Tampa,HUB 4,24151,Park East 3A 40's
+Tampa,HUB 4,24155,Crystal Brook 20' TH's
+Tampa,HUB 4,24176,Ivywood 40s
+Tampa,HUB 4,24179,Southshore Bay Ph6 20' THs
+Tampa,HUB 4,24182,Park East Ph5 50's
+Tampa,HUB 4,24183,Park East Ph5 60's
+Tampa,HUB 4,24195,Balcara Southshore THs
+Tampa,HUB 5,15181,Forest Brooke AA 50
+Tampa,HUB 5,15197,Prosperity Lakes 40s
+Tampa,HUB 5,15198,Prosperity Lakes 50s
+Tampa,HUB 5,15199,Prosperity Lakes 60s
+Tampa,HUB 5,15253,Prosperity Lakes TH
+Tampa,HUB 5,15329,South Creek 50s
+Tampa,HUB 5,15925,Balm Grove 40s
+Tampa,HUB 5,15926,Balm Grove 50s
+Tampa,HUB 5,15938,Mirada 40s
+Tampa,HUB 5,15957,West Lake 40s
+Tampa,HUB 5,15958,West Lake 50s
+Tampa,HUB 5,15962,Balm Grove West 60
+Tampa,HUB 5,15963,Balm Grove West 50
+Tampa,HUB 5,24123,West Lake 18 THs
+Tampa,HUB 5,24145,Balm Grove 60's
+Tampa,HUB 5,24163,Gladesong
+Tampa,HUB 5,24164,South Creek Ph4 50s
+Tampa,HUB 5,24165,South Creek Ph4 60s
+Tampa,HUB 5,24196,Market's Edge 20' THs
+Tampa,HUB 6,15039,STOF Lakeland
+Tampa,HUB 6,15177,Prosperity Lakes AA Villas
+Tampa,HUB 6,15178,Prosperity Lakes AA 50s
+Tampa,HUB 6,15179,Prosperity Lakes AA 60s
+Tampa,HUB 6,15905,Abbott Square 18TH
+Tampa,HUB 6,15909,Abbott Square 50s
+Tampa,HUB 6,15952,Southshore Pt 18' TH's
+Tampa,HUB 6,24118,Stonegate 20 THs
+Tampa,HUB 6,24119,Stonegate 50s
+Tampa,HUB 6,24120,Stonegate 55s
+Tampa,HUB 6,24122,Stonegate 65s
+Tampa,HUB 6,24132,Seare 20 THs
+Tampa,HUB 6,24133,Seaire 28 THs
+Tampa,HUB 6,24134,Seaire 40s
+Tampa,HUB 6,24135,Seaire 50s
+Tampa,HUB 6,24170,Curiosity Creek 50's
+Tampa,HUB 6,24171,Chancey 116 TH's
+Tampa,HUB 6,24172,Chancey 116 40's
+Tampa,HUB 6,24173,Chancey 116 50's
+Tampa,HUB 7,15184,North Park Isle 50
+Tampa,HUB 7,15911,Saddle Creek 50s
+Tampa,HUB 7,15913,Park East 40s
+Tampa,HUB 7,15966,Saddle Creek P2 50
+Tampa,HUB 7,15999,N Park 2C3B&4 60
+Tampa,HUB 8,15951,Twin Rivers 50s
+Tampa,HUB 8,24169,Curiosity Creek 40's
+Tampa,HUB 8,24187,Parrish Lakes PH2 40s
+Tampa,HUB 8,24188,Parrish Lakes PH2 50s
+Tampa,Tampa Div OH,15000,Lennar- Tampa                      15000
+Tampa,Tampa Div OH,25522,Pasadena Ridge 30s Elevation
+Tampa,Tampa Div OH,25523,Pasadena Ridge 40s Elevation

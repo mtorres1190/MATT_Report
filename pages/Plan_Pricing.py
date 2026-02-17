@@ -6,17 +6,40 @@ import streamlit as st
 import plotly.graph_objects as go
 from scripts.process_matt import compute_plan_pricing
 
-# --- Page setup ---
+# ======================================================================================
+# PAGE SETUP
+# ======================================================================================
+
 st.set_page_config(page_title="Plan Pricing", layout="wide")
 st.title("Plan Pricing Chart")
 
-# --- Styling for multi-select tags ---
 st.markdown("""
-    <style>
-        .stMultiSelect [data-baseweb=\"tag\"] {
-            background-color: #1f77b4 !important;
-        }
-    </style>
+<style>
+
+/* Multiselect styling */
+.stMultiSelect [data-baseweb="tag"] {
+    background-color: #1f77b4 !important;
+}
+
+/* ----------------------------------------------------------
+   Allow sidebar popovers to overflow naturally
+   ---------------------------------------------------------- */
+
+section[data-testid="stSidebar"] {
+    overflow: visible !important;
+}
+
+/* Prevent clipping of popovers */
+section[data-testid="stSidebar"] > div {
+    overflow: visible !important;
+}
+
+/* Ensure date popovers render above everything */
+div[data-baseweb="popover"] {
+    z-index: 9999 !important;
+}
+
+</style>
 """, unsafe_allow_html=True)
 
 # --- Ensure MATT data is loaded ---

@@ -5,4 +5,4 @@ ENABLE_FIREWALL = False
 FIREWALL_PASSCODE = "2025"
 
 # Toggle developer mode (automatically loads sample file)
-DEVELOPER_MODE = False
+DEVELOPER_MODE = True

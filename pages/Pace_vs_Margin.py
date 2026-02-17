@@ -3,96 +3,223 @@ import pandas as pd
 import datetime
 import plotly.express as px
 
-from scripts.process_matt import compute_pace_vs_margin
+# ======================================================================================
+# INLINE ORIGINAL compute_pace_vs_margin (unchanged logic)
+# ======================================================================================
+def compute_pace_vs_margin(
+    df: pd.DataFrame,
+    target_date: datetime.date,
+    coe_start: datetime.date,
+    coe_end: datetime.date
+):
 
-# --- Page setup ---
+    today = datetime.date.today()
+
+    df = df.copy()
+    df['EST_COE_DATE'] = pd.to_datetime(df['EST_COE_DATE'], errors='coerce')
+    df['SALE_DATE'] = pd.to_datetime(df['SALE_DATE'], errors='coerce')
+
+    # --------------------------------------------------
+    # Unsold homes in selected COE window
+    # --------------------------------------------------
+    unsold_df = df[
+        (df['HS_TYPE'] == 'S') &
+        (df['EST_COE_DATE'] >= pd.Timestamp(coe_start)) &
+        (df['EST_COE_DATE'] <= pd.Timestamp(coe_end))
+    ]
+
+    # --------------------------------------------------
+    # Sold homes in last 3 weeks
+    # --------------------------------------------------
+    three_weeks_ago = pd.Timestamp(today - datetime.timedelta(days=21))
+    sold_df = df[
+        (df['HS_TYPE'].isin(['B', 'Z'])) &
+        (df['SALE_DATE'] >= three_weeks_ago)
+    ]
+
+    # --------------------------------------------------
+    # Pace + Unsold Counts
+    # --------------------------------------------------
+    pace = sold_df.groupby('Community Name').size() / 3
+    unsold_counts = unsold_df.groupby('Community Name').size()
+
+    # --------------------------------------------------
+    # Weeks remaining to target
+    # --------------------------------------------------
+    weeks_left = (target_date - today).days / 7
+    weeks_left = max(weeks_left, 0)
+
+    slope = 1 / weeks_left if weeks_left > 0 else 0
+
+    summary = pd.DataFrame({
+        'Unsold': unsold_counts,
+        '3Wk Avg Sales Pace': pace
+    }).fillna(0)
+
+    summary['Needed Pace'] = (
+        summary['Unsold'] / weeks_left
+        if weeks_left > 0 else 0
+    )
+
+    summary['Delta'] = (
+        summary['3Wk Avg Sales Pace'] - summary['Needed Pace']
+    )
+
+    def classify(delta):
+        if delta > 1:
+            return 'Margin'
+        elif 0 < delta <= 1:
+            return 'Target'
+        elif -2 < delta <= 0:
+            return 'Pace'
+        else:
+            return 'Behind'
+
+    summary['Category'] = summary['Delta'].apply(classify)
+
+    return summary, slope
+
+
+# ======================================================================================
+# PAGE SETUP
+# ======================================================================================
+
 st.set_page_config(page_title="Pace vs. Margin", layout="wide")
 st.title("Pace vs. Margin")
 
-# --- Custom CSS for multi-select tags ---
 st.markdown("""
-    <style>
-        .stMultiSelect [data-baseweb=\"tag\"] {
-            background-color: #1f77b4 !important;
-        }
-    </style>
+<style>
+
+/* Multiselect styling */
+.stMultiSelect [data-baseweb="tag"] {
+    background-color: #1f77b4 !important;
+}
+
+/* ----------------------------------------------------------
+   Allow sidebar popovers to overflow naturally
+   ---------------------------------------------------------- */
+
+section[data-testid="stSidebar"] {
+    overflow: visible !important;
+}
+
+/* Prevent clipping of popovers */
+section[data-testid="stSidebar"] > div {
+    overflow: visible !important;
+}
+
+/* Ensure date popovers render above everything */
+div[data-baseweb="popover"] {
+    z-index: 9999 !important;
+}
+
+</style>
 """, unsafe_allow_html=True)
 
-# --- Check for uploaded data ---
-uploaded = 'matt_processed' in st.session_state
-if not uploaded:
+if 'matt_processed' not in st.session_state:
     st.warning("Please upload a valid MATT report on the MATT Upload page.")
     st.stop()
 
 matt_df = st.session_state['matt_processed']
 
+
 # ======================================================================================
-# Sidebar filters — CASCADING, DATA-AWARE OPTIONS (no empty options shown)
+# SIDEBAR FILTERS (Target Date INCLUDED here)
 # ======================================================================================
+
 with st.sidebar:
     st.header("Filters")
 
+    # --------------------------------------------------
     # Target Sell-by Date
-    target_date_input = st.date_input("Target Sell-by Date", value=datetime.date(2026, 2, 28))
-    st.session_state["target_date"] = target_date_input
+    # --------------------------------------------------
+    target_date_input = st.date_input(
+        "Target Sell-by Date",
+        value=datetime.date(2026, 2, 28),
+        key="pace_margin_target_date"
+    )
     target_date = target_date_input
 
-    # COE Date Range filter
+    # --------------------------------------------------
+    # COE Date Range
+    # --------------------------------------------------
     coe_range_input = st.date_input(
         "COE Date Range",
         value=(datetime.date(2025, 1, 31), datetime.date(2026, 2, 28)),
         key="pace_margin_est_coe_range"
     )
+
     if isinstance(coe_range_input, tuple) and len(coe_range_input) == 2:
-        est_coe_start, est_coe_end = pd.to_datetime(coe_range_input[0]), pd.to_datetime(coe_range_input[1])
+        est_coe_start = pd.to_datetime(coe_range_input[0])
+        est_coe_end = pd.to_datetime(coe_range_input[1])
     else:
-        st.error("Please select a date range for COE Date.")
+        st.error("Please select a valid COE Date range.")
         st.stop()
 
-    # ---- 1) Filter by Date first
-    df_date = matt_df[(matt_df['EST_COE_DATE'] >= est_coe_start) & (matt_df['EST_COE_DATE'] <= est_coe_end)].copy()
+    # --------------------------------------------------
+    # 1) Filter by COE date
+    # --------------------------------------------------
+    df_date = matt_df[
+        (matt_df['EST_COE_DATE'] >= est_coe_start) &
+        (matt_df['EST_COE_DATE'] <= est_coe_end)
+    ].copy()
 
-    # ---- 2) Hub options (dependent on date)
+    # --------------------------------------------------
+    # 2) Hub filter
+    # --------------------------------------------------
     hub_options = sorted(df_date['Hub'].dropna().unique())
-    selected_hubs = st.multiselect("Hub", options=hub_options, key="pace_margin_hubs")
+    selected_hubs = st.multiselect(
+        "Hub",
+        options=hub_options,
+        key="pace_margin_hubs"
+    )
+
     hubs = selected_hubs if selected_hubs else hub_options
+    df_hub = df_date[df_date['Hub'].isin(hubs)].copy()
 
-    df_hub = df_date[df_date['Hub'].isin(hubs)]
-
-    # ---- 3) Community options (dependent on date + hub)
+    # --------------------------------------------------
+    # 3) Community filter
+    # --------------------------------------------------
     community_options = sorted(df_hub['Community Name'].dropna().unique())
-    selected_communities = st.multiselect("Community Name", options=community_options, key="pace_margin_communities")
+    selected_communities = st.multiselect(
+        "Community Name",
+        options=community_options,
+        key="pace_margin_communities"
+    )
+
     communities = selected_communities if selected_communities else community_options
 
-# ======================================================================================
-# Apply all filters to the working dataframe
-# ======================================================================================
-filtered_df = df_hub[df_hub['Community Name'].isin(communities)].copy()
 
-# Stop early if no data matches
+# ======================================================================================
+# APPLY ALL FILTERS (OUTSIDE SIDEBAR)
+# ======================================================================================
+
+filtered_df = df_hub[
+    df_hub['Community Name'].isin(communities)
+].copy()
+
 if filtered_df.empty:
     st.info("No rows match the current filter set.")
     st.stop()
 
-# ======================================================================================
-# Calculate sales pace and break-even
-# ======================================================================================
-summary, slope = compute_pace_vs_margin(filtered_df, target_date, est_coe_start, est_coe_end)
 
-# Remove communities with no valid COE within window (defensive)
-est_coe_col = 'EST_COE_DATE'
-filtered_df[est_coe_col] = pd.to_datetime(filtered_df[est_coe_col], errors='coerce')
-mask = (filtered_df[est_coe_col] >= est_coe_start) & (filtered_df[est_coe_col] <= est_coe_end)
-valid_communities = filtered_df.loc[mask, 'Community Name'].dropna().unique()
-summary = summary[summary.index.isin(valid_communities)]
+# ======================================================================================
+# CALCULATE SUMMARY
+# ======================================================================================
 
-# Stop if summary is empty after filtering
+summary, slope = compute_pace_vs_margin(
+    filtered_df,
+    target_date,
+    est_coe_start,
+    est_coe_end
+)
+
 if summary.empty:
     st.info("No communities have valid COE dates in the selected range.")
     st.stop()
 
 # ======================================================================================
-# Generate scatter plot: Pace vs. Margin with Equilibrium line
+# Scatter Plot (UNCHANGED)
 # ======================================================================================
 summary_plot = summary.reset_index()
 summary_plot.rename(columns={'3Wk Avg Sales Pace': 'Sales Pace'}, inplace=True)
@@ -124,7 +251,9 @@ fig = px.scatter(
     height=700,
     title="Pace vs. Margin",
 )
+
 fig.update_layout(title_font=dict(size=20))
+
 fig.update_traces(
     marker=dict(size=12),
     hovertemplate='<b>%{hovertext}</b><br>' +
@@ -133,26 +262,75 @@ fig.update_traces(
                   'Sales Pace Needed: %{customdata[0]:.2f}<br>' +
                   'Delta: %{customdata[1]:.2f}<extra></extra>'
 )
+
+# ------------------------------------------------------------------
+# 🔥 KEY FIX: Let axes auto-scale FIRST (based only on data)
+# ------------------------------------------------------------------
+
+# Compute axis bounds from data ONLY
+x_max_data = summary_plot['Unsold'].max()
+y_max_data = summary_plot['Sales Pace'].max()
+
+# Preserve Plotly’s natural buffer by NOT setting explicit ranges
+# Instead, limit equilibrium line to data-driven bounds
+
+# Determine equilibrium line end within visible area
+x_line_max = x_max_data
+y_line_max = x_line_max * slope
+
+# If equilibrium line would exceed current data y max,
+# trim it so it stays inside natural axis scaling
+if y_line_max > y_max_data:
+    x_line_max = y_max_data / slope
+    y_line_max = y_max_data
+
 fig.add_scatter(
-    x=[0, summary_plot['Unsold'].max() + 5],
-    y=[0, (summary_plot['Unsold'].max() + 5) * slope],
+    x=[0, x_line_max],
+    y=[0, y_line_max],
     mode='lines',
     line=dict(color='blue', dash='solid'),
     name='Equilibrium'
 )
+
+# ------------------------------------------------------------------
+# Layout (unchanged — preserves your padding aesthetic)
+# ------------------------------------------------------------------
+
 fig.update_layout(
     xaxis_tickfont=dict(size=16),
     yaxis_tickfont=dict(size=16),
     xaxis_title='Unsold Homes',
     yaxis_title='Avg. Gross Sales Pace (L3W)',
     plot_bgcolor='white',
-    legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5, font=dict(size=18)),
+    legend=dict(
+        orientation='h',
+        yanchor='bottom',
+        y=1.02,
+        xanchor='center',
+        x=0.5,
+        font=dict(size=18)
+    ),
     legend_title_text=None,
     margin=dict(l=40, r=40, t=80, b=60),
     font=dict(size=16),
-    xaxis=dict(showgrid=True, gridcolor='lightgray', zeroline=False, linecolor='black', linewidth=1, title_font=dict(size=18)),
-    yaxis=dict(showgrid=True, gridcolor='lightgray', zeroline=False, linecolor='black', linewidth=1, title_font=dict(size=18))
+    xaxis=dict(
+        showgrid=True,
+        gridcolor='lightgray',
+        zeroline=False,
+        linecolor='black',
+        linewidth=1,
+        title_font=dict(size=18)
+    ),
+    yaxis=dict(
+        showgrid=True,
+        gridcolor='lightgray',
+        zeroline=False,
+        linecolor='black',
+        linewidth=1,
+        title_font=dict(size=18)
+    )
 )
+
 st.plotly_chart(fig, use_container_width=True)
 
 # --- Equilibrium line explanation ---
@@ -194,14 +372,21 @@ with col1:
         },
         hole=0.4
     )
-    fig_pie.update_traces(textinfo='percent+label', hovertemplate='%{label}: %{value} (%{percent})<extra></extra>')
+    fig_pie.update_traces(
+        textinfo='percent+label',
+        hovertemplate='%{label}: %{value} (%{percent})<extra></extra>'
+    )
     fig_pie.update_layout(title_font=dict(size=20))
     st.plotly_chart(fig_pie, use_container_width=True)
 
 # Pie chart: Unsold homes by category
 with col2:
     total_unsold_by_category = summary_plot.groupby('Category')['Unsold'].sum().reset_index()
-    total_unsold_by_category['Category'] = pd.Categorical(total_unsold_by_category['Category'], categories=category_order, ordered=True)
+    total_unsold_by_category['Category'] = pd.Categorical(
+        total_unsold_by_category['Category'],
+        categories=category_order,
+        ordered=True
+    )
     total_unsold_by_category = total_unsold_by_category.sort_values('Category')
 
     fig_unsold_pie = px.pie(
@@ -219,7 +404,10 @@ with col2:
         },
         hole=0.4
     )
-    fig_unsold_pie.update_traces(textinfo='percent+label', hovertemplate='%{label}: %{value} homes (%{percent})<extra></extra>')
+    fig_unsold_pie.update_traces(
+        textinfo='percent+label',
+        hovertemplate='%{label}: %{value} homes (%{percent})<extra></extra>'
+    )
     fig_unsold_pie.update_layout(title_font=dict(size=20))
     st.plotly_chart(fig_unsold_pie, use_container_width=True)
 
@@ -233,6 +421,7 @@ summary_display = summary_display.merge(
     on='Community Name',
     how='left'
 )
+
 summary_display['Unsold'] = summary_display['Unsold'].round(0).astype(int)
 
 for col in ['3Wk Avg Sales Pace', 'Needed Pace', 'Delta']:
@@ -250,7 +439,15 @@ for category in ['Margin', 'Target', 'Pace', 'Behind']:
     if not group.empty:
         st.markdown(f"### {category} Communities")
 
-        columns_order = ['Hub', 'Community Name', 'Unsold', '3Wk Avg Sales Pace', 'Needed Pace', 'Delta']
+        columns_order = [
+            'Hub',
+            'Community Name',
+            'Unsold',
+            '3Wk Avg Sales Pace',
+            'Needed Pace',
+            'Delta'
+        ]
+
         group.columns = [col.strip() for col in group.columns]
         group = group[[col for col in columns_order if col in group.columns]]
 
@@ -258,12 +455,30 @@ for category in ['Margin', 'Target', 'Pace', 'Behind']:
             group = group.sort_values(by='Community Name')
 
         def highlight_row(row):
-            return [f'background-color: {color_map.get(category, "white") }'] * len(row)
+            return [f'background-color: {color_map.get(category, "white")}'] * len(row)
 
         styled = group.style.set_table_styles([
-            {'selector': 'th', 'props': [('font-size', '15px'), ('text-align', 'center'), ('background-color', '#f0f2f6'), ('min-width', '120px')]},
-            {'selector': 'td', 'props': [('font-size', '14px'), ('padding', '8px 12px'), ('min-width', '120px')]},
-            {'selector': 'tr:hover', 'props': [('background-color', '#eef6ff')]}
+            {
+                'selector': 'th',
+                'props': [
+                    ('font-size', '15px'),
+                    ('text-align', 'center'),
+                    ('background-color', '#f0f2f6'),
+                    ('min-width', '120px')
+                ]
+            },
+            {
+                'selector': 'td',
+                'props': [
+                    ('font-size', '14px'),
+                    ('padding', '8px 12px'),
+                    ('min-width', '120px')
+                ]
+            },
+            {
+                'selector': 'tr:hover',
+                'props': [('background-color', '#eef6ff')]
+            }
         ]).apply(highlight_row, axis=1).hide(axis='index')
 
         st.dataframe(styled, use_container_width=True, hide_index=True)
