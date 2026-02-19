@@ -36,12 +36,13 @@ st.markdown("""
    ---------------------------------------------------------- */
 
 section[data-testid="stSidebar"] {
-    overflow: visible !important;
+    overflow-y: auto !important;
+    overflow-x: visible !important;
 }
 
-/* Prevent clipping of popovers */
 section[data-testid="stSidebar"] > div {
-    overflow: visible !important;
+    overflow-y: auto !important;
+    overflow-x: visible !important;
 }
 
 /* Ensure date popovers render above everything */
@@ -339,5 +340,83 @@ if not sales_week_df.empty:
 
     st.plotly_chart(fig_week, use_container_width=True)
 
-else:
-    st.info("No data available for the selected week.")
+    # ==================================================================================
+    # Weekly Detail Table
+    # ==================================================================================
+
+    st.markdown("### Weekly Sales Detail")
+
+    detail_df = sales_week_df.copy()
+
+    # ----------------------------------------------------------------------------------
+    # Ensure correct column names based on process_matt.py structure
+    # ----------------------------------------------------------------------------------
+
+    # Homesite Address comes from 'Address'
+    if 'Address' in detail_df.columns:
+        detail_df['Homesite Address'] = detail_df['Address']
+
+    # NHC Name comes from 'NHC_NAME'
+    if 'NHC_NAME' in detail_df.columns:
+        detail_df['NHC Name'] = detail_df['NHC_NAME']
+
+    # ----------------------------------------------------------------------------------
+    # Create ECOE Month column
+    # ----------------------------------------------------------------------------------
+
+    detail_df['ECOE Month'] = pd.to_datetime(
+        detail_df['EST_COE_DATE'],
+        errors='coerce'
+    ).dt.to_period('M').dt.to_timestamp()
+
+    detail_df['ECOE Month'] = pd.to_datetime(
+        detail_df['ECOE Month'],
+        errors='coerce'
+    ).dt.strftime('%b %Y')
+
+    # ----------------------------------------------------------------------------------
+    # Format Sale Date
+    # ----------------------------------------------------------------------------------
+
+    detail_df['Sale Date'] = pd.to_datetime(
+        detail_df['SALE_DATE'],
+        errors='coerce'
+    ).dt.strftime('%m/%d/%Y')
+
+    # ----------------------------------------------------------------------------------
+    # Select and order columns
+    # ----------------------------------------------------------------------------------
+
+    detail_columns = [
+        'Hub',
+        'Community Name',
+        'Collection',
+        'Plan Name',
+        'Homesite Address',
+        'NHC Name',
+        'Sale Date',
+        'ECOE Month',
+        'Realtor/Direct',
+        'Investor Sale'
+    ]
+
+    # Keep only columns that actually exist (defensive programming)
+    existing_columns = [col for col in detail_columns if col in detail_df.columns]
+    detail_df = detail_df[existing_columns].copy()
+
+    # ----------------------------------------------------------------------------------
+    # Sort newest sales first (using actual datetime column before formatting)
+    # ----------------------------------------------------------------------------------
+
+    if 'SALE_DATE' in sales_week_df.columns:
+        detail_df = detail_df.assign(
+            _sort_date=pd.to_datetime(sales_week_df['SALE_DATE'], errors='coerce')
+        ).sort_values(by='_sort_date', ascending=False).drop(columns=['_sort_date'])
+
+    # ----------------------------------------------------------------------------------
+    # Remove index column in Streamlit display
+    # ----------------------------------------------------------------------------------
+
+    detail_df.reset_index(drop=True, inplace=True)
+
+    st.dataframe(detail_df, use_container_width=True, hide_index=True)

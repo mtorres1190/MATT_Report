@@ -22,11 +22,13 @@ st.markdown("""
 
 /* Allow sidebar popovers to overflow naturally */
 section[data-testid="stSidebar"] {
-    overflow: visible !important;
+    overflow-y: auto !important;
+    overflow-x: visible !important;
 }
 
 section[data-testid="stSidebar"] > div {
-    overflow: visible !important;
+    overflow-y: auto !important;
+    overflow-x: visible !important;
 }
 
 div[data-baseweb="popover"] {
@@ -191,11 +193,30 @@ pivot = pd.pivot_table(
     margins_name='Grand Total'
 ).rename_axis("Status")
 
+# ------------------------------------------------------------------
+# Custom Row Order for Monthly Summary
+# ------------------------------------------------------------------
+
+desired_order = [
+    "Unsold",
+    "Backlog",
+    "Closed",
+    "Model",
+    "Grand Total"
+]
+
+# Keep only rows that actually exist in the pivot
+existing_rows = [row for row in desired_order if row in pivot.index]
+
+# Reorder pivot rows
+pivot = pivot.reindex(existing_rows)
+
 def color_rows(row):
     color = color_map.get(row.name, '')
     return [f'background-color: {color}40'] * len(row)
 
 styled = pivot.style.format('{:,}').apply(color_rows, axis=1)
+
 st.dataframe(styled, use_container_width=True)
 
 # ======================================================================================

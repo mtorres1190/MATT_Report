@@ -24,12 +24,13 @@ st.markdown("""
    ---------------------------------------------------------- */
 
 section[data-testid="stSidebar"] {
-    overflow: visible !important;
+    overflow-y: auto !important;
+    overflow-x: visible !important;
 }
 
-/* Prevent clipping of popovers */
 section[data-testid="stSidebar"] > div {
-    overflow: visible !important;
+    overflow-y: auto !important;
+    overflow-x: visible !important;
 }
 
 /* Ensure date popovers render above everything */
