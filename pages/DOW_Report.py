@@ -224,6 +224,7 @@ if not df_dow.empty and 'Weekday_Group' in df_dow.columns:
             title='DOW Contribution to Sales',
             title_font=dict(size=20),
             barmode='group',
+            height=480,  # <-- Adjust this value as desired
             yaxis=dict(title='Total Sales'),
             yaxis2=dict(
                 title='Sales %',
@@ -273,7 +274,10 @@ st.subheader(f"Total Sales This Week: {total_sales}")
 
 if not sales_week_df.empty:
 
+    # ==================================================================================
     # ECOE Distribution
+    # ==================================================================================
+
     ecoe_week_df = sales_week_df.dropna(subset=['EST_COE_DATE']).copy()
 
     if not ecoe_week_df.empty and total_sales > 0:
@@ -290,17 +294,26 @@ if not sales_week_df.empty:
             .sort_values('ECOE_Month_Period')
         )
 
-        ecoe_month_counts['MonthLabel'] = ecoe_month_counts['ECOE_Month_Period'].dt.to_timestamp().dt.strftime('%b %Y')
-        ecoe_month_counts['Pct of Total'] = (ecoe_month_counts['Homes Sold'] / total_sales * 100).round(0).astype(int)
+        ecoe_month_counts['MonthLabel'] = ecoe_month_counts['ECOE_Month_Period'] \
+            .dt.to_timestamp().dt.strftime('%b %Y')
+
+        ecoe_month_counts['Pct of Total'] = (
+            ecoe_month_counts['Homes Sold'] / total_sales * 100
+        ).round(0).astype(int)
 
         max_val = int(ecoe_month_counts['Homes Sold'].max()) if not ecoe_month_counts.empty else 0
-        y_max = int(math.ceil(max_val * 1.10)) if max_val > 0 else 1
+
+        # Add extra headroom (25%) so labels never clip
+        y_max = int(math.ceil(max_val * 1.25)) if max_val > 0 else 1
 
         fig_ecoe = go.Figure()
+
         fig_ecoe.add_trace(go.Scatter(
             x=ecoe_month_counts['MonthLabel'],
             y=ecoe_month_counts['Homes Sold'],
             mode='lines+markers+text',
+            line=dict(shape='spline', smoothing=1.2),  # <-- Smoothed line
+            marker=dict(size=8),
             fill='tozeroy',
             text=[f"{p}%" for p in ecoe_month_counts['Pct of Total']],
             textposition='top center'
@@ -309,13 +322,23 @@ if not sales_week_df.empty:
         fig_ecoe.update_layout(
             title='ECOE Distribution',
             title_font=dict(size=20),
-            height=150,
-            margin=dict(t=50,r=0,b=0,l=40)
+            height=260,  # Increased height
+            margin=dict(
+                t=90,  # Increased top padding
+                r=20,
+                b=40,
+                l=50
+            )
         )
 
-        fig_ecoe.update_yaxes(title='Homes Sold', range=[0,y_max])
+        fig_ecoe.update_yaxes(
+            title='Homes Sold',
+            range=[0, y_max]
+        )
 
         st.plotly_chart(fig_ecoe, use_container_width=True)
+
+
 
     # Weekly Sales Chart
     weekly_chart_data = sales_week_df.groupby(['SALE_DATE','Realtor/Direct']).size().reset_index(name='Homes Sold')
