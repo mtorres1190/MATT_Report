@@ -87,7 +87,7 @@ with st.sidebar:
     # COE Range
     coe_range = st.date_input(
         "COE Date Range",
-        value=(datetime.date(2026, 1, 1), datetime.date(2026, 6, 30)),
+        value=(datetime.date(2026, 3, 1), datetime.date(2026, 6, 30)),
         key="inv_est_coe_range"
     )
 
