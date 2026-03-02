@@ -136,7 +136,7 @@ with st.sidebar:
     # --------------------------------------------------
     target_date_input = st.date_input(
         "Target Sell-by Date",
-        value=datetime.date(2026, 2, 28),
+        value=datetime.date(2026, 3, 31),
         key="pace_margin_target_date"
     )
     target_date = target_date_input
