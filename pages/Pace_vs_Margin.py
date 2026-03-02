@@ -146,7 +146,7 @@ with st.sidebar:
     # --------------------------------------------------
     coe_range_input = st.date_input(
         "COE Date Range",
-        value=(datetime.date(2025, 1, 31), datetime.date(2026, 2, 28)),
+        value=(datetime.date(2025, 1, 31), datetime.date(2026, 4, 15)),
         key="pace_margin_est_coe_range"
     )
 
